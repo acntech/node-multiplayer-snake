@@ -9,7 +9,6 @@ export default class AudioController {
         this.killSound = new Audio('assets/kill.wav');
         this.foodCollectedSound = new Audio('assets/food-consumed.wav');
         this.swapSound = new Audio('assets/swap.wav');
-        DomHelper.getVolumeSlider().addEventListener('input', this.updateVolume.bind(this));
     }
 
     playDeathSound() {
@@ -36,13 +35,13 @@ export default class AudioController {
         }
     }
 
-    updateVolume() {
-        const volume = DomHelper.getVolumeSlider().value;
+    /* updateVolume() {
+        //const volume = DomHelper.getVolumeSlider().value;
         this.deathSound.volume = volume;
         this.foodCollectedSound.volume = volume;
         this.killSound.volume = volume;
         this.swapSound.volume = volume;
-    }
+    } */
 
     toggleMute() {
         this.isMuted = !this.isMuted;

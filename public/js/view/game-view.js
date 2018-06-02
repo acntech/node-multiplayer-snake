@@ -46,7 +46,7 @@ export default class GameView {
         } else {
             text = 'Mute';
         }
-        DomHelper.setToggleSoundButtonText(text);
+        //DomHelper.setToggleSoundButtonText(text);
     }
 
     showFoodAmount(foodAmount) {
@@ -131,7 +131,7 @@ export default class GameView {
         if (this.isChangingName) {
             this._saveNewPlayerName();
         } else {
-            DomHelper.setChangeNameButtonText('Save');
+            //DomHelper.setChangeNameButtonText('Save');
             DomHelper.setPlayerNameElementReadOnly(false);
             DomHelper.getPlayerNameElement().select();
             this.isChangingName = true;
@@ -198,7 +198,7 @@ export default class GameView {
         const playerName = DomHelper.getPlayerNameElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
-            DomHelper.setChangeNameButtonText('Change Name');
+            //DomHelper.setChangeNameButtonText('Change Name');
             DomHelper.setPlayerNameElementReadOnly(true);
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
@@ -210,21 +210,26 @@ export default class GameView {
     _initEventHandling(botChangeCallback, foodChangeCallback, muteAudioCallback, playerColorChangeCallback, speedChangeCallback,
         startLengthChangeCallback, toggleGridLinesCallback) {
         // Player controls
-        DomHelper.getChangeColorButton().addEventListener('click', playerColorChangeCallback);
-        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+        //DomHelper.getChangeColorButton().addEventListener('click', playerColorChangeCallback);
+        //DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
         DomHelper.getPlayerNameElement().addEventListener('blur', this._saveNewPlayerName.bind(this));
-        DomHelper.getImageUploadElement().addEventListener('change', this._handleImageUpload.bind(this));
-        DomHelper.getClearUploadedImageButton().addEventListener('click', this.imageUploadCallback);
-        DomHelper.getBackgroundImageUploadElement().addEventListener('change', this._handleBackgroundImageUpload.bind(this));
-        DomHelper.getClearUploadedBackgroundImageButton().addEventListener('click', this.backgroundImageUploadCallback);
+        //DomHelper.getImageUploadElement().addEventListener('change', this._handleImageUpload.bind(this));
+        //DomHelper.getClearUploadedImageButton().addEventListener('click', this.imageUploadCallback);
+        //DomHelper.getBackgroundImageUploadElement().addEventListener('change', this._handleBackgroundImageUpload.bind(this));
+        //DomHelper.getClearUploadedBackgroundImageButton().addEventListener('click', this.backgroundImageUploadCallback);
         DomHelper.getPlayOrWatchButton().addEventListener('click', this._handlePlayOrWatchButtonClick.bind(this));
-        DomHelper.getToggleGridLinesButton().addEventListener('click', toggleGridLinesCallback);
-        DomHelper.getToggleSoundButton().addEventListener('click', muteAudioCallback);
+        //DomHelper.getToggleGridLinesButton().addEventListener('click', toggleGridLinesCallback);
+        //DomHelper.getToggleSoundButton().addEventListener('click', muteAudioCallback);
         DomHelper.getFullScreenButton().addEventListener('click', DomHelper.toggleFullScreenMode);
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
 
+        DomHelper.getUpButton().addEventListener('click', this.emitUpClicked.bind(this));
+        DomHelper.getDownButton().addEventListener('click', this.emitDownClicked.bind(this));
+        DomHelper.getLeftButton().addEventListener('click', this.emitLeftClicked.bind(this));
+        DomHelper.getRightButton().addEventListener('click', this.emitRightClicked.bind(this));
+
         // Admin controls
-        DomHelper.getIncreaseBotsButton().addEventListener('click',
+        /* DomHelper.getIncreaseBotsButton().addEventListener('click',
             botChangeCallback.bind(this, ClientConfig.INCREMENT_CHANGE.INCREASE));
         DomHelper.getDecreaseBotsButton().addEventListener('click',
             botChangeCallback.bind(this, ClientConfig.INCREMENT_CHANGE.DECREASE));
@@ -247,6 +252,54 @@ export default class GameView {
         DomHelper.getDecreaseStartLengthButton().addEventListener('click',
             startLengthChangeCallback.bind(this, ClientConfig.INCREMENT_CHANGE.DECREASE));
         DomHelper.getResetStartLengthButton().addEventListener('click',
-            startLengthChangeCallback.bind(this, ClientConfig.INCREMENT_CHANGE.RESET));
+            startLengthChangeCallback.bind(this, ClientConfig.INCREMENT_CHANGE.RESET));*/
+    } 
+
+    emitUpClicked(e) {
+        //window.alert("UP clicked");
+        var e = new Event('keydown');
+        e.keyCode = 38;
+        e.which = e.keyCode;
+        e.altKey = false;
+        e.ctrlKey = false;
+        e.shiftKey = false;
+        e.metaKey = false;
+        document.dispatchEvent(e);
+    }
+
+    emitDownClicked(e) {
+        //window.alert("UP clicked");
+        var e = new Event('keydown');
+        e.keyCode = 40;
+        e.which = e.keyCode;
+        e.altKey = false;
+        e.ctrlKey = false;
+        e.shiftKey = false;
+        e.metaKey = false;
+        document.dispatchEvent(e);
+    }
+
+    emitLeftClicked(e) {
+        //window.alert("UP clicked");
+        var e = new Event('keydown');
+        e.keyCode = 37;
+        e.which = e.keyCode;
+        e.altKey = false;
+        e.ctrlKey = false;
+        e.shiftKey = false;
+        e.metaKey = false;
+        document.dispatchEvent(e);
+    }
+
+    emitRightClicked(e) {
+        //window.alert("UP clicked");
+        var e = new Event('keydown');
+        e.keyCode = 39;
+        e.which = e.keyCode;
+        e.altKey = false;
+        e.ctrlKey = false;
+        e.shiftKey = false;
+        e.metaKey = false;
+        document.dispatchEvent(e);
     }
 }
