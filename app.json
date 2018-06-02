@@ -1,0 +1,6 @@
+{
+  "name": "Accenture Multiplayer Snake",
+  "description": "Accenture Multiplayer Snake game",
+  "repository": "https://github.com/acntech/node-multiplayer-snake",
+  "keywords": ["accenture", "snake", "javazone"]
+}
