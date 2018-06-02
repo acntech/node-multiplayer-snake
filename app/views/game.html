@@ -30,60 +30,18 @@
                         </div>
                     </div>
                 </div>
-                <div id="playerSettings" class="settings-menu">
-                    <fieldset>
-                        <legend>Player Settings</legend>
-                        <label id="invalid-player-name-label">Please Enter a Valid Name (10 Characters Max)</label>
-                        <ul class="text-button-list">
-                            <li><input id="volumeSlider" type="range" min="0" max="1" step="0.2" value="1"></input><img src="assets/volume-icon.png" class="volume-icon"></img></li>
-                            <li><button id="toggleSoundButton" class="options-text-button" title="Mute or unmute sound">Mute</button></li>
-                        </ul>
-                        <ul class="text-button-list">
-                            <li><button id="changePlayerNameButton" class="options-text-button" title="Change your name">Change Name</button></li>
-                            <li><button id="changePlayerColorButton" class="options-text-button" title="Change your snake's color">Change Color</button></li>
-                            <li><button id="toggleGridLinesButton" class="options-text-button" title="Show or hide grid lines">Toggle GridLines</button></li>
-                            <li><label for="image-upload" class="image-upload-label" title="Customize your snake by uploading an image (Will be scaled down to size)">Change Snake Image<input type="file" id="image-upload" accept="image/*"/></label></li>
-                            <li><button id="clearUploadedImageButton" class="options-text-button" title="Clear uploaded snake image">Clear Image</button></li>
-                            <li><label for="background-image-upload" class="image-upload-label" title="Upload a background image">Change Background Image<input type="file" id="background-image-upload" accept="image/*"/></label></li>
-                            <li><button id="clearUploadedBackgroundImageButton" class="options-text-button"  title="Clear uploaded background image">Clear Image</button></li>
-                        </ul>
-                    </fieldset>
+                <div style="width: 400px;" id="playerSettings" class="settings-menu">
+                    <!-- TODO: Fix a better layout, remove hard coded styles -->
+                    <div style="width: 30%; display: inline-block;"></div>
+                    <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnUp">UP</button></div>
+                    <div style="width: 30%; display: inline-block;"></div>
+                    <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button></div>
+                    <div style="width: 30%; display: inline-block;"></div>
+                    <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button></div>
+                    <div style="width: 30%; display: inline-block;"></div>
+                    <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnDown">DOWN</button></div>
+                    <div style="width: 30%; display: inline-block;"></div>
                 </div>
-                
-                
-                <div id="adminControls" class="settings-menu">
-                    <fieldset>
-                        <legend>Admin Controls</legend>
-                        <div class="options-controls" class="settings-menu">
-                            <label class="options-label">Speed: </label>
-                            <label id="currentSpeed" class="options-value"></label>
-                            <button id="decreaseSpeedButton" class="minus-button" title="-1"/>
-                            <button id="increaseSpeedButton" class="plus-button" title="+1"/>
-                            <button id="resetSpeedButton" class="reset-button" title="Reset to Default"/>
-                        </div>
-                        <div class="options-controls" class="settings-menu">
-                            <label class="options-label">Food: </label>
-                            <label id="currentFoodAmount" class="options-value"></label>
-                            <button id="decreaseFoodButton" class="minus-button" title="-1"/>
-                            <button id="increaseFoodButton" class="plus-button" title="+1"/>
-                            <button id="resetFoodButton" class="reset-button" title="Reset to Default"/>
-                        </div>
-                        <div class="options-controls">
-                            <label class="options-label">Bots: </label>
-                            <label id="currentNumberOfBots" class="options-value"></label>
-                            <button id="decreaseBotsButton" class="minus-button" title="-1"/>
-                            <button id="increaseBotsButton" class="plus-button" title="+1"/>
-                            <button id="resetBotsButton" class="reset-button" title="Reset to Default"/>
-                        </div>
-                        <div class="options-controls">
-                            <label class="options-label">Start Length: </label>
-                            <label id="currentStartLength" class="options-value"></label>
-                            <button id="decreaseStartLengthButton" class="minus-button" title="-1"/>
-                            <button id="increaseStartLengthButton" class="plus-button" title="+1"/>
-                            <button id="resetStartLengthButton" class="reset-button" title="Reset to Default"/>
-                        </div>
-                    </fieldset>
-                </div> 
             </div>            
         </div>
         <!-- socket.io client is exposed by the server.  This sets a global variable io -->
