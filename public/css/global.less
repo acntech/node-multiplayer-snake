@@ -5,11 +5,11 @@
 @label-font-size: 24px;
 @navbar-height: 60px;
 @text-color: #ffffff;
-
 @font-face {
     font-family: @font-family;
     src: url('../fonts/PressStart2P.ttf');
 }
+
 body {
     background-color: @background-color;
     color: @text-color;
@@ -17,6 +17,7 @@ body {
     margin: 0;
     padding: @navbar-height 0 0 0;
 }
+
 button {
     background: @button-background-color;
     border-color: transparent;
@@ -30,16 +31,36 @@ button {
         text-decoration: none;
     }
 }
+
 fieldset {
     max-width: 1175px;
 }
+
 * {
     &:focus {
         outline: none;
     }
 }
+
 .non-selectable {
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
+}
+
+.visible-mobile-only,
+.visible-screen-only {
+    display: none;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 736px) {
+    .visible-mobile-only {
+        display: block;
+    }
+}
+
+@media only screen and (min-device-width: 737px) {
+    .visible-screen-only {
+        display: block
+    }
 }
