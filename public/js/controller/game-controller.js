@@ -9,17 +9,12 @@ import GameView from '../view/game-view.js';
 export default class GameController {
     constructor() {
         this.gameView = new GameView(this.backgroundImageUploadCallback.bind(this),
-                                     this.botChangeCallback.bind(this),
-                                     this.foodChangeCallback.bind(this),
                                      this.imageUploadCallback.bind(this),
                                      this.joinGameCallback.bind(this),
                                      this.keyDownCallback.bind(this),
                                      this.playerColorChangeCallback.bind(this),
                                      this.playerNameUpdatedCallback.bind(this),
-                                     this.spectateGameCallback.bind(this),
-                                     this.speedChangeCallback.bind(this),
-                                     this.startLengthChangeCallback.bind(this),
-                                     this.toggleGridLinesCallback.bind(this)
+                                     this.spectateGameCallback.bind(this)
                                      );
         this.players = [];
         this.food = {};
@@ -185,10 +180,6 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showFoodAmount(Object.keys(gameData.food).length);
-        this.gameView.showSpeed(gameData.speed);
-        this.gameView.showStartLength(gameData.startLength);
-        this.gameView.showNumberOfBots(gameData.numberOfBots);
         this.gameView.showPlayerStats(gameData.playerStats);
     }
 
