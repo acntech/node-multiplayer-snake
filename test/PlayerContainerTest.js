@@ -5,7 +5,7 @@ const PlayerContainer = require('../app/models/player-container');
 describe('PlayerContainer', () => {
     'use strict';
 
-    it('should get a random active player', done => {
+    it('should get a random active player', (done) => {
         const playerContainer = new PlayerContainer();
         const player1 = new Player(1);
         const player2 = new Player(2);

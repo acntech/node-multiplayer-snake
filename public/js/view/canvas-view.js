@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 import ClientConfig from '../config/client-config.js';
 
 /**
@@ -50,8 +52,10 @@ export default class CanvasView {
         const y = coordinate.y * this.squareSizeInPixels;
         const image = new Image();
         image.src = base64Image;
-        this.context.drawImage(image, x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2),
-            this.squareSizeInPixels, this.squareSizeInPixels);
+        this.context.drawImage(
+            image, x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2),
+            this.squareSizeInPixels, this.squareSizeInPixels,
+        );
     }
 
     drawSquares(coordinates, color) {
@@ -98,8 +102,8 @@ export default class CanvasView {
 
         const textWidth = this.context.measureText(textToDraw.text).width;
         const textHeight = 24;
-        let x = textToDraw.coordinate.x * this.squareSizeInPixels - textWidth / 2;
-        let y = textToDraw.coordinate.y * this.squareSizeInPixels + textHeight / 2;
+        let x = (textToDraw.coordinate.x * this.squareSizeInPixels) - (textWidth / 2);
+        let y = (textToDraw.coordinate.y * this.squareSizeInPixels) + (textHeight / 2);
         if (x < 0) {
             x = 0;
         } else if (x > (this.width - textWidth)) {
@@ -164,6 +168,7 @@ export default class CanvasView {
     }
 
     // Gets a fade-in/fade-out opacity
+    // eslint-disable-next-line class-methods-use-this
     _getOpacityFromCounter(counter, turnsToShow) {
         if (counter < turnsToShow * 0.1 || counter > turnsToShow * 0.9) {
             return 0.33;
@@ -175,7 +180,7 @@ export default class CanvasView {
 
     _initializeClickListeners(canvas, canvasClickHandler) {
         const self = this;
-        canvas.addEventListener('click', event => {
+        canvas.addEventListener('click', (event) => {
             const x = event.pageX - canvas.offsetLeft;
             const y = event.pageY - canvas.offsetTop;
             const xCoord = Math.round(x / self.squareSizeInPixels);

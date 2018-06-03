@@ -1,11 +1,11 @@
 'use strict';
+
 const ServerConfig = require('../configs/server-config');
 
 /**
  * Data broadcasts to all players or a specific player
  */
 class NotificationService {
-
     setSockets(sockets) {
         this.sockets = sockets;
     }
@@ -19,8 +19,10 @@ class NotificationService {
     }
 
     broadcastKill(killerName, victimName, killerColor, victimColor, victimLength) {
-        this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.KILL, killerName, victimName,
-            killerColor, victimColor, victimLength);
+        this.sockets.emit(
+            ServerConfig.IO.OUTGOING.NOTIFICATION.KILL, killerName, victimName,
+            killerColor, victimColor, victimLength,
+        );
     }
 
     broadcastKillEachOther(victimSummaries) {

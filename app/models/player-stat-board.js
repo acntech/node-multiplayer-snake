@@ -1,8 +1,8 @@
 'use strict';
+
 const PlayerStats = require('./player-stats');
 
 class PlayerStatBoard {
-
     constructor() {
         this.statBoard = new Map();
     }
@@ -58,7 +58,7 @@ class PlayerStatBoard {
 
     toJSON() {
         const response = [];
-        this.statBoard.forEach(value => {
+        this.statBoard.forEach((value) => {
             response.push(value);
         });
         // Sort by score (highest first, then least number of deaths)
