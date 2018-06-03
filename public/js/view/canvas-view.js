@@ -102,8 +102,8 @@ export default class CanvasView {
 
         const textWidth = this.context.measureText(textToDraw.text).width;
         const textHeight = 24;
-        let x = textToDraw.coordinate.x * this.squareSizeInPixels - (textWidth / 2);
-        let y = textToDraw.coordinate.y * this.squareSizeInPixels + (textHeight / 2);
+        let x = (textToDraw.coordinate.x * this.squareSizeInPixels) - (textWidth / 2);
+        let y = (textToDraw.coordinate.y * this.squareSizeInPixels) + (textHeight / 2);
         if (x < 0) {
             x = 0;
         } else if (x > (this.width - textWidth)) {
