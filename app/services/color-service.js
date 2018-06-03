@@ -4,7 +4,6 @@
  *  Generates new unused colors and stores used colors
  */
 class ColorService {
-
     constructor() {
         this.usedColors = new Set();
     }
@@ -28,6 +27,7 @@ class ColorService {
         return `#${this._getRandomLightHexRGBVal()}${this._getRandomLightHexRGBVal()}${this._getRandomLightHexRGBVal()}`;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     _getRandomLightHexRGBVal() {
         return (Math.floor(Math.random() * 156) + 100).toString(16);
     }

@@ -17,7 +17,6 @@ const PlayerContainer = require('../models/player-container');
 const PlayerStatBoard = require('../models/player-stat-board');
 
 class GameController {
-
     constructor() {
         // Model Containers
         this.playerContainer = new PlayerContainer();
@@ -28,13 +27,19 @@ class GameController {
         this.boardOccupancyService = new BoardOccupancyService();
         this.notificationService = new NotificationService();
         this.botDirectionService = new BotDirectionService(this.boardOccupancyService);
-        this.foodService = new FoodService(this.playerStatBoard, this.boardOccupancyService,
-            this.nameService, this.notificationService);
+        this.foodService = new FoodService(
+            this.playerStatBoard, this.boardOccupancyService,
+            this.nameService, this.notificationService,
+        );
         this.imageService = new ImageService(this.playerContainer, this.playerStatBoard, this.notificationService);
-        this.playerService = new PlayerService(this.playerContainer, this.playerStatBoard, this.boardOccupancyService,
-            this.imageService, this.nameService, this.notificationService, this.runGameCycle.bind(this));
-        this.adminService = new AdminService(this.playerContainer, this.foodService, this.nameService,
-            this.notificationService, this.playerService);
+        this.playerService = new PlayerService(
+            this.playerContainer, this.playerStatBoard, this.boardOccupancyService,
+            this.imageService, this.nameService, this.notificationService, this.runGameCycle.bind(this),
+        );
+        this.adminService = new AdminService(
+            this.playerContainer, this.foodService, this.nameService,
+            this.notificationService, this.playerService,
+        );
         this.playerService.init(this.adminService.getPlayerStartLength.bind(this.adminService));
     }
 
@@ -42,41 +47,69 @@ class GameController {
     listen(io) {
         this.notificationService.setSockets(io.sockets);
         const self = this;
-        io.sockets.on(ServerConfig.IO.DEFAULT_CONNECTION, socket => {
+        io.sockets.on(ServerConfig.IO.DEFAULT_CONNECTION, (socket) => {
             socket.on(ServerConfig.IO.INCOMING.CANVAS_CLICKED, self._canvasClicked.bind(self, socket));
             socket.on(ServerConfig.IO.INCOMING.KEY_DOWN, self._keyDown.bind(self, socket.id));
 
             // Player Service
-            socket.on(ServerConfig.IO.INCOMING.NEW_PLAYER,
-                self.playerService.addPlayer.bind(self.playerService, socket));
-            socket.on(ServerConfig.IO.INCOMING.NAME_CHANGE,
-                self.playerService.changePlayerName.bind(self.playerService, socket));
-            socket.on(ServerConfig.IO.INCOMING.COLOR_CHANGE,
-                self.playerService.changeColor.bind(self.playerService, socket));
-            socket.on(ServerConfig.IO.INCOMING.JOIN_GAME,
-                self.playerService.playerJoinGame.bind(self.playerService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.SPECTATE_GAME,
-                self.playerService.playerSpectateGame.bind(self.playerService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.DISCONNECT,
-                self.playerService.disconnectPlayer.bind(self.playerService, socket.id));
+            socket.on(
+                ServerConfig.IO.INCOMING.NEW_PLAYER,
+                self.playerService.addPlayer.bind(self.playerService, socket),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.NAME_CHANGE,
+                self.playerService.changePlayerName.bind(self.playerService, socket),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.COLOR_CHANGE,
+                self.playerService.changeColor.bind(self.playerService, socket),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.JOIN_GAME,
+                self.playerService.playerJoinGame.bind(self.playerService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.SPECTATE_GAME,
+                self.playerService.playerSpectateGame.bind(self.playerService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.DISCONNECT,
+                self.playerService.disconnectPlayer.bind(self.playerService, socket.id),
+            );
             // Image Service
-            socket.on(ServerConfig.IO.INCOMING.CLEAR_UPLOADED_BACKGROUND_IMAGE,
-                self.imageService.clearBackgroundImage.bind(self.imageService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.BACKGROUND_IMAGE_UPLOAD,
-                self.imageService.updateBackgroundImage.bind(self.imageService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.CLEAR_UPLOADED_IMAGE,
-                self.imageService.clearPlayerImage.bind(self.imageService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.IMAGE_UPLOAD,
-                self.imageService.updatePlayerImage.bind(self.imageService, socket.id));
+            socket.on(
+                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_BACKGROUND_IMAGE,
+                self.imageService.clearBackgroundImage.bind(self.imageService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.BACKGROUND_IMAGE_UPLOAD,
+                self.imageService.updateBackgroundImage.bind(self.imageService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_IMAGE,
+                self.imageService.clearPlayerImage.bind(self.imageService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.IMAGE_UPLOAD,
+                self.imageService.updatePlayerImage.bind(self.imageService, socket.id),
+            );
             // Admin Service
-            socket.on(ServerConfig.IO.INCOMING.BOT_CHANGE,
-                self.adminService.changeBots.bind(self.adminService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.FOOD_CHANGE,
-                self.adminService.changeFood.bind(self.adminService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.SPEED_CHANGE,
-                self.adminService.changeSpeed.bind(self.adminService, socket.id));
-            socket.on(ServerConfig.IO.INCOMING.START_LENGTH_CHANGE,
-                self.adminService.changeStartLength.bind(self.adminService, socket.id));
+            socket.on(
+                ServerConfig.IO.INCOMING.BOT_CHANGE,
+                self.adminService.changeBots.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.FOOD_CHANGE,
+                self.adminService.changeFood.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.SPEED_CHANGE,
+                self.adminService.changeSpeed.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.START_LENGTH_CHANGE,
+                self.adminService.changeStartLength.bind(self.adminService, socket.id),
+            );
         });
     }
 
@@ -95,6 +128,7 @@ class GameController {
         }
 
         // Change bots' directions
+        // eslint-disable-next-line no-restricted-syntax
         for (const botId of this.adminService.getBotIds()) {
             const bot = this.playerContainer.getPlayer(botId);
             if (Math.random() <= ServerConfig.BOT_CHANGE_DIRECTION_PERCENT) {

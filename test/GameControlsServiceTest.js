@@ -6,31 +6,31 @@ const GameControlsService = require('../app/services/game-controls-service');
 describe('GameControlsService', () => {
     'use strict';
 
-    it('should get valid next moves when moving up', done => {
+    it('should get valid next moves when moving up', (done) => {
         const nextMoves = GameControlsService.getValidNextMove(Direction.UP);
         assert.deepEqual(nextMoves, [Direction.LEFT, Direction.RIGHT]);
         done();
     });
 
-    it('should get valid next moves when moving down', done => {
+    it('should get valid next moves when moving down', (done) => {
         const nextMoves = GameControlsService.getValidNextMove(Direction.DOWN);
         assert.deepEqual(nextMoves, [Direction.LEFT, Direction.RIGHT]);
         done();
     });
 
-    it('should get valid next moves when moving left', done => {
+    it('should get valid next moves when moving left', (done) => {
         const nextMoves = GameControlsService.getValidNextMove(Direction.LEFT);
         assert.deepEqual(nextMoves, [Direction.UP, Direction.DOWN]);
         done();
     });
 
-    it('should get valid next moves when moving right', done => {
+    it('should get valid next moves when moving right', (done) => {
         const nextMoves = GameControlsService.getValidNextMove(Direction.RIGHT);
         assert.deepEqual(nextMoves, [Direction.UP, Direction.DOWN]);
         done();
     });
 
-    it('should handle directional key downs and change player direction', done => {
+    it('should handle directional key downs and change player direction', (done) => {
         const player = new Player();
         player.direction = Direction.RIGHT;
         player.directionBeforeMove = Direction.RIGHT;
@@ -53,7 +53,7 @@ describe('GameControlsService', () => {
         done();
     });
 
-    it('should not handle a non-directional key down', done => {
+    it('should not handle a non-directional key down', (done) => {
         const player = new Player();
         player.direction = Direction.RIGHT;
         player.directionBeforeMove = Direction.RIGHT;
