@@ -1,6 +1,5 @@
 [![](https://simondiep.github.io/img/node-multiplayer-snake.gif)](https://node-multiplayer-snake.herokuapp.com/)
 ![Alt](https://simondiep.github.io/img/snake.gif)
-[![Build Status](https://travis-ci.org/simondiep/node-multiplayer-snake.svg?branch=master)](https://travis-ci.org/simondiep/node-multiplayer-snake)
 [![Dependency Status](https://david-dm.org/simondiep/node-multiplayer-snake/status.svg?style=flat)](https://david-dm.org/simondiep/node-multiplayer-snake)  
 
 A multiplayer snake game built on NodeJs, Express, socket.io, and JavaScript ES6.  No unnecessary libraries.
@@ -80,7 +79,7 @@ Open your web browser to `localhost:3000`
  - clean up class constructors that take a lot of params, and instead pass in a single object
  - add game instructions possibly to a dismissible dialog
  - add a legend for different power ups
- - [Issues](https://github.com/simondiep/node-multiplayer-snake/issues)
+ - [Issues](https://github.com/acntech/node-multiplayer-snake/issues)
 
 ### Longer-term Tech Debt
  - Chai does not support --use_strict mode, yet.  Replace chai or wait for support.
