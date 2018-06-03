@@ -33,18 +33,27 @@
             </div>            
         </div>
 
-        <div style="width: 400px;" id="playerSettings" class="settings-menu">
+        <div style="width: 400px;visibility:hidden;" id="playerSettings" class="settings-menu">
             <!-- TODO: Fix a better layout, remove hard coded styles -->
             <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnUp">UP</button></div>
+            <div style="width: 30%; display: inline-block;">
+                <button style="height: 70px; width: 70px;" id="btnUp">UP</button>
+            </div>
             <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button></div>
+            <div style="width: 30%; display: inline-block;">
+                <button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button>
+            </div>
             <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button></div>
+            <div style="width: 30%; display: inline-block;">
+                <button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button>
+            </div>
             <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;"><button style="height: 70px; width: 70px;" id="btnDown">DOWN</button></div>
+            <div style="width: 30%; display: inline-block;">
+                <button style="height: 70px; width: 70px;" id="btnDown">DOWN</button>
+            </div>
             <div style="width: 30%; display: inline-block;"></div>
         </div>
+
         <!-- socket.io client is exposed by the server.  This sets a global variable io -->
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/main.js" type="module"></script>
