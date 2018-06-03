@@ -1,4 +1,4 @@
-import GameController from './controller/game-controller';
+import GameController from './controller/game-controller.js';
 
 const gameController = new GameController();
 /* global io */

@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-syntax */
 
-import ClientConfig from '../config/client-config';
-import AudioController from './audio-controller';
-import TextToDraw from '../model/text-to-draw';
-import CanvasFactory from '../view/canvas-factory';
-import GameView from '../view/game-view';
+import ClientConfig from '../config/client-config.js';
+import AudioController from './audio-controller.js';
+import TextToDraw from '../model/text-to-draw.js';
+import CanvasFactory from '../view/canvas-factory.js';
+import GameView from '../view/game-view.js';
 
 /**
  * Controls all game logic

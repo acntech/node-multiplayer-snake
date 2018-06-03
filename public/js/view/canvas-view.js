@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 
-import ClientConfig from '../config/client-config';
+import ClientConfig from '../config/client-config.js';
 
 /**
  * Handles all requests related to the canvas

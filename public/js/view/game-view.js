@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax,class-methods-use-this */
 
-import ClientConfig from '../config/client-config';
-import DomHelper from './dom-helper';
+import ClientConfig from '../config/client-config.js';
+import DomHelper from './dom-helper.js';
 
 const ENTER_KEYCODE = 13;
 const SPACE_BAR_KEYCODE = 32;

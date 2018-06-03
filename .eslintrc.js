@@ -33,6 +33,9 @@ module.exports = {
         ],
         'prefer-destructuring': [
             'error', { 'array': false }
+        ],
+        'import/extensions': [
+            '.js'
         ]
     }
 };
