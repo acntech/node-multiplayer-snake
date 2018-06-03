@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node app.js",
     "pretest": "eslint .",
-    "test": "mocha",
+    "test": "mocha --exit",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "engines": {
