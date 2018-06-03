@@ -1,4 +1,5 @@
 'use strict';
+
 const Board = require('../configs/board');
 const Coordinate = require('../models/coordinate');
 const CoordinateAttribute = require('../models/coordinate-attribute');
@@ -56,8 +57,10 @@ class BoardOccupancyService {
             for (let row = 0; row <= this.maxRow; row++) {
                 const coordinateAttribute = this.board[column][row];
                 if (coordinateAttribute.isOccupiedByFoodAndPlayer()) {
-                    foodsConsumed.push(new FoodConsumed(coordinateAttribute.foodId,
-                        coordinateAttribute.getPlayerIdsWithHead()[0]));
+                    foodsConsumed.push(new FoodConsumed(
+                        coordinateAttribute.foodId,
+                        coordinateAttribute.getPlayerIdsWithHead()[0],
+                    ));
                 }
             }
         }
@@ -73,6 +76,7 @@ class BoardOccupancyService {
                     const killerId = coordinateAttribute.playerIdWithTail;
                     if (killerId) {
                         // Heads collided with a tail
+                        // eslint-disable-next-line no-restricted-syntax
                         for (const playerIdWithHead of coordinateAttribute.getPlayerIdsWithHead()) {
                             killReports.push(new KillReport(killerId, playerIdWithHead));
                         }

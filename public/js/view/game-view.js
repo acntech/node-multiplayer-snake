@@ -1,5 +1,7 @@
-import ClientConfig from '../config/client-config.js';
-import DomHelper from './dom-helper.js';
+/* eslint-disable no-restricted-syntax,class-methods-use-this */
+
+import ClientConfig from '../config/client-config';
+import DomHelper from './dom-helper';
 
 const ENTER_KEYCODE = 13;
 const SPACE_BAR_KEYCODE = 32;
@@ -10,9 +12,11 @@ const DOWN_ARROW_KEYCODE = 40;
  * Handles all requests related to the display of the game, not including the canvas
  */
 export default class GameView {
-    constructor(backgroundImageUploadCallback, imageUploadCallback,
+    constructor(
+        backgroundImageUploadCallback, imageUploadCallback,
         joinGameCallback, keyDownCallback, muteAudioCallback, playerNameUpdatedCallback,
-        spectateGameCallback) {
+        spectateGameCallback,
+    ) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
         this.imageUploadCallback = imageUploadCallback;
@@ -34,8 +38,10 @@ export default class GameView {
         if (this.killMessagesTimeout) {
             clearTimeout(this.killMessagesTimeout);
         }
-        this.killMessagesTimeout = setTimeout(DomHelper.clearKillMessagesDivText.bind(DomHelper),
-            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS);
+        this.killMessagesTimeout = setTimeout(
+            DomHelper.clearKillMessagesDivText.bind(DomHelper),
+            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS,
+        );
     }
 
     showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {

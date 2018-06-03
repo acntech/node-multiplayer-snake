@@ -38,13 +38,13 @@ class Player {
         // Record the last drawn player direction, to limit the player from moving too quickly back into themselves
         this.directionBeforeMove = this.direction;
         if (this.growAmount > 0) {
-            this.growAmount--;
+            this.growAmount -= 1;
         } else {
             // pop tail and make it the head
             this._segments.pop();
         }
         this._segments.unshift(newHeadCoordinate);
-        this.moveCounter++;
+        this.moveCounter += 1;
     }
 
     setStartingSpawn(newDirection, headCoordinate, growAmount) {

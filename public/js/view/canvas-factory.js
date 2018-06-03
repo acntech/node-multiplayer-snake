@@ -1,5 +1,5 @@
-import CanvasView from './canvas-view.js';
-import DomHelper from './dom-helper.js';
+import CanvasView from './canvas-view';
+import DomHelper from './dom-helper';
 
 /**
  * Constructs CanvasView
