@@ -1,4 +1,5 @@
 'use strict';
+
 const CoordinateService = require('../services/coordinate-service');
 const GameControlsService = require('../services/game-controls-service');
 
@@ -6,7 +7,6 @@ const GameControlsService = require('../services/game-controls-service');
  * Bot-direction changing logic
  */
 class BotDirectionService {
-
     constructor(boardOccupancyService) {
         this.boardOccupancyService = boardOccupancyService;
     }
@@ -39,7 +39,6 @@ class BotDirectionService {
         }
         if (!this.isBotInDanger(bot.getHeadCoordinate(), otherNewDirection, 1)) {
             bot.changeDirection(otherNewDirection);
-            return;
         }
     }
 
@@ -67,8 +66,9 @@ class BotDirectionService {
         return false;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     _getRandomIntegerInRange(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+        return Math.floor(Math.random() * ((max - min) + 1)) + min;
     }
 }
 

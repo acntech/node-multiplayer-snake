@@ -1,4 +1,5 @@
 'use strict';
+
 const Direction = require('../models/direction');
 
 const KEYCODE_TO_DIRECTION = {
@@ -17,7 +18,6 @@ const KEYCODE_TO_DIRECTION = {
  * Handles client inputs
  */
 class GameControlsService {
-
     static getValidNextMove(currentDirection) {
         if (currentDirection === Direction.UP) {
             return [Direction.LEFT, Direction.RIGHT];
@@ -40,6 +40,7 @@ class GameControlsService {
             return;
         }
         const validNextDirections = this.getValidNextMove(player.directionBeforeMove);
+        // eslint-disable-next-line no-restricted-syntax
         for (const validNextDirection of validNextDirections) {
             if (newDirection === validNextDirection) {
                 player.changeDirection(newDirection);

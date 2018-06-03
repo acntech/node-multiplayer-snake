@@ -1,7 +1,6 @@
 'use strict';
 
 class KillReport {
-
     constructor(killerId, victimId, victimIds) {
         if (victimIds) {
             this._victimIds = victimIds;

@@ -1,4 +1,5 @@
 'use strict';
+
 const ServerConfig = require('../configs/server-config');
 const Food = require('../models/food');
 
@@ -6,7 +7,6 @@ const Food = require('../models/food');
  * Creation and removal of food
  */
 class FoodService {
-
     constructor(playerStatBoard, boardOccupancyService, nameService, notificationService) {
         this.playerStatBoard = playerStatBoard;
         this.boardOccupancyService = boardOccupancyService;
@@ -24,6 +24,7 @@ class FoodService {
     consumeAndRespawnFood(playerContainer) {
         let foodToRespawn = 0;
         const foodsConsumed = this.boardOccupancyService.getFoodsConsumed();
+        // eslint-disable-next-line no-restricted-syntax
         for (const foodConsumed of foodsConsumed) {
             const playerWhoConsumedFood = playerContainer.getPlayer(foodConsumed.playerId);
             const food = this.food[foodConsumed.foodId];
@@ -39,24 +40,34 @@ class FoodService {
                 const otherPlayerDirectionBeforeMove = otherPlayer.directionBeforeMove;
                 const otherPlayerSegments = otherPlayer.getSegments();
                 const otherPlayerGrowAmount = otherPlayer.growAmount;
-                otherPlayer.swapBodies(playerWhoConsumedFood.getSegments(), playerWhoConsumedFood.direction,
-                    playerWhoConsumedFood.directionBeforeMove, playerWhoConsumedFood.growAmount);
-                playerWhoConsumedFood.swapBodies(otherPlayerSegments, otherPlayerDirection,
-                    otherPlayerDirectionBeforeMove, otherPlayerGrowAmount);
+                otherPlayer.swapBodies(
+                    playerWhoConsumedFood.getSegments(), playerWhoConsumedFood.direction,
+                    playerWhoConsumedFood.directionBeforeMove, playerWhoConsumedFood.growAmount,
+                );
+                playerWhoConsumedFood.swapBodies(
+                    otherPlayerSegments, otherPlayerDirection,
+                    otherPlayerDirectionBeforeMove, otherPlayerGrowAmount,
+                );
 
                 this.boardOccupancyService.addPlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
                 this.boardOccupancyService.addPlayerOccupancy(playerWhoConsumedFood.id, playerWhoConsumedFood.getSegments());
-                this.notificationService.notifyPlayerFoodCollected(playerWhoConsumedFood.id,
-                    'Swap!', food.coordinate, food.color, true);
-                this.notificationService.notifyPlayerFoodCollected(otherPlayer.id,
-                    'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true);
+                this.notificationService.notifyPlayerFoodCollected(
+                    playerWhoConsumedFood.id,
+                    'Swap!', food.coordinate, food.color, true,
+                );
+                this.notificationService.notifyPlayerFoodCollected(
+                    otherPlayer.id,
+                    'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true,
+                );
             } else {
-                this.notificationService.notifyPlayerFoodCollected(playerWhoConsumedFood.id,
-                    `+${points}`, food.coordinate, food.color);
+                this.notificationService.notifyPlayerFoodCollected(
+                    playerWhoConsumedFood.id,
+                    `+${points}`, food.coordinate, food.color,
+                );
             }
 
             this.removeFood(foodConsumed.foodId);
-            foodToRespawn++;
+            foodToRespawn += 1;
         }
 
         this.generateFood(foodToRespawn);
