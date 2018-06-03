@@ -1,5 +1,4 @@
 import ClientConfig from '../config/client-config.js';
-import AudioController from './audio-controller.js';
 import TextToDraw from '../model/text-to-draw.js';
 import CanvasFactory from '../view/canvas-factory.js';
 import GameView from '../view/game-view.js';
@@ -15,7 +14,6 @@ export default class GameController {
                                      this.imageUploadCallback.bind(this),
                                      this.joinGameCallback.bind(this),
                                      this.keyDownCallback.bind(this),
-                                     this.muteAudioCallback.bind(this),
                                      this.playerColorChangeCallback.bind(this),
                                      this.playerNameUpdatedCallback.bind(this),
                                      this.spectateGameCallback.bind(this),
@@ -23,7 +21,6 @@ export default class GameController {
                                      this.startLengthChangeCallback.bind(this),
                                      this.toggleGridLinesCallback.bind(this)
                                      );
-        this.audioController = new AudioController();
         this.players = [];
         this.food = {};
         this.textsToDraw = [];
@@ -134,11 +131,6 @@ export default class GameController {
         this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
     }
 
-    muteAudioCallback() {
-        this.audioController.toggleMute();
-        this.gameView.setMuteStatus(this.audioController.isMuted);
-    }
-
     playerColorChangeCallback() {
         this.socket.emit(ClientConfig.IO.OUTGOING.COLOR_CHANGE);
     }
@@ -185,13 +177,8 @@ export default class GameController {
         }
     }
 
-    _handleFoodCollected(text, coordinate, color, isSwap) {
+    _handleFoodCollected(text, coordinate, color) {
         this.textsToDraw.unshift(new TextToDraw(text, coordinate, color));
-        if (isSwap) {
-            this.audioController.playSwapSound();
-        } else {
-            this.audioController.playFoodCollectedSound();
-        }
     }
 
     _handleNewGameData(gameData) {
@@ -219,9 +206,5 @@ export default class GameController {
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.RAN_INTO_WALL,
             this.gameView.showRanIntoWallMessage.bind(this.gameView));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.YOU_DIED,
-            this.audioController.playDeathSound.bind(this.audioController));
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.YOU_MADE_A_KILL,
-            this.audioController.playKillSound.bind(this.audioController));
     }
 }
