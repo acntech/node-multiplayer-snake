@@ -10,9 +10,9 @@ const DOWN_ARROW_KEYCODE = 40;
  * Handles all requests related to the display of the game, not including the canvas
  */
 export default class GameView {
-    constructor(backgroundImageUploadCallback, botChangeCallback, foodChangeCallback, imageUploadCallback,
-        joinGameCallback, keyDownCallback, muteAudioCallback, playerColorChangeCallback, playerNameUpdatedCallback,
-        spectateGameCallback, speedChangeCallback, startLengthChangeCallback, toggleGridLinesCallback) {
+    constructor(backgroundImageUploadCallback, imageUploadCallback,
+        joinGameCallback, keyDownCallback, muteAudioCallback, playerNameUpdatedCallback,
+        spectateGameCallback) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
         this.imageUploadCallback = imageUploadCallback;
@@ -21,8 +21,7 @@ export default class GameView {
         this.muteAudioCallback = muteAudioCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
-        this._initEventHandling(botChangeCallback, foodChangeCallback, muteAudioCallback, playerColorChangeCallback,
-            speedChangeCallback, startLengthChangeCallback, toggleGridLinesCallback);
+        this._initEventHandling();
     }
 
     ready() {
@@ -37,16 +36,6 @@ export default class GameView {
         }
         this.killMessagesTimeout = setTimeout(DomHelper.clearKillMessagesDivText.bind(DomHelper),
             ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS);
-    }
-
-    setMuteStatus(isMuted) {
-        let text;
-        if (isMuted) {
-            text = 'Unmute';
-        } else {
-            text = 'Mute';
-        }
-        //DomHelper.setToggleSoundButtonText(text);
     }
 
     showFoodAmount(foodAmount) {
@@ -131,7 +120,6 @@ export default class GameView {
         if (this.isChangingName) {
             this._saveNewPlayerName();
         } else {
-            //DomHelper.setChangeNameButtonText('Save');
             DomHelper.setPlayerNameElementReadOnly(false);
             DomHelper.getPlayerNameElement().select();
             this.isChangingName = true;
@@ -206,8 +194,7 @@ export default class GameView {
         }
     }
 
-    _initEventHandling(botChangeCallback, foodChangeCallback, muteAudioCallback, playerColorChangeCallback, speedChangeCallback,
-        startLengthChangeCallback, toggleGridLinesCallback) {
+    _initEventHandling() {
         // Player controls
         DomHelper.getPlayerNameElement().addEventListener('blur', this._saveNewPlayerName.bind(this));
         DomHelper.getPlayOrWatchButton().addEventListener('click', this._handlePlayOrWatchButtonClick.bind(this));

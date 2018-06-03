@@ -10,18 +10,12 @@ import GameView from '../view/game-view.js';
 export default class GameController {
     constructor() {
         this.gameView = new GameView(this.backgroundImageUploadCallback.bind(this),
-                                     this.botChangeCallback.bind(this),
-                                     this.foodChangeCallback.bind(this),
                                      this.imageUploadCallback.bind(this),
                                      this.joinGameCallback.bind(this),
                                      this.keyDownCallback.bind(this),
                                      this.muteAudioCallback.bind(this),
-                                     this.playerColorChangeCallback.bind(this),
                                      this.playerNameUpdatedCallback.bind(this),
                                      this.spectateGameCallback.bind(this),
-                                     this.speedChangeCallback.bind(this),
-                                     this.startLengthChangeCallback.bind(this),
-                                     this.toggleGridLinesCallback.bind(this)
                                      );
         this.audioController = new AudioController();
         this.players = [];
@@ -136,7 +130,6 @@ export default class GameController {
 
     muteAudioCallback() {
         this.audioController.toggleMute();
-        this.gameView.setMuteStatus(this.audioController.isMuted);
     }
 
     playerColorChangeCallback() {
