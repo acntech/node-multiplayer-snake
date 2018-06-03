@@ -1,7 +1,6 @@
 'use strict';
 
 class PlayerContainer {
-
     constructor() {
         this._players = new Map();
         this._playerIdsToRespawn = new Set();
@@ -44,12 +43,14 @@ class PlayerContainer {
 
     getAnActivePlayer(excludedPlayerId) {
         const activePlayerIds = [];
+        // eslint-disable-next-line no-restricted-syntax
         for (const playerId of this._players.keys()) {
             if (playerId !== excludedPlayerId &&
                     !this._spectatingPlayerIds.has(playerId) && !this._playerIdsToRespawn.has(playerId)) {
                 activePlayerIds.push(playerId);
             }
         }
+        // eslint-disable-next-line no-bitwise
         return this._players.get(activePlayerIds[activePlayerIds.length * Math.random() << 0]);
     }
 
@@ -71,7 +72,7 @@ class PlayerContainer {
 
     toJSON() {
         const response = [];
-        this._players.forEach(player => {
+        this._players.forEach((player) => {
             response.push(player);
         });
         return response;

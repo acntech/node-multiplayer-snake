@@ -12,31 +12,31 @@ describe('BoardOccupancyService', () => {
         boardOccupancyService = new BoardOccupancyService();
     });
 
-    it('should detect no kills', done => {
+    it('should detect no kills', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(5, 1),
-                            new Coordinate(4, 1),
-                            new Coordinate(3, 1),
-                            new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(4, 1),
+            new Coordinate(3, 1),
+            new Coordinate(2, 1),
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(5, 2),
-                            new Coordinate(4, 2),
-                            new Coordinate(3, 2),
-                            new Coordinate(2, 2),
-                            new Coordinate(1, 2)];
+            new Coordinate(4, 2),
+            new Coordinate(3, 2),
+            new Coordinate(2, 2),
+            new Coordinate(1, 2)];
         const player3 = new Player(3);
         player3._segments = [new Coordinate(5, 3),
-                            new Coordinate(4, 3),
-                            new Coordinate(3, 3),
-                            new Coordinate(2, 3),
-                            new Coordinate(1, 3)];
+            new Coordinate(4, 3),
+            new Coordinate(3, 3),
+            new Coordinate(2, 3),
+            new Coordinate(1, 3)];
         const player4 = new Player(4);
         player4._segments = [new Coordinate(5, 4),
-                            new Coordinate(4, 4),
-                            new Coordinate(3, 4),
-                            new Coordinate(2, 4),
-                            new Coordinate(1, 4)];
+            new Coordinate(4, 4),
+            new Coordinate(3, 4),
+            new Coordinate(2, 4),
+            new Coordinate(1, 4)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());
@@ -49,31 +49,31 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should detect a single player kill', done => {
+    it('should detect a single player kill', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(4, 2),
-                            new Coordinate(4, 1),
-                            new Coordinate(3, 1),
-                            new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(4, 1),
+            new Coordinate(3, 1),
+            new Coordinate(2, 1),
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(5, 2),
-                            new Coordinate(4, 2),
-                            new Coordinate(3, 2),
-                            new Coordinate(2, 2),
-                            new Coordinate(1, 2)];
+            new Coordinate(4, 2),
+            new Coordinate(3, 2),
+            new Coordinate(2, 2),
+            new Coordinate(1, 2)];
         const player3 = new Player(3);
         player3._segments = [new Coordinate(5, 3),
-                            new Coordinate(4, 3),
-                            new Coordinate(3, 3),
-                            new Coordinate(2, 3),
-                            new Coordinate(1, 3)];
+            new Coordinate(4, 3),
+            new Coordinate(3, 3),
+            new Coordinate(2, 3),
+            new Coordinate(1, 3)];
         const player4 = new Player(4);
         player4._segments = [new Coordinate(5, 4),
-                            new Coordinate(4, 4),
-                            new Coordinate(3, 4),
-                            new Coordinate(2, 4),
-                            new Coordinate(1, 4)];
+            new Coordinate(4, 4),
+            new Coordinate(3, 4),
+            new Coordinate(2, 4),
+            new Coordinate(1, 4)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());
@@ -88,31 +88,31 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should detect multiple kills', done => {
+    it('should detect multiple kills', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(4, 2),
-                            new Coordinate(4, 1),
-                            new Coordinate(3, 1),
-                            new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(4, 1),
+            new Coordinate(3, 1),
+            new Coordinate(2, 1),
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(5, 2),
-                            new Coordinate(4, 2),
-                            new Coordinate(3, 2),
-                            new Coordinate(2, 2),
-                            new Coordinate(1, 2)];
+            new Coordinate(4, 2),
+            new Coordinate(3, 2),
+            new Coordinate(2, 2),
+            new Coordinate(1, 2)];
         const player3 = new Player(3);
         player3._segments = [new Coordinate(4, 2),
-                            new Coordinate(4, 3),
-                            new Coordinate(3, 3),
-                            new Coordinate(2, 3),
-                            new Coordinate(1, 3)];
+            new Coordinate(4, 3),
+            new Coordinate(3, 3),
+            new Coordinate(2, 3),
+            new Coordinate(1, 3)];
         const player4 = new Player(4);
         player4._segments = [new Coordinate(4, 3),
-                            new Coordinate(4, 4),
-                            new Coordinate(3, 4),
-                            new Coordinate(2, 4),
-                            new Coordinate(1, 4)];
+            new Coordinate(4, 4),
+            new Coordinate(3, 4),
+            new Coordinate(2, 4),
+            new Coordinate(1, 4)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());
@@ -131,13 +131,13 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should detect a head-to-head collision', done => {
+    it('should detect a head-to-head collision', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(2, 1),
-                            new Coordinate(3, 1)];
+            new Coordinate(3, 1)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());
@@ -149,13 +149,13 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should detect a head-to-head collision overlapping multiple coordinates', done => {
+    it('should detect a head-to-head collision overlapping multiple coordinates', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(1, 1),
-                            new Coordinate(2, 1)];
+            new Coordinate(2, 1)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());
@@ -170,11 +170,11 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should determine if a player has collided with itself', done => {
+    it('should determine if a player has collided with itself', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(4, 2),
-                            new Coordinate(4, 1),
-                            new Coordinate(4, 2)];
+            new Coordinate(4, 1),
+            new Coordinate(4, 2)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
 
@@ -186,7 +186,7 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should detect food consumed by player', done => {
+    it('should detect food consumed by player', (done) => {
         const foodId = 'food1';
         const foodCoordinate = new Coordinate(4, 2);
 
@@ -194,10 +194,10 @@ describe('BoardOccupancyService', () => {
 
         const player1 = new Player(1);
         player1._segments = [new Coordinate(4, 2),
-                            new Coordinate(4, 1),
-                            new Coordinate(3, 1),
-                            new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(4, 1),
+            new Coordinate(3, 1),
+            new Coordinate(2, 1),
+            new Coordinate(1, 1)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
 
@@ -214,13 +214,13 @@ describe('BoardOccupancyService', () => {
         done();
     });
 
-    it('should maintain a consistent kill report when a player occupancy is removed', done => {
+    it('should maintain a consistent kill report when a player occupancy is removed', (done) => {
         const player1 = new Player(1);
         player1._segments = [new Coordinate(2, 1),
-                            new Coordinate(1, 1)];
+            new Coordinate(1, 1)];
         const player2 = new Player(2);
         player2._segments = [new Coordinate(2, 1),
-                            new Coordinate(3, 1)];
+            new Coordinate(3, 1)];
 
         boardOccupancyService.addPlayerOccupancy(player1.id, player1.getSegments());
         boardOccupancyService.addPlayerOccupancy(player2.id, player2.getSegments());

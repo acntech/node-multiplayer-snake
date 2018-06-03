@@ -1,7 +1,9 @@
 'use strict';
+
 const path = require('path');
 const GameController = require('./app/controllers/game-controller');
 const express = require('express');
+
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);

@@ -8,7 +8,7 @@ const socketURL = `http://localhost:${app.get('port')}`;
 describe('socket.io connection', () => {
     'use strict';
 
-    it('should provide a new player information to start playing', done => {
+    it('should provide a new player information to start playing', (done) => {
         const player1Socket = io.connect(socketURL);
         player1Socket.emit(ServerConfig.IO.INCOMING.NEW_PLAYER);
 
@@ -20,13 +20,13 @@ describe('socket.io connection', () => {
             playerInfoReceived = true;
         });
 
-        player1Socket.on(ServerConfig.IO.OUTGOING.BOARD_INFO, board => {
+        player1Socket.on(ServerConfig.IO.OUTGOING.BOARD_INFO, (board) => {
             assert.isObject(board);
             assert.isTrue(playerInfoReceived);
             boardInfoReceived = true;
         });
 
-        player1Socket.on(ServerConfig.IO.OUTGOING.NEW_STATE, gameData => {
+        player1Socket.on(ServerConfig.IO.OUTGOING.NEW_STATE, (gameData) => {
             assert.isObject(gameData);
             if (boardInfoReceived) {
                 player1Socket.disconnect();
@@ -35,7 +35,7 @@ describe('socket.io connection', () => {
         });
     });
 
-    it('should display notifications when a new player joins or leaves', done => {
+    it('should display notifications when a new player joins or leaves', (done) => {
         // Three total notifications
         // 1: Player 1 will join the game and receive a notification that they have joined
         // 2: Then, Player 2 will join the game
@@ -44,9 +44,9 @@ describe('socket.io connection', () => {
         player1Socket.emit(ServerConfig.IO.INCOMING.NEW_PLAYER);
 
         let player1Notifications = 0;
-        player1Socket.on(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, notification => {
+        player1Socket.on(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, (notification) => {
             assert.isString(notification);
-            player1Notifications++;
+            player1Notifications += 1;
             if (player1Notifications === 3) {
                 player1Socket.disconnect();
                 done();
@@ -55,7 +55,7 @@ describe('socket.io connection', () => {
 
         const player2Socket = io.connect(socketURL);
         player2Socket.emit(ServerConfig.IO.INCOMING.NEW_PLAYER);
-        player2Socket.on(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, notification => {
+        player2Socket.on(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, (notification) => {
             assert.isString(notification);
             player2Socket.disconnect();
         });

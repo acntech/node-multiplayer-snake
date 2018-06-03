@@ -1,11 +1,11 @@
 'use strict';
+
 const ServerConfig = require('../configs/server-config');
 
 /**
  * Admin-specific functionality
  */
 class AdminService {
-
     constructor(playerContainer, foodService, nameService, notificationService, playerService) {
         this.playerContainer = playerContainer;
         this.foodService = foodService;
@@ -55,14 +55,14 @@ class AdminService {
         if (speedOption === ServerConfig.INCREMENT_CHANGE.INCREASE) {
             if (this.currentFPS < ServerConfig.MAX_FPS) {
                 notification += ' has raised the game speed.';
-                this.currentFPS++;
+                this.currentFPS += 1;
             } else {
                 notification += ' tried to raised the game speed past the limit.';
             }
         } else if (speedOption === ServerConfig.INCREMENT_CHANGE.DECREASE) {
             if (this.currentFPS > ServerConfig.MIN_FPS) {
                 notification += ' has lowered the game speed.';
-                this.currentFPS--;
+                this.currentFPS -= 1;
             } else {
                 notification += ' tried to lower the game speed past the limit.';
             }
@@ -78,11 +78,11 @@ class AdminService {
         let notification = player.name;
         if (lengthOption === ServerConfig.INCREMENT_CHANGE.INCREASE) {
             notification += ' has increased the player start length.';
-            this.playerStartLength++;
+            this.playerStartLength += 1;
         } else if (lengthOption === ServerConfig.INCREMENT_CHANGE.DECREASE) {
             if (this.playerStartLength > 1) {
                 notification += ' has decreased the player start length.';
-                this.playerStartLength--;
+                this.playerStartLength -= 1;
             } else {
                 notification += ' tried to lower the player start length past the limit.';
             }
@@ -115,7 +115,9 @@ class AdminService {
     _addBot(playerRequestingAddition) {
         if (this.botIds.length >= ServerConfig.MAX_BOTS) {
             this.notificationService.broadcastNotification(
-                `${playerRequestingAddition.name} tried to add a bot past the limit.`, playerRequestingAddition.color);
+                `${playerRequestingAddition.name} tried to add a bot past the limit.`,
+                playerRequestingAddition.color,
+            );
             return;
         }
         const newBotId = this.nameService.getBotId();
@@ -129,7 +131,9 @@ class AdminService {
             this.playerService.disconnectPlayer(this.botIds.pop());
         } else {
             this.notificationService.broadcastNotification(
-                `${playerRequestingRemoval.name} tried to remove a bot that doesn't exist.`, playerRequestingRemoval.color);
+                `${playerRequestingRemoval.name} tried to remove a bot that doesn't exist.`,
+                playerRequestingRemoval.color,
+            );
         }
     }
 

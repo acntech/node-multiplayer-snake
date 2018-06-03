@@ -1,11 +1,11 @@
 'use strict';
+
 const ValidationService = require('../services/validation-service');
 
 /**
  * Image-related actions
  */
 class ImageService {
-
     constructor(playerContainer, playerStatBoard, notificationService) {
         this.playerContainer = playerContainer;
         this.playerStatBoard = playerStatBoard;

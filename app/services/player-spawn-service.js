@@ -1,11 +1,11 @@
 'use strict';
+
 const Direction = require('../models/direction');
 
 /**
  * Spawns and/or respawns a player with other entities in mind
  */
 class PlayerSpawnService {
-
     constructor(boardOccupancyService) {
         this.boardOccupancyService = boardOccupancyService;
     }

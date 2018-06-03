@@ -1,7 +1,6 @@
 'use strict';
 
 class PlayerStats {
-
     constructor(name, color) {
         this.name = name;
         this.color = color;
@@ -20,11 +19,11 @@ class PlayerStats {
     }
 
     addDeath() {
-        this.deaths++;
+        this.deaths += 1;
     }
 
     addKill() {
-        this.kills++;
+        this.kills += 1;
     }
 
     increaseScore(scoreAmount) {
