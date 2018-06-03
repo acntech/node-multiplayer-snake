@@ -14,7 +14,7 @@ const DOWN_ARROW_KEYCODE = 40;
 export default class GameView {
     constructor(
         backgroundImageUploadCallback, imageUploadCallback,
-        joinGameCallback, keyDownCallback, muteAudioCallback, playerNameUpdatedCallback,
+        joinGameCallback, keyDownCallback, playerNameUpdatedCallback,
         spectateGameCallback,
     ) {
         this.isChangingName = false;
@@ -22,7 +22,6 @@ export default class GameView {
         this.imageUploadCallback = imageUploadCallback;
         this.joinGameCallback = joinGameCallback;
         this.keyDownCallback = keyDownCallback;
-        this.muteAudioCallback = muteAudioCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
         this._initEventHandling();
