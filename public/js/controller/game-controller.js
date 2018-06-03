@@ -15,7 +15,7 @@ export default class GameController {
                                      this.keyDownCallback.bind(this),
                                      this.muteAudioCallback.bind(this),
                                      this.playerNameUpdatedCallback.bind(this),
-                                     this.spectateGameCallback.bind(this),
+                                     this.spectateGameCallback.bind(this)
                                      );
         this.audioController = new AudioController();
         this.players = [];
@@ -191,10 +191,6 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showFoodAmount(Object.keys(gameData.food).length);
-        this.gameView.showSpeed(gameData.speed);
-        this.gameView.showStartLength(gameData.startLength);
-        this.gameView.showNumberOfBots(gameData.numberOfBots);
         this.gameView.showPlayerStats(gameData.playerStats);
     }
 

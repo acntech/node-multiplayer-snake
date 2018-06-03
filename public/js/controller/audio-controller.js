@@ -1,4 +1,3 @@
-import DomHelper from '../view/dom-helper.js';
 /**
  * Controls all audio logic
  */
@@ -34,14 +33,6 @@ export default class AudioController {
             this.swapSound.play();
         }
     }
-
-    /* updateVolume() {
-        //const volume = DomHelper.getVolumeSlider().value;
-        this.deathSound.volume = volume;
-        this.foodCollectedSound.volume = volume;
-        this.killSound.volume = volume;
-        this.swapSound.volume = volume;
-    } */
 
     toggleMute() {
         this.isMuted = !this.isMuted;

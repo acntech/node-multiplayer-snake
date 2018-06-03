@@ -38,10 +38,6 @@ export default class GameView {
             ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS);
     }
 
-    showFoodAmount(foodAmount) {
-        DomHelper.setCurrentFoodAmountLabelText(foodAmount);
-    }
-
     showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {
         this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed ` +
             `<span style='color: ${victimColor}'>${victimName}</span>` +
@@ -71,10 +67,6 @@ export default class GameView {
         notificationDiv.innerHTML = formattedNotification + notificationDiv.innerHTML;
     }
 
-    showNumberOfBots(numberOfBots) {
-        DomHelper.setCurrentNumberOfBotsLabelText(numberOfBots);
-    }
-
     showPlayerStats(playerStats) {
         let formattedScores = '<div class="player-stats-header"><span class="image"></span>' +
             '<span class="name">Name</span>' +
@@ -95,14 +87,6 @@ export default class GameView {
                 `<span class='stat'>${playerStat.deaths}</span></div>`;
         }
         DomHelper.setPlayerStatsDivText(formattedScores);
-    }
-
-    showSpeed(speed) {
-        DomHelper.setCurrentSpeedLabelText(speed);
-    }
-
-    showStartLength(startLength) {
-        DomHelper.setCurrentStartLengthLabelText(startLength);
     }
 
     updatePlayerName(playerName, playerColor) {
