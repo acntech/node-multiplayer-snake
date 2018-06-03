@@ -30,14 +30,6 @@ export default class DomHelper {
         return document.getElementById('clearUploadedImageButton');
     }
 
-    /* static getChangeColorButton() {
-        return document.getElementById('changePlayerColorButton');
-    } */
-
-    /* static getChangeNameButton() {
-        return document.getElementById('changePlayerNameButton');
-    } */
-
     static getDecreaseBotsButton() {
         return document.getElementById('decreaseBotsButton');
     }
@@ -130,41 +122,12 @@ export default class DomHelper {
         return document.getElementById('btnRight');
     }
 
-    /* static getToggleSoundButton() {
-        return document.getElementById('toggleSoundButton');
-    } */
-
-    /* static getVolumeSlider() {
-        return document.getElementById('volumeSlider');
-    } */
-
     static hideInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
-    /* static setChangeNameButtonText(text) {
-        this.getChangeNameButton().innerHTML = text;
-    } */
-
-    static setCurrentFoodAmountLabelText(text) {
-        //document.getElementById('currentFoodAmount').innerHTML = text;
-    }
-
-    static setCurrentNumberOfBotsLabelText(text) {
-        //document.getElementById('currentNumberOfBots').innerHTML = text;
-    }
-
-    static setCurrentSpeedLabelText(text) {
-        //document.getElementById('currentSpeed').innerHTML = text;
-    }
-
-
-    static setCurrentStartLengthLabelText(text) {
-        //document.getElementById('currentStartLength').innerHTML = text;
-    }
-
     static setKillMessagesDivText(text) {
-        //document.getElementById('kill-messages').innerHTML = text;
+        document.getElementById('kill-messages').innerHTML = text;
     }
 
     static setPlayerNameElementColor(color) {
@@ -182,10 +145,6 @@ export default class DomHelper {
     static setPlayerStatsDivText(text) {
         document.getElementById('player-stats').innerHTML = text;
     }
-
-    /* static setToggleSoundButtonText(text) {
-        this.getToggleSoundButton().textContent = text;
-    } */
 
     static setPlayOrWatchButtonText(text) {
         this.getPlayOrWatchButton().textContent = text;
