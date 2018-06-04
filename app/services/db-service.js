@@ -1,20 +1,20 @@
-'use strict'
-const { Pool } = require ('pg');
+'use strict';
+
+const { Pool } = require('pg');
 
 class DbService {
-
     constructor() {
         this._pool = new Pool({
             connectionString: process.env.DATABASE_URL,
-            ssl: true
+            ssl: true,
         });
     }
 
-    performQuery( query, valuesArr) {
+    performQuery(query, valuesArr) {
         return new Promise((resolve, reject) => {
             try {
                 this._pool.connect().then((client) => {
-                    var result = client.query(query, valuesArr);
+                    const result = client.query(query, valuesArr);
                     client.release();
                     resolve(result);
                 });
@@ -23,7 +23,6 @@ class DbService {
                 reject(err);
             }
         });
-
     }
 }
 
