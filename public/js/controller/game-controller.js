@@ -29,7 +29,8 @@ export default class GameController {
         this._initializeSocketIoHandlers();
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
         const storedBase64Image = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_IMAGE);
-        this.socket.emit(ClientConfig.IO.OUTGOING.NEW_PLAYER, storedName, storedBase64Image);
+       // this.socket.emit(ClientConfig.IO.OUTGOING.NEW_PLAYER, storedName, storedBase64Image);
+        //this.socket.emit(ClientConfig.IO.OUTGOING.SPECTATE_GAME);
     }
 
     renderGame() {

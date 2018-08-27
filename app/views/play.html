@@ -10,11 +10,14 @@
 <body class="play-ui">
     <a id="top"></a>
     <label class="nav-label">You are
-        <input id="player-name" readonly="readonly" maxlength="10"></input>
+        <input id="player-name" maxlength="10"></input>
+        <label id="invalid-player-name-label">Please Enter a Valid Name (10 Characters Max)</label>
     </label>
+    <button id="changePlayerNameButton">TEST</button>
+
     <div id="cover" style="display:none !important;">
         <div class="navigation">
-            
+
             <div class="nav-button-bar">
                 <a href="#top" id="play-or-watch-button" title="Spectate or rejoin game">Watch</a>
                 <a href="#playerSettings" title="Go to settings">Settings</a>

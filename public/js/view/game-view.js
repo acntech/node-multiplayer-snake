@@ -30,6 +30,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
+        DomHelper.getControlButtons().style.visibility = 'hidden';
     }
 
     setKillMessageWithTimer(message) {
@@ -118,7 +119,7 @@ export default class GameView {
     _handleKeyDown(e) {
         // Prevent keyboard scrolling default behavior
         if ((e.keyCode === UP_ARROW_KEYCODE || e.keyCode === DOWN_ARROW_KEYCODE) ||
-             (e.keyCode === SPACE_BAR_KEYCODE && e.target === DomHelper.getBody())) {
+            (e.keyCode === SPACE_BAR_KEYCODE && e.target === DomHelper.getBody())) {
             e.preventDefault();
         }
 
@@ -176,6 +177,11 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.setPlayerNameElementReadOnly(true);
+            DomHelper.getControlButtons().style.visibility = 'visible';
+            const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+            const storedBase64Image = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_IMAGE);
+            this.socket.emit(ClientConfig.IO.OUTGOING.NEW_PLAYER, storedName, storedBase64Image);
+            //this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
         } else {
@@ -185,9 +191,7 @@ export default class GameView {
 
     _initEventHandling() {
         // Player controls
-        DomHelper.getPlayerNameElement().addEventListener('blur', this._saveNewPlayerName.bind(this));
-        DomHelper.getPlayOrWatchButton().addEventListener('click', this._handlePlayOrWatchButtonClick.bind(this));
-        DomHelper.getFullScreenButton().addEventListener('click', DomHelper.toggleFullScreenMode);
+        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
 
         DomHelper.getUpButton().addEventListener('click', this.emitUpClicked.bind(this));
