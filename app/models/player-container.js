@@ -41,12 +41,16 @@ class PlayerContainer {
         return this._players.size;
     }
 
+    getNumberOfActivePlayers() {
+        return this._players.size - this._spectatingPlayerIds.size;
+    }
+
     getAnActivePlayer(excludedPlayerId) {
         const activePlayerIds = [];
         // eslint-disable-next-line no-restricted-syntax
         for (const playerId of this._players.keys()) {
             if (playerId !== excludedPlayerId &&
-                    !this._spectatingPlayerIds.has(playerId) && !this._playerIdsToRespawn.has(playerId)) {
+                !this._spectatingPlayerIds.has(playerId) && !this._playerIdsToRespawn.has(playerId)) {
                 activePlayerIds.push(playerId);
             }
         }

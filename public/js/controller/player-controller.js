@@ -27,17 +27,13 @@ export default class GameController {
     connect(io) {
         this.socket = io();
         this._initializeSocketIoHandlers();
-        console.log('connect!');
-        const Board = {
-            SQUARE_SIZE_IN_PIXELS: 12.5,
-            HORIZONTAL_SQUARES: 50,
-            VERTICAL_SQUARES: 40,
-        };
-        this._createBoard(Board);
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        const storedBase64Image = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_IMAGE);
+        this.socket.emit(ClientConfig.IO.OUTGOING.NEW_PLAYER, storedName, storedBase64Image);
+        this.socket.emit(ClientConfig.IO.OUTGOING.SPECTATE_GAME);
     }
 
     renderGame() {
-        console.log('render game');
         this.canvasView.clear();
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
@@ -52,8 +48,8 @@ export default class GameController {
             if (player.segments.length !== 0) {
                 // Flash around where you have just spawned
                 if (`/#${this.socket.id}` === player.id &&
-                    player.moveCounter <= ClientConfig.TURNS_TO_FLASH_AFTER_SPAWN &&
-                    player.moveCounter % 2 === 0) {
+                        player.moveCounter <= ClientConfig.TURNS_TO_FLASH_AFTER_SPAWN &&
+                        player.moveCounter % 2 === 0) {
                     this.canvasView.drawSquareAround(player.segments[0], ClientConfig.SPAWN_FLASH_COLOR);
                 }
 
@@ -128,9 +124,8 @@ export default class GameController {
         this.socket.emit(ClientConfig.IO.OUTGOING.JOIN_GAME);
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    keyDownCallback(/* keyCode*/) {
-        //  this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
+    keyDownCallback(keyCode) {
+        this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
     }
 
     playerColorChangeCallback() {
@@ -195,7 +190,7 @@ export default class GameController {
 
 
     _initializeSocketIoHandlers() {
-        //  this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
+        this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
         this.socket.on(ClientConfig.IO.INCOMING.BOARD_INFO, this._createBoard.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));

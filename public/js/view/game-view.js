@@ -178,10 +178,7 @@ export default class GameView {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.setPlayerNameElementReadOnly(true);
             DomHelper.getControlButtons().style.visibility = 'visible';
-            const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
-            const storedBase64Image = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_IMAGE);
-            this.socket.emit(ClientConfig.IO.OUTGOING.NEW_PLAYER, storedName, storedBase64Image);
-            //this.joinGameCallback();
+            this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
         } else {
