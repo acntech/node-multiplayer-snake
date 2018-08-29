@@ -130,6 +130,7 @@ class PlayerService {
         for (const killReport of killReports) {
             if (killReport.isSingleKill()) {
                 const victim = this.playerContainer.getPlayer(killReport.victimId);
+                const victimSegments = victim.getSegments();
                 if (killReport.killerId === killReport.victimId) {
                     this.notificationService.broadcastSuicide(victim.name, victim.color);
                 } else {
@@ -137,15 +138,15 @@ class PlayerService {
                     this.playerStatBoard.increaseScore(killReport.killerId);
                     this.playerStatBoard.stealScore(killReport.killerId, victim.id);
                     // Steal victim's length
-                    this.playerContainer.getPlayer(killReport.killerId).grow(victim.getSegments().length);
+                    this.playerContainer.getPlayer(killReport.killerId).grow(victimSegments.length);
                     const killer = this.playerContainer.getPlayer(killReport.killerId);
                     this.notificationService.broadcastKill(
                         killer.name, victim.name, killer.color, victim.color,
-                        victim.getSegments().length,
+                        victimSegments.length,
                     );
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
                 }
-                this.boardOccupancyService.removePlayerOccupancy(victim.id, victim.getSegments());
+                this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
                 this.playerContainer.addPlayerIdToRespawn(victim.id);
                 this.notificationService.notifyPlayerDied(victim.id);
@@ -153,7 +154,8 @@ class PlayerService {
                 const victimSummaries = [];
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
-                    this.boardOccupancyService.removePlayerOccupancy(victim.id, victim.getSegments());
+                    const victimSegments = victim.getSegments();
+                    this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
                     victimSummaries.push({ name: victim.name, color: victim.color });
@@ -172,7 +174,7 @@ class PlayerService {
                 this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
                 CoordinateService.movePlayer(player);
                 if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
-                        this.boardOccupancyService.isWall(player.getHeadCoordinate())) {
+                    this.boardOccupancyService.isWall(player.getHeadCoordinate())) {
                     player.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(player.id);
                     this.notificationService.broadcastRanIntoWall(player.name, player.color);
