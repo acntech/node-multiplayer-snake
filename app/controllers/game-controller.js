@@ -12,7 +12,7 @@ const NameService = require('../services/name-service');
 const NotificationService = require('../services/notification-service');
 const PlayerService = require('../services/player-service');
 
-const Coordinate = require('../models/coordinate');
+// const Coordinate = require('../models/coordinate');
 const PlayerContainer = require('../models/player-container');
 const PlayerStatBoard = require('../models/player-stat-board');
 
@@ -161,19 +161,20 @@ class GameController {
      *  socket.io handling methods *
      *******************************/
 
-    _canvasClicked(socket, x, y) {
-        const player = this.playerContainer.getPlayer(socket.id);
-        const coordinate = new Coordinate(x, y);
-        if (this.boardOccupancyService.isPermanentWall(coordinate)) {
-            return;
-        }
-        if (this.boardOccupancyService.isWall(coordinate)) {
-            this.boardOccupancyService.removeWall(coordinate);
-            this.notificationService.broadcastNotification(`${player.name} has removed a wall`, player.color);
-        } else {
-            this.boardOccupancyService.addWall(coordinate);
-            this.notificationService.broadcastNotification(`${player.name} has added a wall`, player.color);
-        }
+    // eslint-disable-next-line class-methods-use-this
+    _canvasClicked() {
+        // const player = this.playerContainer.getPlayer(socket.id);
+        // const coordinate = new Coordinate(x, y);
+        // if (this.boardOccupancyService.isPermanentWall(coordinate)) {
+        //     return;
+        // }
+        // if (this.boardOccupancyService.isWall(coordinate)) {
+        //     this.boardOccupancyService.removeWall(coordinate);
+        //     this.notificationService.broadcastNotification(`${player.name} has removed a wall`, player.color);
+        // } else {
+        //     this.boardOccupancyService.addWall(coordinate);
+        //     this.notificationService.broadcastNotification(`${player.name} has added a wall`, player.color);
+        // }
     }
 
     _keyDown(playerId, keyCode) {
