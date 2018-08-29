@@ -191,10 +191,10 @@ export default class GameView {
         DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
 
-        DomHelper.getUpButton().addEventListener('click', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('click', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('click', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('click', this.emitRightClicked.bind(this));
+        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
     }
 
     emitUpClicked() {
