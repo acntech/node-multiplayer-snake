@@ -41,14 +41,7 @@ class PlayerDbService {
 
     updatePlayerScore(playerId, score) {
         try {
-            this._dbService.performQuery(
-                'SELECT high_score FROM player WHERE id = $1',
-                [playerId],
-            ).then((res) => {
-                if (res.row[0].high_score < score) {
-                    this._dbService.performQuery('UPDATE player SET high_score = $1 WHERE id = $2', [score, playerId]);
-                }
-            });
+            this._dbService.write(playerId, score);
         } catch (err) {
             console.log(err);
         }
