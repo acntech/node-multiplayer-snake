@@ -135,6 +135,23 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideControlButtons() {
+        this.getControlButtons().style.display = 'none';
+    }
+
+    static showControlButtons() {
+        this.getControlButtons().style.display = 'grid';
+    }
+
+    static movePlayerNameToTop() {
+        document.getElementById('register').style.position = 'absolute';
+        document.getElementById('register').style.top = '20';
+        document.getElementById('register').style.height = 'auto';
+        document.getElementById('selectName').style.display = 'none';
+        document.getElementById('playerNameLabel').style.display = 'block';
+        this.getChangeNameButton().style.display = 'none';
+    }
+
     static setKillMessagesDivText(text) {
         document.getElementById('kill-messages').innerHTML = text;
     }

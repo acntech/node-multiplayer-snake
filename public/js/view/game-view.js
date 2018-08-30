@@ -30,7 +30,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.getControlButtons().style.visibility = 'hidden';
+        DomHelper.hideControlButtons();
     }
 
     setKillMessageWithTimer(message) {
@@ -177,7 +177,8 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.setPlayerNameElementReadOnly(true);
-            DomHelper.getControlButtons().style.visibility = 'visible';
+            DomHelper.showControlButtons();
+            DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();

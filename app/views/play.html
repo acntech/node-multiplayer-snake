@@ -8,13 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
 </head>
 
-<body class="play-ui">
+<body class="play-ui player-view">
     <a id="top"></a>
-    <label class="nav-label">You are
-        <input id="player-name" maxlength="10"></input>
-        <label id="invalid-player-name-label">Please Enter a Valid Name (10 Characters Max)</label>
+
+    <label class="register" id="register">
+        <span id="selectName">Select username:</span>
+        <span id="playerNameLabel" style="display:none !important;">Welcome,</span>
+        <input id="player-name" maxlength="20"></input>
+        <label id="invalid-player-name-label">Please enter a valid name (20 characters max)</label>
+        <button id="changePlayerNameButton">PLAY</button>
     </label>
-    <button id="changePlayerNameButton">TEST</button>
 
     <div id="cover" style="display:none !important;">
         <div class="navigation">
@@ -63,6 +66,7 @@
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/playermain.js" type="module"></script>
+
 </body>
 
 </html>

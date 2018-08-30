@@ -90,11 +90,38 @@
     color: @border-color;
 }
 #changePlayerNameButton {
-    width: 244px;
+   // width: 244px;
 }
+
+.player-view {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+
+    .register {
+        font-size: 20px;
+        height: 40%;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+        button, #player-name {
+            width: 80%;
+            height: 60px;
+            font-size: 24px;
+            padding: 10px;
+            text-align: center;
+        }
+    }
+
+}
+
 #cover {
     visibility: hidden;
 }
+
+
 #full-screen-button {
     background: url(../assets/fullscreen-icon.png) no-repeat;
     background-color: @button-background-color;
