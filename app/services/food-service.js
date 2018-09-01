@@ -2,7 +2,7 @@
 
 const ServerConfig = require('../configs/server-config');
 const Food = require('../models/food');
-const PlayerDbService = require('./player-db-service');
+const DbService = require('./db-service');
 
 /**
  * Creation and removal of food
@@ -15,7 +15,7 @@ class FoodService {
         this.notificationService = notificationService;
         this.reinitialize();
 
-        this.db = new PlayerDbService();
+        this.db = new DbService();
     }
 
     // Only use this alongside clearing boardOccupancyService
@@ -35,12 +35,9 @@ class FoodService {
             playerWhoConsumedFood.grow(ServerConfig.FOOD[food.type].GROWTH);
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
+            const thisUser = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
+            this.db.updateScore(thisUser.name, thisUser.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
             
-            // TODO: How to calculate score (facor in deaths/kills etc.?)
-            let thisUser = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
-            this.db.updatePlayerScore(thisUser.name, thisUser.highScore);
-
-
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfPlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
                 this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
