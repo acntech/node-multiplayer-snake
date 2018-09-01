@@ -21,14 +21,18 @@ class DbService {
     }
 
     usernameAlreadyExists(userId) {
+        // TODO: Does not work
+        return new Promise(
         this.db.ref(`snake-scores/${userId}`).once('value').then((snapshot) => {
-            console.log(snapshot.val());
-            return snapshot.val();
-        });
+            console.log('****** Snapshot: ', snapshot.val());
+            user = snapshot.val();
+            return user;
+        })
+    )
     }
 
     existingScoreOrDefaultScore(userId) {
-        return this.usernameAlreadyExists(userId).score || 0;
+        return this.usernameAlreadyExists(userId) ? this.usernameAlreadyExists(userId).score : 0;
     }
 
     referenceToScore(userId) {
@@ -37,7 +41,7 @@ class DbService {
     }
 
     addPhoneNumber(userId, phoneNumber) {
-        this.db.ref(`snake-scores/${userId}`).set({
+        this.db.ref(`snake-scores/${userId}`).update({
             phoneNumber,
         });
     }
