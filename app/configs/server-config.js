@@ -58,6 +58,7 @@ const ServerConfig = {
             KEY_DOWN: 'key down',
             CANVAS_CLICKED: 'canvas clicked',
             DISCONNECT: 'disconnect',
+            RESTART: 'restart clicked',
         },
         OUTGOING: {
             NEW_STATE: 'game update',

@@ -18,10 +18,10 @@ class NotificationService {
         this.sockets.emit(ServerConfig.IO.OUTGOING.NEW_STATE, gameState);
     }
 
-    broadcastKill(killerName, victimName, killerColor, victimColor, victimLength) {
+    broadcastKill(killerName, victimName, killerColor, victimColor, victimLength, victimId) {
         this.sockets.emit(
             ServerConfig.IO.OUTGOING.NOTIFICATION.KILL, killerName, victimName,
-            killerColor, victimColor, victimLength,
+            killerColor, victimColor, victimLength, victimId,
         );
     }
 
@@ -38,12 +38,12 @@ class NotificationService {
         this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, message, fontColor);
     }
 
-    broadcastRanIntoWall(playerName, playerColor) {
-        this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.RAN_INTO_WALL, playerName, playerColor);
+    broadcastRanIntoWall(playerName, playerId) {
+        this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.RAN_INTO_WALL, playerName, playerId);
     }
 
-    broadcastSuicide(victimName, victimColor) {
-        this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.SUICIDE, victimName, victimColor);
+    broadcastSuicide(victimName, victimId) {
+        this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.SUICIDE, victimName, victimId);
     }
 
     notifyPlayerDied(playerId) {

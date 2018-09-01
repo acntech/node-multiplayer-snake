@@ -13,7 +13,7 @@
         <input id="player-name" maxlength="10"></input>
         <label id="invalid-player-name-label">Please Enter a Valid Name (10 Characters Max)</label>
     </label>
-    <button id="changePlayerNameButton">TEST</button>
+    <button id="changePlayerNameButton">Start</button>
 
     <div id="cover" style="display:none !important;">
         <div class="navigation">
@@ -46,6 +46,19 @@
         <button id="btnLeft">LEFT</button>
         <button id="btnRight">RIGHT</button>
         <button id="btnDown">DOWN</button>
+    </div>
+
+    <div id="result">
+        <p id="score">Score:</p>
+        <p id="high-score">High score:</p>
+        <button id="restart">Try again</button>
+        <p>Submit your phone number to enter the competition!</p>
+        <form action="/score" method="POST">
+            <input id="player-name" name="playerName" type="text" hidden>
+            <input id="high-score-input" name="highScore" type="text" hidden>
+            <input name="phoneNumber" type="text" placeholder="Phone number">
+            <button type="submit" id="submit">Submit score</button>
+        </form>
     </div>
 
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->

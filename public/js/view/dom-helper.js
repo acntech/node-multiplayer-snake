@@ -26,6 +26,9 @@ export default class DomHelper {
         return document.getElementById('clearUploadedBackgroundImageButton');
     }
 
+    static getRestartButton() {
+        return document.getElementById('restart');
+    }
 
     static getChangeNameButton() {
         return document.getElementById('changePlayerNameButton');
@@ -131,6 +134,16 @@ export default class DomHelper {
         return document.getElementById('btnRight');
     }
 
+    static getResultView() {
+        return document.getElementById('result');
+    }
+
+    static setScores(score, highScore) {
+        document.getElementById('score').innerHTML = `Score: ${score}`;
+        document.getElementById('high-score').innerHTML = `High score: ${highScore}`;
+        document.getElementById('high-score-input').value = score;
+    }
+
     static hideInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
@@ -165,6 +178,26 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static hideControls() {
+        this.getControlButtons().style.display = 'none';
+    }
+
+    static showControls() {
+        this.getControlButtons().style.display = 'block';
+    }
+
+    static hideResultView() {
+        this.getResultView().style.display = 'none';
+    }
+
+    static showResultView() {
+        this.getResultView().style.display = 'block';
+    }
+
+    static setPlayerNameInputValue(playerName) {
+        document.getElementById('player-name').value = playerName;
     }
 
     static toggleFullScreenMode() {

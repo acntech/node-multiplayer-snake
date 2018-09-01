@@ -15,7 +15,7 @@ export default class GameView {
     constructor(
         backgroundImageUploadCallback, imageUploadCallback,
         joinGameCallback, keyDownCallback, playerNameUpdatedCallback,
-        spectateGameCallback,
+        spectateGameCallback, restartCallback,
     ) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
@@ -24,6 +24,7 @@ export default class GameView {
         this.keyDownCallback = keyDownCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
+        this.restartCallback = restartCallback;
         this._initEventHandling();
     }
 
@@ -31,6 +32,10 @@ export default class GameView {
         // Show everything when ready
         DomHelper.showAllContent();
         DomHelper.getControlButtons().style.visibility = 'hidden';
+    }
+
+    readyControls() {
+        DomHelper.hideResultView();
     }
 
     setKillMessageWithTimer(message) {
@@ -102,6 +107,14 @@ export default class GameView {
         }
     }
 
+    renderResultView(playerName, score, highScore) {
+        DomHelper.setPlayerNameInputValue(playerName);
+        DomHelper.setScores(score, highScore);
+        DomHelper.hideControls();
+        DomHelper.showResultView();
+    }
+
+
     /*******************
      *  Event handling *
      *******************/
@@ -114,6 +127,11 @@ export default class GameView {
             DomHelper.getPlayerNameElement().select();
             this.isChangingName = true;
         }
+    }
+
+    _handleRestartButtonClick() {
+        this.restartCallback();
+        DomHelper.showControls();
     }
 
     _handleKeyDown(e) {
@@ -178,6 +196,7 @@ export default class GameView {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.setPlayerNameElementReadOnly(true);
             DomHelper.getControlButtons().style.visibility = 'visible';
+            DomHelper.getChangeNameButton().style.visibility = 'hidden';
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
@@ -186,9 +205,14 @@ export default class GameView {
         }
     }
 
+    _initEventHandlingForControls() {
+        DomHelper.getRestartButton().addEventListener('click', this._handleRestartButtonClick.bind(this));
+    }
+
     _initEventHandling() {
         // Player controls
         DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
 
         DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));

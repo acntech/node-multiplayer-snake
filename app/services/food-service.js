@@ -34,7 +34,12 @@ class FoodService {
 
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
-                this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
+
+                if (!playerContainer.isSpectating(otherPlayer.id)
+                    && !playerContainer.isDead(otherPlayer.id)
+                    && !playerContainer.isWaitingToRespawn(otherPlayer.id)) {
+                    this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
+                }
                 this.boardOccupancyService.removePlayerOccupancy(playerWhoConsumedFood.id, playerWhoConsumedFood.getSegments());
                 const otherPlayerDirection = otherPlayer.direction;
                 const otherPlayerDirectionBeforeMove = otherPlayer.directionBeforeMove;

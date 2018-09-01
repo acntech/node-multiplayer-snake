@@ -17,11 +17,14 @@ export default class GameController {
             this.keyDownCallback.bind(this),
             this.playerNameUpdatedCallback.bind(this),
             this.spectateGameCallback.bind(this),
+            this.restartCallback.bind(this),
         );
         this.players = [];
         this.food = {};
         this.textsToDraw = [];
         this.walls = [];
+        this.playerStats = [];
+        this.gameView._initEventHandlingForControls();
     }
 
     connect(io) {
@@ -124,6 +127,10 @@ export default class GameController {
         this.socket.emit(ClientConfig.IO.OUTGOING.JOIN_GAME);
     }
 
+    restartCallback() {
+        this.socket.emit(ClientConfig.IO.OUTGOING.RESTART);
+    }
+
     keyDownCallback(keyCode) {
         this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
     }
@@ -166,6 +173,7 @@ export default class GameController {
         );
         this.canvasView.clear();
         this.gameView.ready();
+        this.gameView.readyControls();
         this.renderGame();
     }
 
@@ -185,9 +193,31 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
+        this.playerStats = gameData.playerStats;
         this.gameView.showPlayerStats(gameData.playerStats);
     }
 
+    _handlePlayerDeath(playerName, playerId) {
+        if (this.socket.id === playerId) {
+            const { highScore, score } = this.playerStats.find(p => p.name === playerName);
+            this.gameView.renderResultView(playerName, score, highScore);
+        }
+    }
+
+    _handlePlayerKilled(killerName, victimName, killerColor, victimColor, victimLength, victimId) {
+        if (this.socket.id === victimId) {
+            const { highScore, score } = this.playerStats.find(p => p.name === victimName);
+            this.gameView.renderResultView(victimName, score, highScore);
+        }
+    }
+
+    _handlePlayersKilled(victims) {
+        const victim = victims.find(v => v.id === this.socket.id);
+        if (victim) {
+            const { highScore, score } = this.playerStats.find(p => p.name === victim.name);
+            this.gameView.renderResultView(victim.name, score, highScore);
+        }
+    }
 
     _initializeSocketIoHandlers() {
         this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
@@ -196,15 +226,12 @@ export default class GameController {
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.FOOD_COLLECTED, this._handleFoodCollected.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this.gameView.showKillMessage.bind(this.gameView));
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this._handlePlayerKilled.bind(this));
         this.socket.on(
             ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,
-            this.gameView.showKilledEachOtherMessage.bind(this.gameView),
+            this._handlePlayersKilled.bind(this),
         );
-        this.socket.on(
-            ClientConfig.IO.INCOMING.NOTIFICATION.RAN_INTO_WALL,
-            this.gameView.showRanIntoWallMessage.bind(this.gameView),
-        );
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.RAN_INTO_WALL, this._handlePlayerDeath.bind(this));
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this._handlePlayerDeath.bind(this));
     }
 }
