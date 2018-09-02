@@ -37,6 +37,8 @@ class DbService {
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
 
+    // TODO: get player with highest score
+
     storePhoneNumber(playerName, phoneNumber) {
         this.db.ref(`snake-scores/${playerName}`).update({
             phoneNumber,
