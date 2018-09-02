@@ -25,6 +25,7 @@ class ColorService {
     }
 
     // Format is #ABCDEF
+    // eslint-disable-next-line class-methods-use-this
     _getRandomColor() {
         const colors = ServerConfig.SNAKES.COLORS;
         const max = colors.length;
