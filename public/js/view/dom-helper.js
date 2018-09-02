@@ -26,6 +26,15 @@ export default class DomHelper {
         return document.getElementById('clearUploadedBackgroundImageButton');
     }
 
+
+    static getChangeNameButton() {
+        return document.getElementById('changePlayerNameButton');
+    }
+
+    static getControlButtons() {
+        return document.getElementById('playerSettings');
+    }
+
     static getClearUploadedImageButton() {
         return document.getElementById('clearUploadedImageButton');
     }

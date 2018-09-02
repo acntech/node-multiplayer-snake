@@ -76,6 +76,9 @@ const ServerConfig = {
             },
         },
     },
+    SNAKES: {
+        COLORS: ['#ffff00', '#66ff33', '#00ffff', '#ff3399', '#9900ff', '#ff6600'],
+    },
     INCREMENT_CHANGE: {
         INCREASE: 'increase',
         DECREASE: 'decrease',

@@ -1,61 +1,68 @@
 <html>
-    <head>
-        <title>Snake</title>
-        <link rel="stylesheet" type="text/css" href="css/global.css">
-        <link rel="stylesheet" type="text/css" href="css/game.css">
-        <link rel="stylesheet" type="text/css" href="css/settings.css">
-    </head>
-    <body>
-        <a id="top"></a>
-        <div id="cover">
-            <div class="navigation">
-                <label class="nav-label">You are <input id="player-name" readonly="readonly" maxlength="10"></input></label>
-                <div class="nav-button-bar">
-                    <a href="#top" id="play-or-watch-button" title="Spectate or rejoin game">Watch</a>
-                    <a href="#playerSettings" title="Go to settings">Settings</a>
-                    <button id="full-screen-button" title="Go into full-screen mode"/>
+
+<head>
+    <title>Snake</title>
+    <link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/game.css">
+    <link rel="stylesheet" type="text/css" href="css/settings.css">
+</head>
+
+<body>
+    <a id="top"></a>
+    <div id="cover">
+        <label class="nav-label" style="display:none !important;">
+            <input id="player-name" ></input>
+            <label id="invalid-player-name-label"></label>
+            <button style="visibility:hidden;" id="changePlayerNameButton">TEST</button>
+        </label>
+        <div class="navigation" style="display:none !important;">
+            <div class="nav-button-bar">
+                <a href="#top" id="play-or-watch-button" title="Spectate or rejoin game">Watch</a>
+                <a href="#playerSettings" title="Go to settings">Settings</a>
+                <button id="full-screen-button" title="Go into full-screen mode" />
+            </div>
+        </div>
+        <div id="kill-messages">
+        </div>
+        <div class="body-content">
+            <div class="main-container">
+                <div class="left-content">
+                    <div id="game-board"></div>
+                </div>
+                <div class="right-content">
+                    <div id="player-stats">
+                    </div>
+                    <div id="notifications">
+                    </div>
                 </div>
             </div>
-            <div id="kill-messages">
-            </div>
-            <div class="body-content">
-                <div class="main-container">
-                    <div class="left-content">
-                        <div id="game-board"></div>
-                    </div>
-                    <div class="right-content">
-                        <div id="player-stats">
-                        </div>
-                        <div id="notifications">
-                        </div>
-                    </div>
-                </div>
-            </div>            
         </div>
+    </div>
 
-        <div style="width: 400px;visibility:hidden;" id="playerSettings" class="settings-menu">
-            <!-- TODO: Fix a better layout, remove hard coded styles -->
-            <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;">
-                <button style="height: 70px; width: 70px;" id="btnUp">UP</button>
-            </div>
-            <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;">
-                <button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button>
-            </div>
-            <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;">
-                <button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button>
-            </div>
-            <div style="width: 30%; display: inline-block;"></div>
-            <div style="width: 30%; display: inline-block;">
-                <button style="height: 70px; width: 70px;" id="btnDown">DOWN</button>
-            </div>
-            <div style="width: 30%; display: inline-block;"></div>
+    <div style="width: 400px;visibility:hidden;" id="playerSettings" class="settings-menu">
+        <!-- TODO: Fix a better layout, remove hard coded styles -->
+        <div style="width: 30%; display: inline-block;"></div>
+        <div style="width: 30%; display: inline-block;">
+            <button style="height: 70px; width: 70px;" id="btnUp">UP</button>
         </div>
+        <div style="width: 30%; display: inline-block;"></div>
+        <div style="width: 30%; display: inline-block;">
+            <button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button>
+        </div>
+        <div style="width: 30%; display: inline-block;"></div>
+        <div style="width: 30%; display: inline-block;">
+            <button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button>
+        </div>
+        <div style="width: 30%; display: inline-block;"></div>
+        <div style="width: 30%; display: inline-block;">
+            <button style="height: 70px; width: 70px;" id="btnDown">DOWN</button>
+        </div>
+        <div style="width: 30%; display: inline-block;"></div>
+    </div>
 
-        <!-- socket.io client is exposed by the server.  This sets a global variable io -->
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="js/main.js" type="module"></script>
-    </body>
+    <!-- socket.io client is exposed by the server.  This sets a global variable io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main.js" type="module"></script>
+</body>
+
 </html>
