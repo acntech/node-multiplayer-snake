@@ -37,14 +37,7 @@ class FoodService {
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
             const thisUser = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
             
-            this.db.usernameAlreadyExists('Player 777').then((user) => {
-                console.log('*** Existing User:' + user); 
-            });
-            //console.log('*** Existing score or default score: ', this.db.existingScoreOrDefaultScore('Player 777'));
-            //console.log('*** Reference to score: ', this.db.referenceToScore('Player 777'));
-            //console.log('*** Add Phone Number: ', this.db.addPhoneNumber('Player 777', '93939393'));
-            //console.log('*** Existing User:', this.db.usernameAlreadyExists('Player 777'));
-            //this.db.updateScore(thisUser.name, thisUser.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
+            this.db.updateScore(thisUser.name, thisUser.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
             
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfPlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);

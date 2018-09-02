@@ -20,19 +20,16 @@ class DbService {
         this.db = Firebase.database();
     }
 
-    usernameAlreadyExists(userId) {
-        // TODO: Does not work
-        return new Promise(
-        this.db.ref(`snake-scores/${userId}`).once('value').then((snapshot) => {
-            console.log('****** Snapshot: ', snapshot.val());
-            user = snapshot.val();
-            return user;
-        })
-    )
-    }
-
-    existingScoreOrDefaultScore(userId) {
-        return this.usernameAlreadyExists(userId) ? this.usernameAlreadyExists(userId).score : 0;
+    getUser(userId) {
+        return new Promise((resolve, reject) => {
+            this.db.ref(`snake-scores/${userId}`).once('value').then((snapshot) => {
+                if(!snapshot.val() || snapshot.val() === ''){
+                    reject('User does not exist in database');
+                } else {
+                    resolve(snapshot.val());
+                }
+            })
+        });
     }
 
     referenceToScore(userId) {
@@ -40,7 +37,7 @@ class DbService {
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
 
-    addPhoneNumber(userId, phoneNumber) {
+    storePhoneNumber(userId, phoneNumber) {
         this.db.ref(`snake-scores/${userId}`).update({
             phoneNumber,
         });
