@@ -6,6 +6,7 @@ const DbService = require('./db-service');
 
 /**
  * Creation and removal of food
+ * + Updated high scores for players when eating food
  */
 class FoodService {
     constructor(playerStatBoard, boardOccupancyService, nameService, notificationService) {
@@ -14,8 +15,6 @@ class FoodService {
         this.nameService = nameService;
         this.notificationService = notificationService;
         this.reinitialize();
-
-        this.db = new DbService();
     }
 
     // Only use this alongside clearing boardOccupancyService
@@ -35,9 +34,9 @@ class FoodService {
             playerWhoConsumedFood.grow(ServerConfig.FOOD[food.type].GROWTH);
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
-            const thisUser = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
+            const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
             
-            this.db.updateScore(thisUser.name, thisUser.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
+            DbService.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
             
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfPlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);

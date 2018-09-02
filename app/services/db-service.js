@@ -20,11 +20,11 @@ class DbService {
         this.db = Firebase.database();
     }
 
-    getUser(userId) {
+    getPlayer(playerName) {
         return new Promise((resolve, reject) => {
-            this.db.ref(`snake-scores/${userId}`).once('value').then((snapshot) => {
+            this.db.ref(`snake-scores/${playerName}`).once('value').then((snapshot) => {
                 if(!snapshot.val() || snapshot.val() === ''){
-                    reject('User does not exist in database');
+                    reject('Player does not exist in database');
                 } else {
                     resolve(snapshot.val());
                 }
@@ -32,22 +32,22 @@ class DbService {
         });
     }
 
-    referenceToScore(userId) {
-        return this.db.ref(`snake-scores/${userId}/score`);
+    referenceToScore(playerName) {
+        return this.db.ref(`snake-scores/${playerName}/score`);
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
 
-    storePhoneNumber(userId, phoneNumber) {
-        this.db.ref(`snake-scores/${userId}`).update({
+    storePhoneNumber(playerName, phoneNumber) {
+        this.db.ref(`snake-scores/${playerName}`).update({
             phoneNumber,
         });
     }
 
-    updateScore(userId, score) {
-        this.db.ref(`snake-scores/${userId}`).set({
+    updateScore(playerName, score) {
+        this.db.ref(`snake-scores/${playerName}`).set({
             score,
         });
     }
 }
 
-module.exports = DbService;
+module.exports = new DbService();
