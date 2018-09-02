@@ -2,6 +2,7 @@
 
 const path = require('path');
 const GameController = require('./app/controllers/game-controller');
+const VideoController = require('./app/controllers/video-controller');
 const express = require('express');
 
 const app = express();
@@ -23,6 +24,22 @@ app.get('/', (request, response) => {
 app.get('/play', (req, res) => {
     res.sendFile('play.html', { root: path.join(__dirname, 'app/views') });
 });
+
+app.get('/videos', (req, res) => {
+    res.sendFile('video.html', { root: path.join(__dirname, 'app/views') });
+});
+
+app.get('/admin', (req, res) => {
+    res.sendFile('admin.html', { root: path.join(__dirname, 'app/views') });
+});
+
+app.post('/videos', (req, res) => {
+    const videoController = new VideoController();
+    videoController.listen(io);
+    videoController.startVideos();
+    res.redirect('/admin');
+});
+
 
 // Create the main controller
 const gameController = new GameController();

@@ -139,6 +139,10 @@ export default class DomHelper {
         document.getElementById('kill-messages').innerHTML = text;
     }
 
+    static setInfoMessagesDivText(text) {
+        document.getElementById('info-messages').innerHTML = text;
+    }
+
     static setPlayerNameElementColor(color) {
         this.getPlayerNameElement().style.color = color;
     }
@@ -165,6 +169,10 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static getVideo() {
+        return document.getElementById('video');
     }
 
     static toggleFullScreenMode() {

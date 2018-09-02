@@ -15,6 +15,8 @@ export default {
             NEW_PLAYER_INFO: 'new player info',
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
+            START_VIDEOS: 'start videos',
+            VIDEO_ENDED: 'video ended',
             NOTIFICATION: {
                 GENERAL: 'general notification',
                 FOOD_COLLECTED: 'food collected',
@@ -24,6 +26,7 @@ export default {
                 SUICIDE: 'suicide notification',
                 YOU_DIED: 'you died',
                 YOU_MADE_A_KILL: 'you made a kill',
+
             },
         },
         OUTGOING: {
@@ -42,6 +45,7 @@ export default {
             NAME_CHANGE: 'player changed name',
             KEY_DOWN: 'key down',
             CANVAS_CLICKED: 'canvas clicked',
+            VIDEO_ENDED: 'video ended',
         },
     },
     MAX_NAME_LENGTH: 10,

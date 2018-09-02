@@ -37,7 +37,6 @@ export default class GameController {
     }
 
     renderGame() {
-        console.log('render game');
         this.canvasView.clear();
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
@@ -193,6 +192,10 @@ export default class GameController {
         this.gameView.showPlayerStats(gameData.playerStats);
     }
 
+    startVideos() {
+        this.playingVideos = true;
+        window.location.href = 'videos';
+    }
 
     _initializeSocketIoHandlers() {
         //  this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
@@ -211,5 +214,9 @@ export default class GameController {
             this.gameView.showRanIntoWallMessage.bind(this.gameView),
         );
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
+        this.socket.on(
+            ClientConfig.IO.INCOMING.START_VIDEOS,
+            this.startVideos,
+        );
     }
 }

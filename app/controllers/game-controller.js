@@ -42,7 +42,6 @@ class GameController {
         );
         this.playerService.init(this.adminService.getPlayerStartLength.bind(this.adminService));
     }
-
     // Listen for Socket IO events
     listen(io) {
         this.notificationService.setSockets(io.sockets);
