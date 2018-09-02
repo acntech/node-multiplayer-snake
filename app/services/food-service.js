@@ -34,11 +34,12 @@ class FoodService {
             playerWhoConsumedFood.grow(ServerConfig.FOOD[food.type].GROWTH);
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
+
             const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
             
-            DbService.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
-            
-            if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfPlayers() > 1) {
+            this.db.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
+
+            if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
                 this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
                 this.boardOccupancyService.removePlayerOccupancy(playerWhoConsumedFood.id, playerWhoConsumedFood.getSegments());
