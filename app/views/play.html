@@ -5,18 +5,21 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <!--320-->
 </head>
 
-<body class="play-ui player-view">
+<body class="play-ui player-view" id="playerView">
     <a id="top"></a>
 
     <label class="register" id="register">
         <span id="selectName">Select username:</span>
         <span id="playerNameLabel" style="display:none !important;">Welcome,</span>
-        <input id="player-name" maxlength="20"></input>
+        <input id="player-name-input" maxlength="20"/>
+        <div id="player-name" style="display:none"></div>
         <label id="invalid-player-name-label">Please enter a valid name (20 characters max)</label>
-        <button id="changePlayerNameButton">PLAY</button>
+    <button id="changePlayerNameButton">PLAY</button>
     </label>
 
     <div id="cover" style="display:none !important;">
@@ -45,21 +48,23 @@
         </div>
     </div>
 
-    <!-- <div id="playerSettings" class="settings-menu control-button-wrapper">
-        <button id="btnUp">UP</button>
-        <button id="btnLeft">LEFT</button>
-        <button id="btnRight">RIGHT</button>
-        <button id="btnDown">DOWN</button>
-    </div> -->
     <div id="playerSettings" class="grid-container" style="display: grid;">
         <div class="grid-item"></div>
-        <div id="btnUp" class="grid-item grid-item-button">UP</div>
+        <div id="btnUp" class="grid-item grid-item-button">
+            <i class="fas fa-chevron-up fa-3x"></i>
+        </div>
         <div class="grid-item"></div>
-        <div id="btnLeft" class="grid-item grid-item-button">LEFT</div>
+        <div id="btnLeft" class="grid-item grid-item-button">
+            <i class="fas fa-chevron-left fa-3x"></i>
+        </div>
         <div class="grid-item"></div>
-        <div id="btnRight" class="grid-item grid-item-button">RIGHT</div>
+        <div id="btnRight" class="grid-item grid-item-button">
+            <i class="fas fa-chevron-right fa-3x"></i>
+        </div>
         <div class="grid-item"></div>
-        <div id="btnDown" class="grid-item grid-item-button">DOWN</div>
+        <div id="btnDown" class="grid-item grid-item-button">
+            <i class="fas fa-chevron-down fa-3x"></i>
+        </div>
         <div class="grid-item"></div>
     </div>
 

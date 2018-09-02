@@ -91,6 +91,10 @@ export default class DomHelper {
         return document.getElementById('player-name');
     }
 
+    static getPlayerNameInputElement() {
+        return document.getElementById('player-name-input');
+    }
+
     static getPlayOrWatchButton() {
         return document.getElementById('play-or-watch-button');
     }
@@ -141,12 +145,12 @@ export default class DomHelper {
 
     static showControlButtons() {
         this.getControlButtons().style.display = 'grid';
+        this.getPlayerNameElement().style.display = 'block';
+        document.getElementById('playerView').style.display = 'block';
     }
 
     static movePlayerNameToTop() {
-        document.getElementById('register').style.position = 'absolute';
-        document.getElementById('register').style.top = '20';
-        document.getElementById('register').style.height = 'auto';
+        document.getElementById('register').classList.add('top');
         document.getElementById('selectName').style.display = 'none';
         document.getElementById('playerNameLabel').style.display = 'block';
         this.getChangeNameButton().style.display = 'none';
@@ -165,7 +169,7 @@ export default class DomHelper {
     }
 
     static setPlayerNameElementValue(value) {
-        this.getPlayerNameElement().value = value;
+        this.getPlayerNameElement().innerHTML = value;
     }
 
     static setPlayerStatsDivText(text) {

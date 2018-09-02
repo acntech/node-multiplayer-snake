@@ -115,24 +115,29 @@ fieldset {
     padding: 10px;
     margin: auto;
     position: relative;
-    top: 150px;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
   }
   .grid-item-button {
-    background-color: rgb(106, 108, 110);
+    background-color: #9900ff;
   }
   .grid-item {
     background-color: none;
     padding: 10px;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 50px;
     text-align: center;
   }
 
 
 @media all and (orientation: portrait){
-    .control-button-wrapper{
-        margin-top: 75%;
+    .grid-container{
+        top: 50%;
+    }
+}
+
+@media all and (orientation: landscape){
+    .grid-container{
+        top: 20%;
     }
 }

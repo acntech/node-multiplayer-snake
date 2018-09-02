@@ -44,7 +44,7 @@ export default {
             CANVAS_CLICKED: 'canvas clicked',
         },
     },
-    MAX_NAME_LENGTH: 10,
+    MAX_NAME_LENGTH: 20,
     INCREMENT_CHANGE: {
         INCREASE: 'increase',
         DECREASE: 'decrease',
