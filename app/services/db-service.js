@@ -23,12 +23,12 @@ class DbService {
     getPlayer(playerName) {
         return new Promise((resolve, reject) => {
             this.db.ref(`snake-scores/${playerName}`).once('value').then((snapshot) => {
-                if(!snapshot.val() || snapshot.val() === ''){
+                if (!snapshot.val() || snapshot.val() === '') {
                     reject('Player does not exist in database');
                 } else {
                     resolve(snapshot.val());
                 }
-            })
+            });
         });
     }
 

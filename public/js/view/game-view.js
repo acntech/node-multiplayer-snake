@@ -30,7 +30,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.getControlButtons().style.visibility = 'hidden';
+        DomHelper.hideControlButtons();
     }
 
     setKillMessageWithTimer(message) {
@@ -97,8 +97,10 @@ export default class GameView {
 
     updatePlayerName(playerName, playerColor) {
         DomHelper.setPlayerNameElementValue(playerName);
+        DomHelper.setPlayerNameInputElementValue(playerName);
         if (playerColor) {
             DomHelper.setPlayerNameElementColor(playerColor);
+            DomHelper.setPlayerNameInputElementColor(playerColor);
         }
     }
 
@@ -107,13 +109,7 @@ export default class GameView {
      *******************/
 
     _handleChangeNameButtonClick() {
-        if (this.isChangingName) {
-            this._saveNewPlayerName();
-        } else {
-            DomHelper.setPlayerNameElementReadOnly(false);
-            DomHelper.getPlayerNameElement().select();
-            this.isChangingName = true;
-        }
+        this._register();
     }
 
     _handleKeyDown(e) {
@@ -173,17 +169,51 @@ export default class GameView {
     }
 
     _saveNewPlayerName() {
-        const playerName = DomHelper.getPlayerNameElement().value;
+        const playerName = DomHelper.getPlayerNameInputElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
-            DomHelper.setPlayerNameElementReadOnly(true);
-            DomHelper.getControlButtons().style.visibility = 'visible';
+            DomHelper.getPlayerNameInputElement().style.display = 'none';
+            DomHelper.showControlButtons();
+            DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
         } else {
             DomHelper.showInvalidPlayerNameLabel();
         }
+    }
+
+    _register() {
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+
+        if (storedName === playerName) {
+            this._createPlayer(playerName);
+            return;
+        }
+
+        if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
+            fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
+                console.log(data);
+                if (data.available) {
+                    this._createPlayer(playerName);
+                } else {
+                    DomHelper.showInvalidPlayerNameLabel();
+                }
+            });
+        } else {
+            DomHelper.showInvalidPlayerNameLabel();
+        }
+    }
+
+    _createPlayer(playerName) {
+        this.playerNameUpdatedCallback(playerName);
+        DomHelper.getPlayerNameInputElement().style.display = 'none';
+        DomHelper.showControlButtons();
+        DomHelper.movePlayerNameToTop();
+        this.joinGameCallback();
+        this.isChangingName = false;
+        DomHelper.hideInvalidPlayerNameLabel();
     }
 
     _initEventHandling() {
