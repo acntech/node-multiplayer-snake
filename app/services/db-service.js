@@ -32,16 +32,12 @@ class DbService {
         });
     }
 
-    getTopPlayers(limit) {
-        return new Promise((resolve, reject) => {
-            this.db.ref('snake-scores').orderByChild('score').once('value').then((snapshot) => {
-                if (!snapshot.val() || snapshot.val() === '') {
-                    reject('Something went wrong');
-                } else {
-                    resolve(snapshot.val());
-                }
-            });
-        });
+    referenceToTopPlayers(limit) {
+        return this.db.ref('snake-scores')
+        .orderByChild('score')
+        .limitToLast(limit);
+        // Call as:
+        // on.('child_added', (data) => { data.key, data.val().score })
     }
 
     referenceToScore(playerName) {
