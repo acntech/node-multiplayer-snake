@@ -32,12 +32,22 @@ class DbService {
         });
     }
 
+    getTopPlayers(limit) {
+        return new Promise((resolve, reject) => {
+            this.db.ref('snake-scores').orderByChild('score').once('value').then((snapshot) => {
+                if (!snapshot.val() || snapshot.val() === '') {
+                    reject('Something went wrong');
+                } else {
+                    resolve(snapshot.val());
+                }
+            });
+        });
+    }
+
     referenceToScore(playerName) {
         return this.db.ref(`snake-scores/${playerName}/score`);
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
-
-    // TODO: get player with highest score
 
     storePhoneNumber(playerName, phoneNumber) {
         this.db.ref(`snake-scores/${playerName}`).update({
