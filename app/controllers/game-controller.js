@@ -162,18 +162,6 @@ class GameController {
 
     // eslint-disable-next-line class-methods-use-this
     _canvasClicked() {
-        // const player = this.playerContainer.getPlayer(socket.id);
-        // const coordinate = new Coordinate(x, y);
-        // if (this.boardOccupancyService.isPermanentWall(coordinate)) {
-        //     return;
-        // }
-        // if (this.boardOccupancyService.isWall(coordinate)) {
-        //     this.boardOccupancyService.removeWall(coordinate);
-        //     this.notificationService.broadcastNotification(`${player.name} has removed a wall`, player.color);
-        // } else {
-        //     this.boardOccupancyService.addWall(coordinate);
-        //     this.notificationService.broadcastNotification(`${player.name} has added a wall`, player.color);
-        // }
     }
 
     _keyDown(playerId, keyCode) {

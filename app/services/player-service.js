@@ -158,7 +158,10 @@ class PlayerService {
                     this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
-                    victimSummaries.push({ name: victim.name, color: victim.color });
+                    victimSummaries.push({
+                        name: victim.name,
+                        color: victim.color,
+                    });
                     this.notificationService.notifyPlayerDied(victim.id);
                 }
                 if (victimSummaries.length > 0) {

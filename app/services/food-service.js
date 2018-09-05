@@ -2,9 +2,11 @@
 
 const ServerConfig = require('../configs/server-config');
 const Food = require('../models/food');
+const DbService = require('./db-service');
 
 /**
  * Creation and removal of food
+ * + Updated high scores for players when eating food
  */
 class FoodService {
     constructor(playerStatBoard, boardOccupancyService, nameService, notificationService) {
@@ -24,6 +26,7 @@ class FoodService {
     consumeAndRespawnFood(playerContainer) {
         let foodToRespawn = 0;
         const foodsConsumed = this.boardOccupancyService.getFoodsConsumed();
+
         // eslint-disable-next-line no-restricted-syntax
         for (const foodConsumed of foodsConsumed) {
             const playerWhoConsumedFood = playerContainer.getPlayer(foodConsumed.playerId);
@@ -31,6 +34,10 @@ class FoodService {
             playerWhoConsumedFood.grow(ServerConfig.FOOD[food.type].GROWTH);
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
+
+            const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
+
+            DbService.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
 
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
