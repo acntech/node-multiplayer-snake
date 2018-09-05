@@ -17,11 +17,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 
 // Redirect to the main page
-app.get('/', (request, response) => {
+app.get('/spectate', (request, response) => {
     response.sendFile('game.html', { root: path.join(__dirname, 'app/views') });
 });
 
-app.get('/play', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile('play.html', { root: path.join(__dirname, 'app/views') });
 });
 

@@ -10,6 +10,10 @@
     src: url('../fonts/PressStart2P.ttf');
 }
 
+html {
+    touch-action: manipulation;
+  }
+
 body {
     background-color: @background-color;
     color: @text-color;
@@ -66,7 +70,7 @@ fieldset {
     margin-right: auto;
     height: 80%;
     overflow: hidden;
-    
+
 
     button{
         width:auto;
@@ -105,8 +109,35 @@ fieldset {
     }
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    margin: auto;
+    position: relative;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+  }
+  .grid-item-button {
+    background-color: #9900ff;
+  }
+  .grid-item {
+    background-color: none;
+    padding: 10px;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+  }
+
+
 @media all and (orientation: portrait){
-    .control-button-wrapper{
-        margin-top: 75%;
+    .grid-container{
+        top: 50%;
+    }
+}
+
+@media all and (orientation: landscape){
+    .grid-container{
+        top: 20%;
     }
 }

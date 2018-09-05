@@ -30,7 +30,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.getControlButtons().style.visibility = 'hidden';
+        DomHelper.hideControlButtons();
     }
 
     setKillMessageWithTimer(message) {
@@ -107,13 +107,13 @@ export default class GameView {
      *******************/
 
     _handleChangeNameButtonClick() {
-        if (this.isChangingName) {
-            this._saveNewPlayerName();
-        } else {
-            DomHelper.setPlayerNameElementReadOnly(false);
-            DomHelper.getPlayerNameElement().select();
-            this.isChangingName = true;
-        }
+        //  if (this.isChangingName) {
+        this._saveNewPlayerName();
+        //   } else {
+        //      DomHelper.setPlayerNameElementReadOnly(false);
+        //      DomHelper.getPlayerNameElement().select();
+        //      this.isChangingName = true;
+        //  }
     }
 
     _handleKeyDown(e) {
@@ -173,11 +173,13 @@ export default class GameView {
     }
 
     _saveNewPlayerName() {
-        const playerName = DomHelper.getPlayerNameElement().value;
+        const playerName = DomHelper.getPlayerNameInputElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
-            DomHelper.setPlayerNameElementReadOnly(true);
-            DomHelper.getControlButtons().style.visibility = 'visible';
+            // DomHelper.setPlayerNameElementReadOnly(true);
+            DomHelper.getPlayerNameInputElement().style.display = 'none';
+            DomHelper.showControlButtons();
+            DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();

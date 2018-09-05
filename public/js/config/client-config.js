@@ -48,7 +48,7 @@ export default {
             VIDEO_ENDED: 'video ended',
         },
     },
-    MAX_NAME_LENGTH: 10,
+    MAX_NAME_LENGTH: 20,
     INCREMENT_CHANGE: {
         INCREASE: 'increase',
         DECREASE: 'decrease',
