@@ -3,6 +3,7 @@
 const path = require('path');
 const GameController = require('./app/controllers/game-controller');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -15,6 +16,8 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 // Expose all static resources in /public
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Redirect to the main page
 app.get('/spectate', (request, response) => {
@@ -29,6 +32,11 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/score', (req, res) => {
+    const { playerName, phoneNumber, highScore } = req.body;
+    // TODO: Persist playerName, phoneNumber and score
+    res.sendFile('done.html', { root: path.join(__dirname, 'app/views') });
+});
 
 // Create the main controller
 const gameController = new GameController();

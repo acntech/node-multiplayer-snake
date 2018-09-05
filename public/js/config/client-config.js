@@ -42,6 +42,7 @@ export default {
             NAME_CHANGE: 'player changed name',
             KEY_DOWN: 'key down',
             CANVAS_CLICKED: 'canvas clicked',
+            RESTART: 'restart clicked',
         },
     },
     MAX_NAME_LENGTH: 20,

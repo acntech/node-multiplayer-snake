@@ -5,12 +5,14 @@ class PlayerContainer {
         this._players = new Map();
         this._playerIdsToRespawn = new Set();
         this._spectatingPlayerIds = new Set();
+        this._deathPoolPlayerIds = new Set();
     }
 
     reinitialize() {
         this._players.clear();
         this._playerIdsToRespawn.clear();
         this._spectatingPlayerIds.clear();
+        this._deathPoolPlayerIds.clear();
     }
 
     addPlayer(player) {
@@ -60,6 +62,22 @@ class PlayerContainer {
 
     isSpectating(playerId) {
         return this._spectatingPlayerIds.has(playerId);
+    }
+
+    isWaitingToRespawn(playerId) {
+        return this._playerIdsToRespawn.has(playerId);
+    }
+
+    addPlayerIdToDeathPool(playerId) {
+        this._deathPoolPlayerIds.add(playerId);
+    }
+
+    removePlayerIdFromDeathPool(playerId) {
+        this._deathPoolPlayerIds.delete(playerId);
+    }
+
+    isDead(playerId) {
+        return this._deathPoolPlayerIds.has(playerId);
     }
 
     removePlayer(playerId) {

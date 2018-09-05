@@ -76,6 +76,10 @@ class GameController {
                 ServerConfig.IO.INCOMING.DISCONNECT,
                 self.playerService.disconnectPlayer.bind(self.playerService, socket.id),
             );
+            socket.on(
+                ServerConfig.IO.INCOMING.RESTART,
+                self.playerService.restart.bind(self.playerService, socket.id),
+            );
             // Image Service
             socket.on(
                 ServerConfig.IO.INCOMING.CLEAR_UPLOADED_BACKGROUND_IMAGE,
