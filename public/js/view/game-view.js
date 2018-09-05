@@ -95,6 +95,12 @@ export default class GameView {
         DomHelper.setPlayerStatsDivText(formattedScores);
     }
 
+    showNumberOfPlayers(players) {
+        let content = `<span class="players">Number of players: ${players}</span>`;
+
+        DomHelper.setNumberOfPlayers(content);
+    }
+
     updatePlayerName(playerName, playerColor) {
         DomHelper.setPlayerNameElementValue(playerName);
         DomHelper.setPlayerNameInputElementValue(playerName);

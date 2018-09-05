@@ -184,6 +184,10 @@ export default class DomHelper {
         document.getElementById('player-stats').innerHTML = text;
     }
 
+    static setNumberOfPlayers(text) {
+        document.getElementById('numPlayers').innerHTML = text;
+    }
+
     static setPlayOrWatchButtonText(text) {
         this.getPlayOrWatchButton().textContent = text;
     }
