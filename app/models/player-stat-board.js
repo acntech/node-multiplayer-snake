@@ -1,8 +1,8 @@
 'use strict';
+
 const PlayerStats = require('./player-stats');
 
 class PlayerStatBoard {
-
     constructor() {
         this.statBoard = new Map();
     }
@@ -37,6 +37,7 @@ class PlayerStatBoard {
 
     increaseScore(playerId, amount) {
         this.statBoard.get(playerId).increaseScore(amount);
+        // DB integration?
     }
 
     resetScore(playerId) {
@@ -54,11 +55,12 @@ class PlayerStatBoard {
     stealScore(playerId, playerIdToStealFrom) {
         const scoreToSteal = this.statBoard.get(playerIdToStealFrom).score;
         this.statBoard.get(playerId).increaseScore(scoreToSteal);
+        // DB integration?
     }
 
     toJSON() {
         const response = [];
-        this.statBoard.forEach(value => {
+        this.statBoard.forEach((value) => {
             response.push(value);
         });
         // Sort by score (highest first, then least number of deaths)

@@ -1,10 +1,11 @@
 'use strict';
 
+const ServerConfig = require('../configs/server-config');
+
 /**
  *  Generates new unused colors and stores used colors
  */
 class ColorService {
-
     constructor() {
         this.usedColors = new Set();
     }
@@ -24,10 +25,15 @@ class ColorService {
     }
 
     // Format is #ABCDEF
+    // eslint-disable-next-line class-methods-use-this
     _getRandomColor() {
-        return `#${this._getRandomLightHexRGBVal()}${this._getRandomLightHexRGBVal()}${this._getRandomLightHexRGBVal()}`;
+        const colors = ServerConfig.SNAKES.COLORS;
+        const max = colors.length;
+        const index = Math.floor(Math.random() * Math.floor(max));
+        return colors[index];
     }
 
+    // eslint-disable-next-line class-methods-use-this
     _getRandomLightHexRGBVal() {
         return (Math.floor(Math.random() * 156) + 100).toString(16);
     }

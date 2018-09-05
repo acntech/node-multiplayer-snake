@@ -7,6 +7,6 @@ export default class TextToDraw {
     }
 
     incrementCounter() {
-        this.counter++;
+        this.counter += 1;
     }
 }

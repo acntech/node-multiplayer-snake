@@ -1,4 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+
 'use strict';
+
 const Board = require('../configs/board');
 const ServerConfig = require('../configs/server-config');
 const Player = require('../models/player');
@@ -12,9 +15,10 @@ const ValidationService = require('../services/validation-service');
  * Player-related changes
  */
 class PlayerService {
-
-    constructor(playerContainer, playerStatBoard, boardOccupancyService, imageService,
-            nameService, notificationService, runGameCycle) {
+    constructor(
+        playerContainer, playerStatBoard, boardOccupancyService, imageService,
+        nameService, notificationService, runGameCycle,
+    ) {
         this.playerContainer = playerContainer;
         this.playerStatBoard = playerStatBoard;
         this.boardOccupancyService = boardOccupancyService;
@@ -33,6 +37,7 @@ class PlayerService {
 
     // previousName and previousImage are optional
     addPlayer(socket, previousName, previousImage) {
+        console.log(socket.id);
         const playerName = this.nameService.getPlayerName();
         const newPlayer = this.createPlayer(socket.id, playerName);
         socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, playerName, newPlayer.color);
@@ -90,10 +95,14 @@ class PlayerService {
         if (this.nameService.doesPlayerNameExist(newPlayerNameCleaned)) {
             socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, oldPlayerName, player.color);
             this.notificationService.broadcastNotification(
-                `${player.name} couldn't claim the name ${newPlayerNameCleaned}`, player.color);
+                `${player.name} couldn't claim the name ${newPlayerNameCleaned}`,
+                player.color,
+            );
         } else {
             this.notificationService.broadcastNotification(
-                `${oldPlayerName} is now known as ${newPlayerNameCleaned}`, player.color);
+                `${oldPlayerName} is now known as ${newPlayerNameCleaned}`,
+                player.color,
+            );
             player.name = newPlayerNameCleaned;
             this.nameService.usePlayerName(newPlayerNameCleaned);
             this.playerStatBoard.changePlayerName(player.id, newPlayerNameCleaned);
@@ -121,6 +130,7 @@ class PlayerService {
         for (const killReport of killReports) {
             if (killReport.isSingleKill()) {
                 const victim = this.playerContainer.getPlayer(killReport.victimId);
+                const victimSegments = victim.getSegments();
                 if (killReport.killerId === killReport.victimId) {
                     this.notificationService.broadcastSuicide(victim.name, victim.color);
                 } else {
@@ -128,13 +138,15 @@ class PlayerService {
                     this.playerStatBoard.increaseScore(killReport.killerId);
                     this.playerStatBoard.stealScore(killReport.killerId, victim.id);
                     // Steal victim's length
-                    this.playerContainer.getPlayer(killReport.killerId).grow(victim.getSegments().length);
+                    this.playerContainer.getPlayer(killReport.killerId).grow(victimSegments.length);
                     const killer = this.playerContainer.getPlayer(killReport.killerId);
-                    this.notificationService.broadcastKill(killer.name, victim.name, killer.color, victim.color,
-                        victim.getSegments().length);
+                    this.notificationService.broadcastKill(
+                        killer.name, victim.name, killer.color, victim.color,
+                        victimSegments.length,
+                    );
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
                 }
-                this.boardOccupancyService.removePlayerOccupancy(victim.id, victim.getSegments());
+                this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
                 this.playerContainer.addPlayerIdToRespawn(victim.id);
                 this.notificationService.notifyPlayerDied(victim.id);
@@ -142,10 +154,14 @@ class PlayerService {
                 const victimSummaries = [];
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
-                    this.boardOccupancyService.removePlayerOccupancy(victim.id, victim.getSegments());
+                    const victimSegments = victim.getSegments();
+                    this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
-                    victimSummaries.push({ name: victim.name, color: victim.color });
+                    victimSummaries.push({
+                        name: victim.name,
+                        color: victim.color,
+                    });
                     this.notificationService.notifyPlayerDied(victim.id);
                 }
                 if (victimSummaries.length > 0) {
@@ -157,19 +173,18 @@ class PlayerService {
 
     movePlayers() {
         for (const player of this.playerContainer.getPlayers()) {
-            if (this.playerContainer.isSpectating(player.id)) {
-                continue;
-            }
-            this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
-            CoordinateService.movePlayer(player);
-            if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
+            if (!this.playerContainer.isSpectating(player.id)) {
+                this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
+                CoordinateService.movePlayer(player);
+                if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
                     this.boardOccupancyService.isWall(player.getHeadCoordinate())) {
-                player.clearAllSegments();
-                this.playerContainer.addPlayerIdToRespawn(player.id);
-                this.notificationService.broadcastRanIntoWall(player.name, player.color);
-                this.notificationService.notifyPlayerDied(player.id);
-            } else {
-                this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
+                    player.clearAllSegments();
+                    this.playerContainer.addPlayerIdToRespawn(player.id);
+                    this.notificationService.broadcastRanIntoWall(player.name, player.color);
+                    this.notificationService.notifyPlayerDied(player.id);
+                } else {
+                    this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
+                }
             }
         }
     }
@@ -191,8 +206,10 @@ class PlayerService {
 
     respawnPlayer(playerId) {
         const player = this.playerContainer.getPlayer(playerId);
-        this.playerSpawnService.setupNewSpawn(player, this.getPlayerStartLength(),
-            ServerConfig.SPAWN_TURN_LEEWAY);
+        this.playerSpawnService.setupNewSpawn(
+            player, this.getPlayerStartLength(),
+            ServerConfig.SPAWN_TURN_LEEWAY,
+        );
         this.playerStatBoard.resetScore(player.id);
         this.playerStatBoard.addDeath(player.id);
         this.playerContainer.removePlayerIdToRespawn(player.id);

@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax,class-methods-use-this */
+
 import ClientConfig from '../config/client-config.js';
 import DomHelper from './dom-helper.js';
 
@@ -10,15 +12,16 @@ const DOWN_ARROW_KEYCODE = 40;
  * Handles all requests related to the display of the game, not including the canvas
  */
 export default class GameView {
-    constructor(backgroundImageUploadCallback, imageUploadCallback,
-        joinGameCallback, keyDownCallback, muteAudioCallback, playerNameUpdatedCallback,
-        spectateGameCallback) {
+    constructor(
+        backgroundImageUploadCallback, imageUploadCallback,
+        joinGameCallback, keyDownCallback, playerNameUpdatedCallback,
+        spectateGameCallback,
+    ) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
         this.imageUploadCallback = imageUploadCallback;
         this.joinGameCallback = joinGameCallback;
         this.keyDownCallback = keyDownCallback;
-        this.muteAudioCallback = muteAudioCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
         this._initEventHandling();
@@ -27,6 +30,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
+        DomHelper.hideControlButtons();
     }
 
     setKillMessageWithTimer(message) {
@@ -34,8 +38,10 @@ export default class GameView {
         if (this.killMessagesTimeout) {
             clearTimeout(this.killMessagesTimeout);
         }
-        this.killMessagesTimeout = setTimeout(DomHelper.clearKillMessagesDivText.bind(DomHelper),
-            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS);
+        this.killMessagesTimeout = setTimeout(
+            DomHelper.clearKillMessagesDivText.bind(DomHelper),
+            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS,
+        );
     }
 
     showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {
@@ -91,8 +97,10 @@ export default class GameView {
 
     updatePlayerName(playerName, playerColor) {
         DomHelper.setPlayerNameElementValue(playerName);
+        DomHelper.setPlayerNameInputElementValue(playerName);
         if (playerColor) {
             DomHelper.setPlayerNameElementColor(playerColor);
+            DomHelper.setPlayerNameInputElementColor(playerColor);
         }
     }
 
@@ -101,19 +109,13 @@ export default class GameView {
      *******************/
 
     _handleChangeNameButtonClick() {
-        if (this.isChangingName) {
-            this._saveNewPlayerName();
-        } else {
-            DomHelper.setPlayerNameElementReadOnly(false);
-            DomHelper.getPlayerNameElement().select();
-            this.isChangingName = true;
-        }
+        this._register();
     }
 
     _handleKeyDown(e) {
         // Prevent keyboard scrolling default behavior
         if ((e.keyCode === UP_ARROW_KEYCODE || e.keyCode === DOWN_ARROW_KEYCODE) ||
-             (e.keyCode === SPACE_BAR_KEYCODE && e.target === DomHelper.getBody())) {
+            (e.keyCode === SPACE_BAR_KEYCODE && e.target === DomHelper.getBody())) {
             e.preventDefault();
         }
 
@@ -167,10 +169,13 @@ export default class GameView {
     }
 
     _saveNewPlayerName() {
-        const playerName = DomHelper.getPlayerNameElement().value;
+        const playerName = DomHelper.getPlayerNameInputElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
-            DomHelper.setPlayerNameElementReadOnly(true);
+            DomHelper.getPlayerNameInputElement().style.display = 'none';
+            DomHelper.showControlButtons();
+            DomHelper.movePlayerNameToTop();
+            this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
         } else {
@@ -178,17 +183,48 @@ export default class GameView {
         }
     }
 
+    _register() {
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+
+        if (storedName === playerName) {
+            this._createPlayer(playerName);
+            return;
+        }
+
+        if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
+            fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
+                console.log(data);
+                if (data.available) {
+                    this._createPlayer(playerName);
+                } else {
+                    DomHelper.showInvalidPlayerNameLabel();
+                }
+            });
+        } else {
+            DomHelper.showInvalidPlayerNameLabel();
+        }
+    }
+
+    _createPlayer(playerName) {
+        this.playerNameUpdatedCallback(playerName);
+        DomHelper.getPlayerNameInputElement().style.display = 'none';
+        DomHelper.showControlButtons();
+        DomHelper.movePlayerNameToTop();
+        this.joinGameCallback();
+        this.isChangingName = false;
+        DomHelper.hideInvalidPlayerNameLabel();
+    }
+
     _initEventHandling() {
         // Player controls
-        DomHelper.getPlayerNameElement().addEventListener('blur', this._saveNewPlayerName.bind(this));
-        DomHelper.getPlayOrWatchButton().addEventListener('click', this._handlePlayOrWatchButtonClick.bind(this));
-        DomHelper.getFullScreenButton().addEventListener('click', DomHelper.toggleFullScreenMode);
+        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
 
-        DomHelper.getUpButton().addEventListener('click', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('click', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('click', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('click', this.emitRightClicked.bind(this));
+        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
     }
 
     emitUpClicked() {

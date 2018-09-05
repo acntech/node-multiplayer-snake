@@ -6,7 +6,7 @@ describe('ColorService', () => {
 
     const NUMBER_OF_COLORS_TO_TEST = 10000;
 
-    it('should generate a new unused color', done => {
+    it('should generate a new unused color', (done) => {
         const colorService = new ColorService();
         const usedColors = new Set();
         for (let i = 0; i < NUMBER_OF_COLORS_TO_TEST; i++) {

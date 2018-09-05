@@ -4,7 +4,6 @@
  * Generates names and ids, and stores them so they aren't reused
  */
 class NameService {
-
     constructor() {
         this.usedPlayerNames = new Set();
         this.usedFoodIds = new Set();
@@ -70,6 +69,7 @@ class NameService {
         return `Player ${this._getRandomNumber()}${this._getRandomNumber()}${this._getRandomNumber()}`;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     _getRandomNumber() {
         return Math.floor(Math.random() * 10);
     }

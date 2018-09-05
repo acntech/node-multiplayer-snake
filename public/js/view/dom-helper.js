@@ -26,6 +26,15 @@ export default class DomHelper {
         return document.getElementById('clearUploadedBackgroundImageButton');
     }
 
+
+    static getChangeNameButton() {
+        return document.getElementById('changePlayerNameButton');
+    }
+
+    static getControlButtons() {
+        return document.getElementById('playerSettings');
+    }
+
     static getClearUploadedImageButton() {
         return document.getElementById('clearUploadedImageButton');
     }
@@ -82,6 +91,10 @@ export default class DomHelper {
         return document.getElementById('player-name');
     }
 
+    static getPlayerNameInputElement() {
+        return document.getElementById('player-name-input');
+    }
+
     static getPlayOrWatchButton() {
         return document.getElementById('play-or-watch-button');
     }
@@ -126,6 +139,23 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideControlButtons() {
+        this.getControlButtons().style.display = 'none';
+    }
+
+    static showControlButtons() {
+        this.getControlButtons().style.display = 'grid';
+        this.getPlayerNameElement().style.display = 'block';
+        document.getElementById('playerView').style.display = 'block';
+    }
+
+    static movePlayerNameToTop() {
+        document.getElementById('register').classList.add('top');
+        document.getElementById('selectName').style.display = 'none';
+        document.getElementById('playerNameLabel').style.display = 'block';
+        this.getChangeNameButton().style.display = 'none';
+    }
+
     static setKillMessagesDivText(text) {
         document.getElementById('kill-messages').innerHTML = text;
     }
@@ -134,12 +164,20 @@ export default class DomHelper {
         this.getPlayerNameElement().style.color = color;
     }
 
+    static setPlayerNameInputElementColor(color) {
+        this.getPlayerNameInputElement().style.color = color;
+    }
+
     static setPlayerNameElementReadOnly(readOnly) {
         this.getPlayerNameElement().readOnly = readOnly;
     }
 
     static setPlayerNameElementValue(value) {
-        this.getPlayerNameElement().value = value;
+        this.getPlayerNameElement().innerHTML = value;
+    }
+
+    static setPlayerNameInputElementValue(value) {
+        this.getPlayerNameInputElement().value = value;
     }
 
     static setPlayerStatsDivText(text) {
@@ -168,14 +206,12 @@ export default class DomHelper {
             } else if (document.documentElement.webkitRequestFullScreen) {
                 document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
             }
-        } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
+        } else if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
         }
     }
 }
