@@ -187,12 +187,11 @@ export default class GameController {
     }
 
     _handleNewGameData(gameData) {
-        console.log(gameData);
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
         this.gameView.showPlayerStats(gameData.playerStats);
-        if (players && players.length > 0) {
+        if (this.players && this.players.length > 0) {
             this.gameView.showNumberOfPlayers(this.players.length);
         } else {
             this.canvasView.clear();

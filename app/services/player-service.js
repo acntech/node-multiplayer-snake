@@ -37,7 +37,6 @@ class PlayerService {
 
     // previousName and previousImage are optional
     addPlayer(socket, previousName, previousImage) {
-        console.log(socket.id);
         const playerName = this.nameService.getPlayerName();
         const newPlayer = this.createPlayer(socket.id, playerName);
         socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, playerName, newPlayer.color);

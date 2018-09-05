@@ -139,6 +139,10 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'none';
+    }
+
     static hideControlButtons() {
         this.getControlButtons().style.display = 'none';
     }
@@ -198,6 +202,10 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static showTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'inline';
     }
 
     static toggleFullScreenMode() {
