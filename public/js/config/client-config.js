@@ -8,7 +8,7 @@ export default {
     TIME_TO_SHOW_KILL_MESSAGE_IN_MS: 3000,
     CANVAS_TEXT_STYLE: 'bold 24px PressStart2P',
     SPAWN_FLASH_COLOR: 'white',
-    WALL_COLOR: 'gray',
+    WALL_COLOR: '#242B00',
     IO: {
         INCOMING: {
             NEW_STATE: 'game update',
