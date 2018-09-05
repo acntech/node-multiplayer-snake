@@ -177,12 +177,20 @@ export default class DomHelper {
         this.getPlayerNameElement().style.color = color;
     }
 
+    static setPlayerNameInputElementColor(color) {
+        this.getPlayerNameInputElement().style.color = color;
+    }
+
     static setPlayerNameElementReadOnly(readOnly) {
         this.getPlayerNameElement().readOnly = readOnly;
     }
 
     static setPlayerNameElementValue(value) {
         this.getPlayerNameElement().innerHTML = value;
+    }
+
+    static setPlayerNameInputElementValue(value) {
+        this.getPlayerNameInputElement().value = value;
     }
 
     static setPlayerStatsDivText(text) {

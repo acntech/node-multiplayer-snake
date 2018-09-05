@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node app.js",
+    "startmon": "nodemon app.js",
     "pretest": "eslint .",
     "test": "mocha --exit",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
@@ -29,9 +30,13 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "es6-promise": "^4.2.4",
     "express": "^4.16.3",
+    "firebase": "^5.4.1",
+    "isomorphic-fetch": "^2.2.1",
     "less-middleware": "^3.0.0",
     "npm": "^6.4.0",
+    "pg": "^7.4.3",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1",
     "validator": "^10.2.0"
