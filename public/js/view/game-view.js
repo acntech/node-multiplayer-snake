@@ -113,6 +113,7 @@ export default class GameView {
         DomHelper.setPlayerNameInputValue(playerName);
         DomHelper.setScores(score, highScore);
         DomHelper.hideControls();
+        DomHelper.getRegister().style.display = 'none';
         DomHelper.showResultView();
     }
 
@@ -127,6 +128,7 @@ export default class GameView {
 
     _handleRestartButtonClick() {
         this.restartCallback();
+        DomHelper.hideResultView();
         DomHelper.showControls();
     }
 
@@ -190,10 +192,6 @@ export default class GameView {
         const playerName = DomHelper.getPlayerNameInputElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
-            DomHelper.setPlayerNameElementReadOnly(true);
-            DomHelper.getControlButtons().style.visibility = 'visible';
-            DomHelper.getChangeNameButton().style.visibility = 'hidden';
-            // DomHelper.setPlayerNameElementReadOnly(true);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
             DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();

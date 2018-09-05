@@ -162,6 +162,10 @@ export default class DomHelper {
         document.getElementById('playerView').style.display = 'block';
     }
 
+    static getRegister() {
+        return document.getElementById('register');
+    }
+
     static movePlayerNameToTop() {
         document.getElementById('register').classList.add('top');
         document.getElementById('selectName').style.display = 'none';
@@ -210,11 +214,11 @@ export default class DomHelper {
     }
 
     static hideControls() {
-        this.getControlButtons().style.display = 'none';
+        this.getControlButtons().style.visibility = 'hidden';
     }
 
     static showControls() {
-        this.getControlButtons().style.display = 'block';
+        this.getControlButtons().style.visibility = 'visible';
     }
 
     static hideResultView() {
