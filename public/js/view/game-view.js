@@ -31,7 +31,7 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.getControlButtons().style.visibility = 'hidden';
+        DomHelper.hideControlButtons();
     }
 
     readyControls() {
@@ -120,13 +120,13 @@ export default class GameView {
      *******************/
 
     _handleChangeNameButtonClick() {
-        if (this.isChangingName) {
-            this._saveNewPlayerName();
-        } else {
-            DomHelper.setPlayerNameElementReadOnly(false);
-            DomHelper.getPlayerNameElement().select();
-            this.isChangingName = true;
-        }
+        //  if (this.isChangingName) {
+        this._saveNewPlayerName();
+        //   } else {
+        //      DomHelper.setPlayerNameElementReadOnly(false);
+        //      DomHelper.getPlayerNameElement().select();
+        //      this.isChangingName = true;
+        //  }
     }
 
     _handleRestartButtonClick() {
@@ -191,12 +191,19 @@ export default class GameView {
     }
 
     _saveNewPlayerName() {
-        const playerName = DomHelper.getPlayerNameElement().value;
+        const playerName = DomHelper.getPlayerNameInputElement().value;
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
+<<<<<<< HEAD
             DomHelper.setPlayerNameElementReadOnly(true);
             DomHelper.getControlButtons().style.visibility = 'visible';
             DomHelper.getChangeNameButton().style.visibility = 'hidden';
+=======
+            // DomHelper.setPlayerNameElementReadOnly(true);
+            DomHelper.getPlayerNameInputElement().style.display = 'none';
+            DomHelper.showControlButtons();
+            DomHelper.movePlayerNameToTop();
+>>>>>>> 07777dfde6643fee91002ac21859b804e9491cb9
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();

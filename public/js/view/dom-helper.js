@@ -94,6 +94,10 @@ export default class DomHelper {
         return document.getElementById('player-name');
     }
 
+    static getPlayerNameInputElement() {
+        return document.getElementById('player-name-input');
+    }
+
     static getPlayOrWatchButton() {
         return document.getElementById('play-or-watch-button');
     }
@@ -148,6 +152,23 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideControlButtons() {
+        this.getControlButtons().style.display = 'none';
+    }
+
+    static showControlButtons() {
+        this.getControlButtons().style.display = 'grid';
+        this.getPlayerNameElement().style.display = 'block';
+        document.getElementById('playerView').style.display = 'block';
+    }
+
+    static movePlayerNameToTop() {
+        document.getElementById('register').classList.add('top');
+        document.getElementById('selectName').style.display = 'none';
+        document.getElementById('playerNameLabel').style.display = 'block';
+        this.getChangeNameButton().style.display = 'none';
+    }
+
     static setKillMessagesDivText(text) {
         document.getElementById('kill-messages').innerHTML = text;
     }
@@ -161,7 +182,7 @@ export default class DomHelper {
     }
 
     static setPlayerNameElementValue(value) {
-        this.getPlayerNameElement().value = value;
+        this.getPlayerNameElement().innerHTML = value;
     }
 
     static setPlayerStatsDivText(text) {

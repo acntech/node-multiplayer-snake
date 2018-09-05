@@ -19,11 +19,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Redirect to the main page
-app.get('/', (request, response) => {
+app.get('/spectate', (request, response) => {
     response.sendFile('game.html', { root: path.join(__dirname, 'app/views') });
 });
 
-app.get('/play', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile('play.html', { root: path.join(__dirname, 'app/views') });
 });
 

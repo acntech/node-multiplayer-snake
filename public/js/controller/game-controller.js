@@ -37,7 +37,6 @@ export default class GameController {
     }
 
     renderGame() {
-        console.log('render game');
         this.canvasView.clear();
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
