@@ -29,9 +29,9 @@ export default class GameController {
         this._initializeSocketIoHandlers();
         console.log('connect!');
         const Board = {
-            SQUARE_SIZE_IN_PIXELS: 12.5,
-            HORIZONTAL_SQUARES: 145,
-            VERTICAL_SQUARES: 50,
+            SQUARE_SIZE_IN_PIXELS: 15.5,
+            HORIZONTAL_SQUARES: 50,
+            VERTICAL_SQUARES: 40,
         };
         this._createBoard(Board);
     }
