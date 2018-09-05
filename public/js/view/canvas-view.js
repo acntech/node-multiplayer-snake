@@ -18,7 +18,7 @@ export default class CanvasView {
     }
 
     clear() {
-        this.context.fillStyle = 'black';
+        this.context.fillStyle = '#A1C00A';
         this.context.globalAlpha = 1;
         this.context.fillRect(0, 0, this.width, this.height);
 
@@ -27,7 +27,7 @@ export default class CanvasView {
         }
 
         if (this.showGridLines) {
-            this.context.strokeStyle = '#2a2a2a';
+            this.context.strokeStyle = '#242B00';
             this.context.lineWidth = 0.5;
             for (let i = this.squareSizeInPixels / 2; i < this.width || i < this.height; i += this.squareSizeInPixels) {
                 // draw horizontal lines

@@ -111,6 +111,7 @@ class PlayerService {
     }
 
     disconnectPlayer(playerId) {
+        console.log("Player left...");
         const player = this.playerContainer.getPlayer(playerId);
         if (!player) {
             return;

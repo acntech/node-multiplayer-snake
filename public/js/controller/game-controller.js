@@ -29,7 +29,7 @@ export default class GameController {
         this._initializeSocketIoHandlers();
         console.log('connect!');
         const Board = {
-            SQUARE_SIZE_IN_PIXELS: 12.5,
+            SQUARE_SIZE_IN_PIXELS: 15.5,
             HORIZONTAL_SQUARES: 50,
             VERTICAL_SQUARES: 40,
         };
@@ -162,6 +162,7 @@ export default class GameController {
      *******************************/
 
     _createBoard(board) {
+        console.log("Create board");
         this.canvasView = CanvasFactory.createCanvasView(
             board.SQUARE_SIZE_IN_PIXELS,
             board.HORIZONTAL_SQUARES,
@@ -186,10 +187,18 @@ export default class GameController {
     }
 
     _handleNewGameData(gameData) {
+        console.log(gameData);
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
         this.gameView.showPlayerStats(gameData.playerStats);
+        if (players && players.length > 0) {
+            this.gameView.showNumberOfPlayers(this.players.length);
+        } else {
+            this.canvasView.clear();
+            this.gameView.ready();
+            this.renderGame();
+        }
     }
 
 
@@ -199,7 +208,7 @@ export default class GameController {
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.FOOD_COLLECTED, this._handleFoodCollected.bind(this));
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
+        //this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this.gameView.showKillMessage.bind(this.gameView));
         this.socket.on(
             ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,

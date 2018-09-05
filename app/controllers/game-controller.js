@@ -124,6 +124,18 @@ class GameController {
             this.foodService.reinitialize();
             this.playerContainer.reinitialize();
             this.playerStatBoard.reinitialize();
+
+            const gameState = {
+                players: this.playerContainer,
+                food: this.foodService.getFood(),
+                playerStats: this.playerStatBoard,
+                walls: this.boardOccupancyService.getWallCoordinates(),
+                speed: this.adminService.getGameSpeed(),
+                numberOfBots: this.adminService.getBotIds().length,
+                startLength: this.adminService.getPlayerStartLength(),
+            };
+            this.notificationService.broadcastGameState(gameState);
+            
             return;
         }
 
