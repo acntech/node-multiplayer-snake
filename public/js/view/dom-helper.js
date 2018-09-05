@@ -147,6 +147,7 @@ export default class DomHelper {
         this.getControlButtons().style.display = 'grid';
         this.getPlayerNameElement().style.display = 'block';
         document.getElementById('playerView').style.display = 'block';
+        document.getElementById('visibleWhenPlaying').style.display = 'block';
     }
 
     static movePlayerNameToTop() {
@@ -162,6 +163,7 @@ export default class DomHelper {
 
     static setPlayerNameElementColor(color) {
         this.getPlayerNameElement().style.color = color;
+        document.getElementById('snakeColor').style.color = color;
     }
 
     static setPlayerNameInputElementColor(color) {

@@ -5,8 +5,9 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/play-mobile.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">-->
     <!--320-->
 </head>
 
@@ -21,6 +22,17 @@
         <label id="invalid-player-name-label">Please enter a valid name (20 characters max)</label>
     <button id="changePlayerNameButton">PLAY</button>
     </label>
+
+    <div class="visible-in-game" id="visibleWhenPlaying">
+        <p id="snakeColor">YOU ARE THIS</p>
+        <div class="player-info-wrapper">
+            <label id="scoreLabel">Score:</label>
+            <p aria-labelledby="scoreLabel">1010</p>
+            <label id="rankLabel">Current Position:</label>
+            <p aria-labelledby="rankLabel">20</p>
+        </div>
+        <button onClick="quitGame()">Quit?</button>
+    </div>
 
     <div id="cover" style="display:none !important;">
         <div class="navigation">
@@ -49,23 +61,18 @@
     </div>
 
     <div id="playerSettings" class="grid-container" style="display: grid;">
-        <div class="grid-item"></div>
-        <div id="btnUp" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-up fa-3x"></i>
+        <div id="btnLeft" class="grid-item grid-item-button" style="grid-row:1/4">
+            L
         </div>
-        <div class="grid-item"></div>
-        <div id="btnLeft" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-left fa-3x"></i>
+        <div id="btnUp" class="grid-item grid-item-button" style="grid-row:1/2">
+            U
         </div>
-        <div class="grid-item"></div>
-        <div id="btnRight" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-right fa-3x"></i>
+        <div id="btnDown" class="grid-item grid-item-button" style="grid-row:4/2">
+            D
         </div>
-        <div class="grid-item"></div>
-        <div id="btnDown" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-down fa-3x"></i>
+        <div id="btnRight" class="grid-item grid-item-button" style="grid-row:1/4">
+            R
         </div>
-        <div class="grid-item"></div>
     </div>
 
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->
