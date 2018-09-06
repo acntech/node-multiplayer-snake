@@ -29,8 +29,8 @@ export default class GameController {
         this._initializeSocketIoHandlers();
         console.log('connect!');
         const Board = {
-            SQUARE_SIZE_IN_PIXELS: 15.5,
-            HORIZONTAL_SQUARES: 50,
+            SQUARE_SIZE_IN_PIXELS: 18,
+            HORIZONTAL_SQUARES: 60,
             VERTICAL_SQUARES: 40,
         };
         this._createBoard(Board);
@@ -187,12 +187,11 @@ export default class GameController {
     }
 
     _handleNewGameData(gameData) {
-        console.log(gameData);
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
         this.gameView.showPlayerStats(gameData.playerStats);
-        if (players && players.length > 0) {
+        if (this.players && this.players.length > 0) {
             this.gameView.showNumberOfPlayers(this.players.length);
         } else {
             this.canvasView.clear();

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" user-scalable="no">
     <!--320-->
 </head>
 
@@ -14,11 +14,12 @@
     <a id="top"></a>
 
     <label class="register" id="register">
-        <span id="selectName">Select username:</span>
+        <span id="selectName">Select nickname:</span>
         <span id="playerNameLabel" style="display:none !important;">Welcome,</span>
-        <input id="player-name-input" maxlength="20"/>
+        <input id="player-name-input" maxlength="10"/>
         <div id="player-name" style="display:none"></div>
-        <label id="invalid-player-name-label">Please enter a valid name (20 characters max)</label>
+        <label id="invalid-player-name-label">Too long nickname (10 chars max)</label>
+        <label id="taken-player-name-label">Nickname taken. Choose another one</label>
     <button id="changePlayerNameButton">PLAY</button>
     </label>
 
