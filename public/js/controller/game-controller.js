@@ -162,7 +162,7 @@ export default class GameController {
      *******************************/
 
     _createBoard(board) {
-        console.log("Create board");
+        console.log('ggjhjgh');
         this.canvasView = CanvasFactory.createCanvasView(
             board.SQUARE_SIZE_IN_PIXELS,
             board.HORIZONTAL_SQUARES,
@@ -191,18 +191,11 @@ export default class GameController {
         this.food = gameData.food;
         this.walls = gameData.walls;
         this.gameView.showPlayerStats(gameData.playerStats);
-        if (this.players && this.players.length > 0) {
-            this.gameView.showNumberOfPlayers(this.players.length);
-        } else {
-            this.canvasView.clear();
-            this.gameView.ready();
-            this.renderGame();
-        }
     }
 
 
     _initializeSocketIoHandlers() {
-        //  this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
+        this.socket.on(ClientConfig.IO.INCOMING.PLAYER_COUNT, this.gameView.showNumberOfPlayers.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.BOARD_INFO, this._createBoard.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));

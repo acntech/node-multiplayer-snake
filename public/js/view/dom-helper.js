@@ -192,6 +192,21 @@ export default class DomHelper {
         document.getElementById('numPlayers').innerHTML = text;
     }
 
+    static setFirstPlaceScoreAndName(name, score) {
+        document.getElementById('firstPlaceScore').innerHTML = score;
+        document.getElementById('firstPlaceName').innerHTML = name;
+    }
+
+    static setSecondPlaceScoreAndName(name, score) {
+        document.getElementById('secondPlaceScore').innerHTML = score;
+        document.getElementById('secondPlaceName').innerHTML = name;
+    }
+
+    static setThirdPlaceScoreAndName(name, score) {
+        document.getElementById('thirdPlaceScore').innerHTML = score;
+        document.getElementById('thirdPlaceName').innerHTML = name;
+    }
+
     static setPlayOrWatchButtonText(text) {
         this.getPlayOrWatchButton().textContent = text;
     }

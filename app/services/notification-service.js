@@ -18,6 +18,12 @@ class NotificationService {
         this.sockets.emit(ServerConfig.IO.OUTGOING.NEW_STATE, gameState);
     }
 
+    broadcastPlayerCount(count) {
+        console.log(ServerConfig.IO.OUTGOING.PLAYER_COUNT);
+
+        this.sockets.emit(ServerConfig.IO.OUTGOING.PLAYER_COUNT, count);
+    }
+
     broadcastKill(killerName, victimName, killerColor, victimColor, victimLength) {
         this.sockets.emit(
             ServerConfig.IO.OUTGOING.NOTIFICATION.KILL, killerName, victimName,
