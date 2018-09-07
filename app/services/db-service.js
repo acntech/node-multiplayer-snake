@@ -32,12 +32,18 @@ class DbService {
         });
     }
 
+    referenceToTopPlayers(limit) {
+        return this.db.ref('snake-scores')
+        .orderByChild('score')
+        .limitToLast(limit);
+        // Call as:
+        // on.('child_added', (data) => { data.key, data.val().score })
+    }
+
     referenceToScore(playerName) {
         return this.db.ref(`snake-scores/${playerName}/score`);
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
-
-    // TODO: get player with highest score
 
     storePhoneNumber(playerName, phoneNumber) {
         this.db.ref(`snake-scores/${playerName}`).update({

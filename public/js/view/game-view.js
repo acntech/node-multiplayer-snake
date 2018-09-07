@@ -95,7 +95,7 @@ export default class GameView {
     }
 
     showNumberOfPlayers(players) {
-        const content = `<span class="players">Number of players: ${players}</span>`;
+        const content = `<span><i class="fas fa-users fa-2x"></i>${players}</span>`;
         DomHelper.setNumberOfPlayers(content);
     }
 
