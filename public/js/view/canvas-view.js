@@ -26,19 +26,6 @@ export default class CanvasView {
             this.context.drawImage(this.backgroundImage, 0, 0);
         }
 
-        if (this.showGridLines) {
-            this.context.strokeStyle = '#242B00';
-            this.context.lineWidth = 0.5;
-            for (let i = this.squareSizeInPixels / 2; i < this.width || i < this.height; i += this.squareSizeInPixels) {
-                // draw horizontal lines
-                this.context.moveTo(i, 0);
-                this.context.lineTo(i, this.height);
-                // draw vertical lines
-                this.context.moveTo(0, i);
-                this.context.lineTo(this.width, i);
-            }
-            this.context.stroke();
-        }
     }
 
     drawImages(coordinates, base64Image) {
@@ -62,6 +49,30 @@ export default class CanvasView {
         for (const coordinate of coordinates) {
             this.drawSquare(coordinate, color);
         }
+    }
+
+    drawSnakeSquares(coordinates, color) {
+        for (const coordinate of coordinates) {
+            this.drawSnakeSquare(coordinate, color);
+        }
+    }
+
+    drawSnakeSquare(coordinate, color) {
+        const x = coordinate.x * this.squareSizeInPixels;
+        const y = coordinate.y * this.squareSizeInPixels;
+        this.context.fillStyle = color;
+        this.context.beginPath();
+        this.context.moveTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x + (this.squareSizeInPixels * 0.25), y - (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x + (this.squareSizeInPixels * 0.25), y);
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y);
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x - (this.squareSizeInPixels * 0.25), y + (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x - (this.squareSizeInPixels * 0.25), y);
+        this.context.lineTo(x - (this.squareSizeInPixels / 2), y);
+        this.context.lineTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2.5));
+        this.context.closePath();
+        this.context.fill();
     }
 
     drawSquare(coordinate, color) {

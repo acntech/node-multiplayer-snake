@@ -59,7 +59,7 @@ export default class GameController {
                 if (player.base64Image) {
                     this.canvasView.drawImages(player.segments, player.base64Image);
                 } else {
-                    this.canvasView.drawSquares(player.segments, player.color);
+                    this.canvasView.drawSnakeSquares(player.segments, player.color);
                 }
             }
         }
