@@ -4,7 +4,7 @@
 @font-family: PressStart2P;
 @label-font-size: 24px;
 @navbar-height: 60px;
-@text-color: #ffffff;
+@text-color: #383838;
 @font-face {
     font-family: @font-family;
     src: url('../fonts/PressStart2P.ttf');
@@ -20,9 +20,21 @@ body {
     font-family: @font-family;
     margin: 0;
     padding: @navbar-height 0 0 0;
+
+    &.game {
+        padding: 0;
+
+        .body-content {
+            width: 100%;
+            display: table;
+            margin: 0 auto;
+        }
+
+    }
 }
 
 button {
+    touch-action: manipulation;
     background: @button-background-color;
     border-color: transparent;
     border-radius: 5px;

@@ -139,6 +139,10 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'none';
+    }
+
     static hideControlButtons() {
         this.getControlButtons().style.display = 'none';
     }
@@ -188,6 +192,21 @@ export default class DomHelper {
         document.getElementById('numPlayers').innerHTML = text;
     }
 
+    static setFirstPlaceScoreAndName(name, score) {
+        document.getElementById('firstPlaceScore').innerHTML = score;
+        document.getElementById('firstPlaceName').innerHTML = name;
+    }
+
+    static setSecondPlaceScoreAndName(name, score) {
+        document.getElementById('secondPlaceScore').innerHTML = score;
+        document.getElementById('secondPlaceName').innerHTML = name;
+    }
+
+    static setThirdPlaceScoreAndName(name, score) {
+        document.getElementById('thirdPlaceScore').innerHTML = score;
+        document.getElementById('thirdPlaceName').innerHTML = name;
+    }
+
     static setPlayOrWatchButtonText(text) {
         this.getPlayOrWatchButton().textContent = text;
     }
@@ -198,6 +217,10 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static showTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'inline';
     }
 
     static toggleFullScreenMode() {

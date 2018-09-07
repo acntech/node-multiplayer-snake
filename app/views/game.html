@@ -5,35 +5,41 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="game">
     <a id="top"></a>
     <div id="cover">
         <label class="nav-label" style="display:none !important;">
             <input id="player-name" ></input>
             <label id="invalid-player-name-label"></label>
-            <button style="visibility:hidden;" id="changePlayerNameButton">TEST</button>
+        <button style="visibility:hidden;" id="changePlayerNameButton">TEST</button>
         </label>
 
-        
-        <div class="body-content">
-                <div id="players">
-                    
-                    <div id="numPlayers"></div>
 
-                </div>
-                <div id="kill-messages"></div>
-            <div class="main-container">
-                <div class="left-content">
-                    <div id="game-board"></div>
-                </div>
-                
+        <div class="body-content">
+
+            <div id="players">
+
+                <span class="medal">🥇</span>
+                <span id="firstPlaceScore"></span>
+                <span id="firstPlaceName"></span>
+                <span class="medal">🥈</span>
+                <span id="secondPlaceScore"></span>
+                <span id="secondPlaceName"></span>
+                <span class="medal">🥉</span>
+                <span id="thirdPlaceScore"></span>
+                <span id="thirdPlaceName"></span>
+                <span id="numPlayers"></span>
+
             </div>
-            <div class="right-content">
-                    <div id="player-stats">
-                    </div>
-                </div>
+
+            <div id="kill-messages"></div>
+            <div class="main-container">
+                <div id="game-board"></div>
+                <div id="player-stats" style="display:none"></div>
+            </div>
         </div>
     </div>
 
@@ -58,6 +64,26 @@
         <div style="width: 30%; display: inline-block;"></div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "<API_KEY>",
+            authDomain: 'jz-2018.firebaseapp.com',
+            databaseURL: 'https://jz-2018.firebaseio.com',
+            projectId: 'jz-2018',
+            storageBucket: 'jz-2018.appspot.com',
+            messagingSenderId: "<SENDER_ID>",
+        };
+        var firebaseApp = firebase.initializeApp(config);
+    </script>
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/main.js" type="module"></script>
