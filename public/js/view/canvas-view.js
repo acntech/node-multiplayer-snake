@@ -88,6 +88,33 @@ export default class CanvasView {
         this.context.fill();
     }
 
+    drawFood(coordinate, color) {
+        let food;
+        let fruit = ['🍇', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓'];
+
+        switch (color) {
+            case 'red':
+                food = '🍏';
+                break;
+            case 'yellow':
+                food = '🍔';
+                break;
+            case 'green':
+                food = '🍇';
+                break;
+            case 'blue':
+                food = '⭐️';
+                break;
+            default:
+                food = '';
+        }
+
+        const x = coordinate.x * this.squareSizeInPixels;
+        const y = coordinate.y * this.squareSizeInPixels;
+        this.context.font = '20px x';
+        this.context.fillText(food, x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2.5));
+    }
+
     drawSquareAround(coordinate, color) {
         const x = coordinate.x * this.squareSizeInPixels;
         const y = coordinate.y * this.squareSizeInPixels;

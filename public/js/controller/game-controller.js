@@ -41,7 +41,7 @@ export default class GameController {
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
                 const food = this.food[foodId];
-                this.canvasView.drawSquare(food.coordinate, food.color);
+                this.canvasView.drawFood(food.coordinate, food.color);
             }
         }
 
