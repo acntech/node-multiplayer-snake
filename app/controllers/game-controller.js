@@ -13,7 +13,6 @@ const NotificationService = require('../services/notification-service');
 const PlayerService = require('../services/player-service');
 const UtilityService = require('../services/utility-service');
 
-// const Coordinate = require('../models/coordinate');
 const PlayerContainer = require('../models/player-container');
 const PlayerStatBoard = require('../models/player-stat-board');
 
@@ -175,8 +174,8 @@ class GameController {
     /*******************************
      *  socket.io handling methods *
      *******************************/
-
-    // eslint-disable-next-line class-methods-use-this
+    
+     // eslint-disable-next-line class-methods-use-this
     _canvasClicked() {}
 
     _keyDown(playerId, keyCode) {

@@ -6,9 +6,9 @@ const DbService = require('./db-service');
 
 /**
  * Creation and removal of food
- * + Updated high scores for players when eating food
  */
 class FoodService {
+
     constructor(playerStatBoard, boardOccupancyService, nameService, notificationService, utilityService) {
         this.playerStatBoard = playerStatBoard;
         this.boardOccupancyService = boardOccupancyService;

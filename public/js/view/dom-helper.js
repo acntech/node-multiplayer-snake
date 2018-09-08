@@ -2,6 +2,7 @@
  * DOM manipulation helper
  */
 export default class DomHelper {
+
     static blurActiveElement() {
         document.activeElement.blur();
     }
@@ -159,8 +160,20 @@ export default class DomHelper {
         this.getChangeNameButton().style.display = 'none';
     }
 
-    static setKillMessagesDivText(text) {
-        document.getElementById('kill-messages').innerHTML = text;
+    static getChangeColorButton() {
+        return document.getElementById('changePlayerColorButton');
+    }
+
+    static getToggleSoundButton() {
+        return document.getElementById('toggleSoundButton');
+    }
+
+    static getVolumeSlider() {
+        return document.getElementById('volumeSlider');
+    }
+
+    static setChangeNameButtonText(text) {
+        this.getChangeNameButton().innerHTML = text;
     }
 
     static setPlayerNameElementColor(color) {
@@ -183,8 +196,41 @@ export default class DomHelper {
         this.getPlayerNameInputElement().value = value;
     }
 
+    static setCurrentNumberOfBotsLabelText(text) {
+        document.getElementById('currentNumberOfBots').innerHTML = text;
+    }
+
+    static setCurrentSpeedLabelText(text) {
+        document.getElementById('currentSpeed').innerHTML = text;
+    }
+
+
+    static setCurrentStartLengthLabelText(text) {
+        document.getElementById('currentStartLength').innerHTML = text;
+    }
+
+    static setKillMessagesDivText(text) {
+        document.getElementById('kill-messages').innerHTML = text;
+    }
+
+    static setPlayerNameElementColor(color) {
+        this.getPlayerNameElement().style.color = color;
+    }
+
+    static setPlayerNameElementReadOnly(readOnly) {
+        this.getPlayerNameElement().readOnly = readOnly;
+    }
+
+    static setPlayerNameElementValue(value) {
+        this.getPlayerNameElement().value = value;
+    }
+
     static setPlayerStatsDivText(text) {
         document.getElementById('player-stats').innerHTML = text;
+    }
+
+    static setToggleSoundButtonText(text) {
+        this.getToggleSoundButton().textContent = text;
     }
 
     static setNumberOfPlayers(text) {

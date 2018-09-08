@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax,class-methods-use-this */
-
 import ClientConfig from '../config/client-config.js';
 import DomHelper from './dom-helper.js';
 
@@ -38,13 +36,21 @@ export default class GameView {
         if (this.killMessagesTimeout) {
             clearTimeout(this.killMessagesTimeout);
         }
-        this.killMessagesTimeout = setTimeout(
-            DomHelper.clearKillMessagesDivText.bind(DomHelper),
-            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS,
-        );
+        this.killMessagesTimeout = setTimeout(DomHelper.clearKillMessagesDivText.bind(DomHelper),
+            ClientConfig.TIME_TO_SHOW_KILL_MESSAGE_IN_MS);
     }
 
-    showKillMessage(killerName, victimName, killerColor, victimColor) {
+    setMuteStatus(isMuted) {
+        let text;
+        if (isMuted) {
+            text = 'Unmute';
+        } else {
+            text = 'Mute';
+        }
+        DomHelper.setToggleSoundButtonText(text);
+    }
+
+    showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {
         this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed
         <span style='color: ${victimColor}'>${victimName}!</span> Good job, <span style='color: ${killerColor}'>${killerName}!</span>`);
     }
@@ -58,7 +64,7 @@ export default class GameView {
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall. Watch your step, <span style='color: ${playerColor}'>${playerName}!</span> `);
+        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall`);
     }
 
     showSuicideMessage(victimName, victimColor) {
@@ -70,6 +76,10 @@ export default class GameView {
         const formattedNotification = `<div><span class='time-label'>${new Date().toLocaleTimeString()} - </span>` +
             `<span style='color: ${playerColor}'>${notification}<span/></div>`;
         notificationDiv.innerHTML = formattedNotification + notificationDiv.innerHTML;
+    }
+
+    showNumberOfBots(numberOfBots) {
+        DomHelper.setCurrentNumberOfBotsLabelText(numberOfBots);
     }
 
     showPlayerStats(playerStats) {
@@ -92,6 +102,14 @@ export default class GameView {
                 `<span class='stat'>${playerStat.deaths}</span></div>`;
         }
         DomHelper.setPlayerStatsDivText(formattedScores);
+    }
+
+    showSpeed(speed) {
+        DomHelper.setCurrentSpeedLabelText(speed);
+    }
+
+    showStartLength(startLength) {
+        DomHelper.setCurrentStartLengthLabelText(startLength);
     }
 
     showNumberOfPlayers(players) {
@@ -225,7 +243,6 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
-        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
         this._showPlayerScore(playerName);

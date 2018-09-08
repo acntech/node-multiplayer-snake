@@ -1,7 +1,4 @@
-/* eslint-disable no-restricted-syntax */
-
 'use strict';
-
 const Board = require('../configs/board');
 const ServerConfig = require('../configs/server-config');
 const Player = require('../models/player');
@@ -17,6 +14,7 @@ const DbService = require('../services/db-service');
  * Player-related changes
  */
 class PlayerService {
+
     constructor(
         playerContainer, playerStatBoard, boardOccupancyService, imageService,
         nameService, notificationService, runGameCycle,
@@ -44,7 +42,6 @@ class PlayerService {
         socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, playerName, newPlayer.color);
         socket.emit(ServerConfig.IO.OUTGOING.BOARD_INFO, Board);
         this.notificationService.broadcastNotification(`${playerName} has joined!`, newPlayer.color);
-        this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
         const backgroundImage = this.imageService.getBackgroundImage();
         if (backgroundImage) {
             socket.emit(ServerConfig.IO.OUTGOING.NEW_BACKGROUND_IMAGE, backgroundImage);
@@ -97,14 +94,10 @@ class PlayerService {
         if (this.nameService.doesPlayerNameExist(newPlayerNameCleaned)) {
             socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, oldPlayerName, player.color);
             this.notificationService.broadcastNotification(
-                `${player.name} couldn't claim the name ${newPlayerNameCleaned}`,
-                player.color,
-            );
+                `${player.name} couldn't claim the name ${newPlayerNameCleaned}`, player.color);
         } else {
             this.notificationService.broadcastNotification(
-                `${oldPlayerName} is now known as ${newPlayerNameCleaned}`,
-                player.color,
-            );
+                `${oldPlayerName} is now known as ${newPlayerNameCleaned}`, player.color);
             player.name = newPlayerNameCleaned;
             this.nameService.usePlayerName(newPlayerNameCleaned);
             this.playerStatBoard.changePlayerName(player.id, newPlayerNameCleaned);
@@ -113,7 +106,6 @@ class PlayerService {
     }
 
     disconnectPlayer(playerId) {
-        console.log("Player left...");
         const player = this.playerContainer.getPlayer(playerId);
         if (!player) {
             return;
@@ -187,18 +179,19 @@ class PlayerService {
 
     movePlayers() {
         for (const player of this.playerContainer.getPlayers()) {
-            if (!this.playerContainer.isSpectating(player.id)) {
-                this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
-                CoordinateService.movePlayer(player);
-                if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
+            if (this.playerContainer.isSpectating(player.id)) {
+                continue;
+            }
+            this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
+            CoordinateService.movePlayer(player);
+            if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
                     this.boardOccupancyService.isWall(player.getHeadCoordinate())) {
-                    player.clearAllSegments();
-                    this.playerContainer.addPlayerIdToRespawn(player.id);
-                    this.notificationService.broadcastRanIntoWall(player.name, player.color);
-                    this.notificationService.notifyPlayerDied(player.id);
-                } else {
-                    this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
-                }
+                player.clearAllSegments();
+                this.playerContainer.addPlayerIdToRespawn(player.id);
+                this.notificationService.broadcastRanIntoWall(player.name, player.color);
+                this.notificationService.notifyPlayerDied(player.id);
+            } else {
+                this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
             }
         }
     }
@@ -220,10 +213,8 @@ class PlayerService {
 
     respawnPlayer(playerId) {
         const player = this.playerContainer.getPlayer(playerId);
-        this.playerSpawnService.setupNewSpawn(
-            player, this.getPlayerStartLength(),
-            ServerConfig.SPAWN_TURN_LEEWAY,
-        );
+        this.playerSpawnService.setupNewSpawn(player, this.getPlayerStartLength(),
+            ServerConfig.SPAWN_TURN_LEEWAY);
         this.playerStatBoard.resetScore(player.id);
         this.playerStatBoard.addDeath(player.id);
         this.playerContainer.removePlayerIdToRespawn(player.id);

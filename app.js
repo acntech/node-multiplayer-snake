@@ -29,11 +29,9 @@ app.get('/', (req, res) => {
     });
 });
 
-
 // Create the main controller
 const gameController = new GameController();
 gameController.listen(io);
-
 
 app.get('/users/:playerName', (req, res) => {
     DbService.getPlayer(req.params.playerName)

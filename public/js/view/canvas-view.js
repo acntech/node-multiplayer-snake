@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-
 import ClientConfig from '../config/client-config.js';
 
 /**
@@ -26,6 +24,19 @@ export default class CanvasView {
             this.context.drawImage(this.backgroundImage, 0, 0);
         }
 
+        if (this.showGridLines) {
+            this.context.strokeStyle = '#2a2a2a';
+            this.context.lineWidth = 0.5;
+            for (let i = this.squareSizeInPixels / 2; i < this.width || i < this.height; i += this.squareSizeInPixels) {
+                // draw horizontal lines
+                this.context.moveTo(i, 0);
+                this.context.lineTo(i, this.height);
+                // draw vertical lines
+                this.context.moveTo(0, i);
+                this.context.lineTo(this.width, i);
+            }
+            this.context.stroke();
+        }
     }
 
     drawImages(coordinates, base64Image) {
@@ -39,16 +50,27 @@ export default class CanvasView {
         const y = coordinate.y * this.squareSizeInPixels;
         const image = new Image();
         image.src = base64Image;
-        this.context.drawImage(
-            image, x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2),
-            this.squareSizeInPixels, this.squareSizeInPixels,
-        );
+        this.context.drawImage(image, x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2),
+            this.squareSizeInPixels, this.squareSizeInPixels);
     }
 
     drawSquares(coordinates, color) {
         for (const coordinate of coordinates) {
             this.drawSquare(coordinate, color);
         }
+    }
+
+    drawSquare(coordinate, color) {
+        const x = coordinate.x * this.squareSizeInPixels;
+        const y = coordinate.y * this.squareSizeInPixels;
+        this.context.fillStyle = color;
+        this.context.beginPath();
+        this.context.moveTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2));
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2));
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2));
+        this.context.lineTo(x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2));
+        this.context.closePath();
+        this.context.fill();
     }
 
     drawSnakeSquares(coordinates, color) {
@@ -75,22 +97,23 @@ export default class CanvasView {
         this.context.fill();
     }
 
-    drawSquare(coordinate, color) {
+    drawSquareAround(coordinate, color) {
         const x = coordinate.x * this.squareSizeInPixels;
         const y = coordinate.y * this.squareSizeInPixels;
-        this.context.fillStyle = color;
+        const lengthAroundSquare = this.squareSizeInPixels * 2;
+        this.context.lineWidth = this.squareSizeInPixels;
+        this.context.strokeStyle = color;
         this.context.beginPath();
-        this.context.moveTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2));
-        this.context.lineTo(x + (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2));
-        this.context.lineTo(x + (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2));
-        this.context.lineTo(x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2));
+        this.context.moveTo(x - lengthAroundSquare, y - lengthAroundSquare);
+        this.context.lineTo(x + lengthAroundSquare, y - lengthAroundSquare);
+        this.context.lineTo(x + lengthAroundSquare, y + lengthAroundSquare);
+        this.context.lineTo(x - lengthAroundSquare, y + lengthAroundSquare);
         this.context.closePath();
-        this.context.fill();
+        this.context.stroke();
     }
 
     drawFood(coordinate, color) {
         let food;
-        let fruit = ['🍇', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓'];
 
         switch (color) {
             case 'red':
@@ -118,21 +141,6 @@ export default class CanvasView {
         this.context.fillText(food, x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2.5));
     }
 
-    drawSquareAround(coordinate, color) {
-        const x = coordinate.x * this.squareSizeInPixels;
-        const y = coordinate.y * this.squareSizeInPixels;
-        const lengthAroundSquare = this.squareSizeInPixels * 2;
-        this.context.lineWidth = this.squareSizeInPixels;
-        this.context.strokeStyle = color;
-        this.context.beginPath();
-        this.context.moveTo(x - lengthAroundSquare, y - lengthAroundSquare);
-        this.context.lineTo(x + lengthAroundSquare, y - lengthAroundSquare);
-        this.context.lineTo(x + lengthAroundSquare, y + lengthAroundSquare);
-        this.context.lineTo(x - lengthAroundSquare, y + lengthAroundSquare);
-        this.context.closePath();
-        this.context.stroke();
-    }
-
     drawFadingText(textToDraw, turnsToShow) {
         this.context.save();
         this.context.globalAlpha = this._getOpacityFromCounter(textToDraw.counter, turnsToShow);
@@ -143,8 +151,8 @@ export default class CanvasView {
 
         const textWidth = this.context.measureText(textToDraw.text).width;
         const textHeight = 24;
-        let x = (textToDraw.coordinate.x * this.squareSizeInPixels) - (textWidth / 2);
-        let y = (textToDraw.coordinate.y * this.squareSizeInPixels) + (textHeight / 2);
+        let x = textToDraw.coordinate.x * this.squareSizeInPixels - textWidth / 2;
+        let y = textToDraw.coordinate.y * this.squareSizeInPixels + textHeight / 2;
         if (x < 0) {
             x = 0;
         } else if (x > (this.width - textWidth)) {
@@ -209,7 +217,6 @@ export default class CanvasView {
     }
 
     // Gets a fade-in/fade-out opacity
-    // eslint-disable-next-line class-methods-use-this
     _getOpacityFromCounter(counter, turnsToShow) {
         if (counter < turnsToShow * 0.1 || counter > turnsToShow * 0.9) {
             return 0.33;
@@ -221,7 +228,7 @@ export default class CanvasView {
 
     _initializeClickListeners(canvas, canvasClickHandler) {
         const self = this;
-        canvas.addEventListener('click', (event) => {
+        canvas.addEventListener('click', event => {
             const x = event.pageX - canvas.offsetLeft;
             const y = event.pageY - canvas.offsetTop;
             const xCoord = Math.round(x / self.squareSizeInPixels);
