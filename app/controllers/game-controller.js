@@ -11,6 +11,7 @@ const ImageService = require('../services/image-service');
 const NameService = require('../services/name-service');
 const NotificationService = require('../services/notification-service');
 const PlayerService = require('../services/player-service');
+const UtilityService = require('../services/utility-service');
 
 // const Coordinate = require('../models/coordinate');
 const PlayerContainer = require('../models/player-container');
@@ -27,9 +28,11 @@ class GameController {
         this.boardOccupancyService = new BoardOccupancyService();
         this.notificationService = new NotificationService();
         this.botDirectionService = new BotDirectionService(this.boardOccupancyService);
+        this.utilityService = new UtilityService(this.playerContainer, this.notificationService);
         this.foodService = new FoodService(
             this.playerStatBoard, this.boardOccupancyService,
             this.nameService, this.notificationService,
+            this.utilityService,
         );
         this.imageService = new ImageService(this.playerContainer, this.playerStatBoard, this.notificationService);
         this.playerService = new PlayerService(
@@ -119,6 +122,7 @@ class GameController {
             console.log('Game Paused');
             this.boardOccupancyService.initializeBoard();
             this.adminService.resetGame();
+            this.utilityService._resetSpeed();
             this.nameService.reinitialize();
             this.imageService.resetBackgroundImage();
             this.foodService.reinitialize();
@@ -130,12 +134,11 @@ class GameController {
                 food: this.foodService.getFood(),
                 playerStats: this.playerStatBoard,
                 walls: this.boardOccupancyService.getWallCoordinates(),
-                speed: this.adminService.getGameSpeed(),
+                speed: this.utilityService.getGameSpeed(),
                 numberOfBots: this.adminService.getBotIds().length,
                 startLength: this.adminService.getPlayerStartLength(),
             };
             this.notificationService.broadcastGameState(gameState);
-            
             return;
         }
 
@@ -153,24 +156,20 @@ class GameController {
         this.playerService.handlePlayerCollisions();
         this.playerService.respawnPlayers();
 
-        this.foodService.consumeAndRespawnFood(this.playerContainer, this.increaseSpeed);
+        this.foodService.consumeAndRespawnFood(this.playerContainer);
 
         const gameState = {
             players: this.playerContainer,
             food: this.foodService.getFood(),
             playerStats: this.playerStatBoard,
             walls: this.boardOccupancyService.getWallCoordinates(),
-            speed: this.adminService.getGameSpeed(),
+            speed: this.utilityService.getGameSpeed(),
             numberOfBots: this.adminService.getBotIds().length,
             startLength: this.adminService.getPlayerStartLength(),
         };
         this.notificationService.broadcastGameState(gameState);
 
-        setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
-    }
-
-    increaseSpeed(player) {
-        this.adminService.changeSpeed(player.id, ServerConfig.INCREMENT_CHANGE.INCREASE);
+        setTimeout(this.runGameCycle.bind(this), 1000 / this.utilityService.getGameSpeed());
     }
 
     /*******************************

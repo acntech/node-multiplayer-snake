@@ -162,7 +162,6 @@ export default class GameController {
      *******************************/
 
     _createBoard(board) {
-        console.log('ggjhjgh');
         this.canvasView = CanvasFactory.createCanvasView(
             board.SQUARE_SIZE_IN_PIXELS,
             board.HORIZONTAL_SQUARES,
