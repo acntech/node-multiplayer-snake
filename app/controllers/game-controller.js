@@ -135,7 +135,7 @@ class GameController {
                 startLength: this.adminService.getPlayerStartLength(),
             };
             this.notificationService.broadcastGameState(gameState);
-            
+
             return;
         }
 
@@ -153,7 +153,7 @@ class GameController {
         this.playerService.handlePlayerCollisions();
         this.playerService.respawnPlayers();
 
-        this.foodService.consumeAndRespawnFood(this.playerContainer, this.increaseSpeed);
+        this.foodService.consumeAndRespawnFood(this.playerContainer, this._increaseSpeed.bind(this));
 
         const gameState = {
             players: this.playerContainer,
@@ -169,7 +169,7 @@ class GameController {
         setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
     }
 
-    increaseSpeed(player) {
+    _increaseSpeed(player) {
         this.adminService.changeSpeed(player.id, ServerConfig.INCREMENT_CHANGE.INCREASE);
     }
 
@@ -178,8 +178,7 @@ class GameController {
      *******************************/
 
     // eslint-disable-next-line class-methods-use-this
-    _canvasClicked() {
-    }
+    _canvasClicked() {}
 
     _keyDown(playerId, keyCode) {
         GameControlsService.handleKeyDown(this.playerContainer.getPlayer(playerId), keyCode);

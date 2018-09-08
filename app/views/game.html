@@ -69,32 +69,33 @@
 
             <div id="kill-messages"></div>
             <div class="main-container">
-                <div id="game-board"></div>
+                <div id="game-board" style="padding: 20px 0 0 40px"></div>
                 <div id="player-stats" style="display:none"></div>
+                <div style="text-align:center">
+                    <img src="../assets/qr.png"/ style="height: 200px">
+                    <p style="font-size: 20px" >Join the game at acn.zone</p>
+                </div>
             </div>
+
         </div>
     </div>
 
-    <div style="width: 400px;visibility:hidden;" id="playerSettings" class="settings-menu">
+    <div style="width: 400px;display:none;" id="playerSettings">
         <!-- TODO: Fix a better layout, remove hard coded styles -->
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnUp">UP</button>
+        <div >
+            <button id="btnUp">UP</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button>
+        <div >
+            <button id="btnLeft">LEFT</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button>
+        <div>
+            <button id="btnRight">RIGHT</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnDown">DOWN</button>
+        <div >
+            <button id="btnDown">DOWN</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
     </div>
+
 
     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
 
