@@ -48,19 +48,22 @@ export default class GameController {
         this.canvasView.drawSquares(this.walls, ClientConfig.WALL_COLOR);
 
         for (const player of this.players) {
-            if (player.segments.length !== 0) {
-                // Flash around where you have just spawned
-                if (`/#${this.socket.id}` === player.id &&
-                    player.moveCounter <= ClientConfig.TURNS_TO_FLASH_AFTER_SPAWN &&
-                    player.moveCounter % 2 === 0) {
-                    this.canvasView.drawSquareAround(player.segments[0], ClientConfig.SPAWN_FLASH_COLOR);
-                }
 
-                if (player.base64Image) {
-                    this.canvasView.drawImages(player.segments, player.base64Image);
-                } else {
-                    this.canvasView.drawSnakeSquares(player.segments, player.color);
-                }
+            if (player.segments.length === 0) {
+                continue;
+            }
+
+            // Flash around where you have just spawned
+            if (`/#${this.socket.id}` === player.id &&
+                player.moveCounter <= ClientConfig.TURNS_TO_FLASH_AFTER_SPAWN &&
+                player.moveCounter % 2 === 0) {
+                this.canvasView.drawSquareAround(player.segments[0], ClientConfig.SPAWN_FLASH_COLOR);
+            }
+
+            if (player.base64Image) {
+                this.canvasView.drawImages(player.segments, player.base64Image);
+            } else {
+                this.canvasView.drawSnakeSquares(player.segments, player.color);
             }
         }
 
