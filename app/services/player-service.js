@@ -11,6 +11,8 @@ const CoordinateService = require('../services/coordinate-service');
 const PlayerSpawnService = require('../services/player-spawn-service');
 const ValidationService = require('../services/validation-service');
 
+const DbService = require('../services/db-service');
+
 /**
  * Player-related changes
  */
@@ -125,6 +127,7 @@ class PlayerService {
             this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
         }
         this.playerContainer.removePlayer(player.id);
+        DbService.updateScore(player.name, 0, player.highScore);
     }
 
     handlePlayerCollisions() {

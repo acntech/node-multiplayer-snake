@@ -52,6 +52,22 @@ class DbService {
     }
 
     updateScore(playerName, score, highScore) {
+        this.getPlayer(playerName).then((player) => {
+            if (!player.highScore) {
+                this.updateScoreInDb(playerName, score, highScore);
+            } else if (score >= player.highScore) {
+                this.updateScoreInDb(playerName, score, score);
+            } else {
+                this.updateScoreInDb(playerName, score, player.highScore);
+            }
+        }, (error) => {
+            if (error) {
+                this.updateScoreInDb(playerName, score, highScore);
+            }
+        })
+    }
+
+    updateScoreInDb(playerName, score, highScore) {
         this.db.ref(`snake-scores/${playerName}`).set({
             score,
             highScore,
