@@ -2,7 +2,7 @@
  * Client Settings constants
  */
 export default {
-    FPS: 8,
+    FPS: 30,
     TURNS_TO_FLASH_AFTER_SPAWN: 10,
     TURNS_TO_SHOW_FOOD_TEXT: 20,
     TIME_TO_SHOW_KILL_MESSAGE_IN_MS: 3000,
