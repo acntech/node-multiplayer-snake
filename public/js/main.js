@@ -5,9 +5,6 @@ const gameController = new GameController();
 // io is a global variable for socket.io-client set from the view html
 gameController.connect(io);
 
-/* global firebaseApp */
-console.log(firebaseApp);
-
 /* global firebase */
 const db = firebase.database();
 
