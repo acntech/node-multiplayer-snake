@@ -119,6 +119,9 @@ class PlayerService {
         if (!player) {
             return;
         }
+
+        this.updateScore(player);
+
         this.notificationService.broadcastNotification(`${player.name} has left.`, player.color);
         this.colorService.returnColor(player.color);
         this.nameService.returnPlayerName(player.name);
@@ -127,7 +130,6 @@ class PlayerService {
             this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
         }
         this.playerContainer.removePlayer(player.id);
-        DbService.updateScore(player.name, 0, player.highScore);
     }
 
     handlePlayerCollisions() {
@@ -151,6 +153,8 @@ class PlayerService {
                     );
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
                 }
+                this.updateScore(player);
+                this.updateScore(victim);
                 this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
                 this.playerContainer.addPlayerIdToRespawn(victim.id);
@@ -224,6 +228,11 @@ class PlayerService {
         for (const playerId of this.playerContainer.getPlayerIdsToRespawn()) {
             this.respawnPlayer(playerId);
         }
+    }
+
+    updateScore(player) {
+        const playerStat = this.playerStatBoard.statBoard.get(player.id);
+        DbService.updateScore(playerStat.name, 0, playerStat.highScore);
     }
 }
 
