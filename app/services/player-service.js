@@ -154,22 +154,21 @@ class PlayerService {
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
                     this.updateScore(killer);
                 }
-                this.updateScore(victim);
                 this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
                 this.playerContainer.addPlayerIdToRespawn(victim.id);
                 this.notificationService.notifyPlayerDied(victim.id);
+                this.updateScore(victim);
             } else {
                 const victimSummaries = [];
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
                     const victimSegments = victim.getSegments();
-                    
+
                     if (!victimSegments) {
                         continue;
                     }
 
-                    this.updateScore(victim);
                     this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
@@ -178,6 +177,7 @@ class PlayerService {
                         color: victim.color,
                     });
                     this.notificationService.notifyPlayerDied(victim.id);
+                    this.updateScore(victim);
                 }
                 if (victimSummaries.length > 0) {
                     this.notificationService.broadcastKillEachOther(victimSummaries);
@@ -239,7 +239,7 @@ class PlayerService {
 
     updateScore(player) {
         const playerStat = this.playerStatBoard.statBoard.get(player.id);
-        DbService.updateScore(playerStat.name, 0, playerStat.highScore);
+        DbService.updateScore(playerStat.name, playerStat.score, playerStat.highScore);
     }
 }
 
