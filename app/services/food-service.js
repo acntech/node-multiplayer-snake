@@ -9,11 +9,12 @@ const DbService = require('./db-service');
  * + Updated high scores for players when eating food
  */
 class FoodService {
-    constructor(playerStatBoard, boardOccupancyService, nameService, notificationService) {
+    constructor(playerStatBoard, boardOccupancyService, nameService, notificationService, utilityService) {
         this.playerStatBoard = playerStatBoard;
         this.boardOccupancyService = boardOccupancyService;
         this.nameService = nameService;
         this.notificationService = notificationService;
+        this.utilityService = utilityService;
         this.reinitialize();
     }
 
@@ -23,7 +24,7 @@ class FoodService {
         this.generateDefaultFood();
     }
 
-    consumeAndRespawnFood(playerContainer, increaseSpeed) {
+    consumeAndRespawnFood(playerContainer) {
         let foodToRespawn = 0;
         const foodsConsumed = this.boardOccupancyService.getFoodsConsumed();
 
@@ -36,7 +37,7 @@ class FoodService {
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
 
             if (food.type === ServerConfig.FOOD.INCREASE_SPEED.TYPE) {
-                increaseSpeed(playerWhoConsumedFood);
+                this.utilityService.changeSpeed(playerWhoConsumedFood.id, ServerConfig.INCREMENT_CHANGE.INCREASE);
             }
 
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
@@ -101,13 +102,14 @@ class FoodService {
         }
         const foodId = this.nameService.getFoodId();
         let food;
-        if (Math.random() < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
+        const spawnRate = Math.random();
+        if (spawnRate < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.GOLDEN.TYPE, ServerConfig.FOOD.GOLDEN.COLOR);
-        } else if (Math.random() < ServerConfig.FOOD.INCREASE_SPEED.SPAWN_RATE) {
+        } else if (spawnRate < ServerConfig.FOOD.INCREASE_SPEED.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.INCREASE_SPEED.TYPE, ServerConfig.FOOD.INCREASE_SPEED.COLOR);
-        } else if (Math.random() < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
+        } else if (spawnRate < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SWAP.TYPE, ServerConfig.FOOD.SWAP.COLOR);
-        } else if (Math.random() < ServerConfig.FOOD.SUPER.SPAWN_RATE) {
+        } else if (spawnRate < ServerConfig.FOOD.SUPER.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SUPER.TYPE, ServerConfig.FOOD.SUPER.COLOR);
         } else {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.NORMAL.TYPE, ServerConfig.FOOD.NORMAL.COLOR);
