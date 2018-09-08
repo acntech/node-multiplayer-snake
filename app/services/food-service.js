@@ -35,10 +35,6 @@ class FoodService {
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
 
-            const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
-
-            DbService.updateScore(thisPlayer.name, thisPlayer.score, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
-
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
                 this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
@@ -66,6 +62,7 @@ class FoodService {
                     otherPlayer.id,
                     'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true,
                 );
+                this.updateScore(otherPlayer);
             } else {
                 this.notificationService.notifyPlayerFoodCollected(
                     playerWhoConsumedFood.id,
@@ -73,6 +70,7 @@ class FoodService {
                 );
             }
 
+            this.updateScore(playerWhoConsumedFood);// TODO: How to calculate score (facor in deaths/kills etc.?)
             this.removeFood(foodConsumed.foodId);
             foodToRespawn += 1;
         }
@@ -128,6 +126,11 @@ class FoodService {
         this.nameService.returnFoodId(foodId);
         this.boardOccupancyService.removeFoodOccupancy(foodId, foodToRemove.coordinate);
         delete this.food[foodId];
+    }
+
+    updateScore(player) {
+        const thisPlayer = this.playerStatBoard.statBoard.get(player.id);
+        DbService.updateScore(thisPlayer.name, thisPlayer.score, thisPlayer.highScore);
     }
 }
 
