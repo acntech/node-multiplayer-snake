@@ -1,6 +1,5 @@
-/* eslint-disable no-restricted-syntax */
-
 import ClientConfig from '../config/client-config.js';
+import AudioController from './audio-controller.js';
 import TextToDraw from '../model/text-to-draw.js';
 import CanvasFactory from '../view/canvas-factory.js';
 import GameView from '../view/game-view.js';
@@ -27,7 +26,8 @@ export default class GameController {
     connect(io) {
         this.socket = io();
         this._initializeSocketIoHandlers();
-        console.log('connect!');
+
+        // trenger vi dewtte?
         const Board = {
             SQUARE_SIZE_IN_PIXELS: 18,
             HORIZONTAL_SQUARES: 60,
@@ -48,19 +48,20 @@ export default class GameController {
         this.canvasView.drawSquares(this.walls, ClientConfig.WALL_COLOR);
 
         for (const player of this.players) {
-            if (player.segments.length !== 0) {
-                // Flash around where you have just spawned
-                if (`/#${this.socket.id}` === player.id &&
+            if (player.segments.length === 0) {
+                continue;
+            }
+            // Flash around where you have just spawned
+            if (`/#${this.socket.id}` === player.id &&
                     player.moveCounter <= ClientConfig.TURNS_TO_FLASH_AFTER_SPAWN &&
                     player.moveCounter % 2 === 0) {
-                    this.canvasView.drawSquareAround(player.segments[0], ClientConfig.SPAWN_FLASH_COLOR);
-                }
+                this.canvasView.drawSquareAround(player.segments[0], ClientConfig.SPAWN_FLASH_COLOR);
+            }
 
-                if (player.base64Image) {
-                    this.canvasView.drawImages(player.segments, player.base64Image);
-                } else {
-                    this.canvasView.drawSnakeSquares(player.segments, player.color);
-                }
+            if (player.base64Image) {
+                this.canvasView.drawImages(player.segments, player.base64Image);
+            } else {
+                this.canvasView.drawSnakeSquares(player.segments, player.color);
             }
         }
 
@@ -127,9 +128,13 @@ export default class GameController {
         this.socket.emit(ClientConfig.IO.OUTGOING.JOIN_GAME);
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    keyDownCallback(/* keyCode*/) {
-        //  this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
+    keyDownCallback(keyCode) {
+        this.socket.emit(ClientConfig.IO.OUTGOING.KEY_DOWN, keyCode);
+    }
+
+    muteAudioCallback() {
+        this.audioController.toggleMute();
+        this.gameView.setMuteStatus(this.audioController.isMuted);
     }
 
     playerColorChangeCallback() {
@@ -162,12 +167,9 @@ export default class GameController {
      *******************************/
 
     _createBoard(board) {
-        this.canvasView = CanvasFactory.createCanvasView(
-            board.SQUARE_SIZE_IN_PIXELS,
-            board.HORIZONTAL_SQUARES,
-            board.VERTICAL_SQUARES,
-            this.canvasClicked.bind(this),
-        );
+        this.canvasView =
+            CanvasFactory.createCanvasView(
+                board.SQUARE_SIZE_IN_PIXELS, board.HORIZONTAL_SQUARES, board.VERTICAL_SQUARES, this.canvasClicked.bind(this));
         this.canvasView.clear();
         this.gameView.ready();
         this.renderGame();
@@ -181,8 +183,13 @@ export default class GameController {
         }
     }
 
-    _handleFoodCollected(text, coordinate, color) {
+    _handleFoodCollected(text, coordinate, color, isSwap) {
         this.textsToDraw.unshift(new TextToDraw(text, coordinate, color));
+        if (isSwap) {
+            this.audioController.playSwapSound();
+        } else {
+            this.audioController.playFoodCollectedSound();
+        }
     }
 
     _handleNewGameData(gameData) {
@@ -197,18 +204,13 @@ export default class GameController {
         this.socket.on(ClientConfig.IO.INCOMING.PLAYER_COUNT, this.gameView.showNumberOfPlayers.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.BOARD_INFO, this._createBoard.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
-        this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.FOOD_COLLECTED, this._handleFoodCollected.bind(this));
-        //this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
+        // this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this.gameView.showKillMessage.bind(this.gameView));
-        this.socket.on(
-            ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,
-            this.gameView.showKilledEachOtherMessage.bind(this.gameView),
-        );
-        this.socket.on(
-            ClientConfig.IO.INCOMING.NOTIFICATION.RAN_INTO_WALL,
-            this.gameView.showRanIntoWallMessage.bind(this.gameView),
-        );
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,
+            this.gameView.showKilledEachOtherMessage.bind(this.gameView));
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.RAN_INTO_WALL,
+            this.gameView.showRanIntoWallMessage.bind(this.gameView));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
     }
 }

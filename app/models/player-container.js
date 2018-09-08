@@ -1,6 +1,7 @@
 'use strict';
 
 class PlayerContainer {
+    
     constructor() {
         this._players = new Map();
         this._playerIdsToRespawn = new Set();

@@ -2,7 +2,7 @@
  * Client Settings constants
  */
 export default {
-    FPS: 8,
+    FPS: 60,
     TURNS_TO_FLASH_AFTER_SPAWN: 10,
     TURNS_TO_SHOW_FOOD_TEXT: 20,
     TIME_TO_SHOW_KILL_MESSAGE_IN_MS: 3000,
@@ -15,7 +15,6 @@ export default {
             NEW_PLAYER_INFO: 'new player info',
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
-            PLAYER_COUNT: 'player count',
             NOTIFICATION: {
                 GENERAL: 'general notification',
                 FOOD_COLLECTED: 'food collected',
@@ -45,7 +44,7 @@ export default {
             CANVAS_CLICKED: 'canvas clicked',
         },
     },
-    MAX_NAME_LENGTH: 20,
+    MAX_NAME_LENGTH: 10,
     INCREMENT_CHANGE: {
         INCREASE: 'increase',
         DECREASE: 'decrease',

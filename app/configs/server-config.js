@@ -2,7 +2,7 @@
 
 const ServerConfig = {
     MIN_FPS: 8,
-    STARTING_FPS: 8,
+    STARTING_FPS: 30,
     MAX_FPS: 60,
     PLAYER_STARTING_LENGTH: 10,
     SPAWN_TURN_LEEWAY: 10,
@@ -59,7 +59,6 @@ const ServerConfig = {
             CLEAR_UPLOADED_BACKGROUND_IMAGE: 'clear uploaded background image',
             BACKGROUND_IMAGE_UPLOAD: 'background image upload',
             CLEAR_UPLOADED_IMAGE: 'clear uploaded image',
-            PLAYER_COUNT: 'player count',
             IMAGE_UPLOAD: 'image upload',
             NEW_PLAYER: 'new player',
             NAME_CHANGE: 'player changed name',
@@ -72,7 +71,6 @@ const ServerConfig = {
             NEW_PLAYER_INFO: 'new player info',
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
-            PLAYER_COUNT: 'player count',
             NOTIFICATION: {
                 GENERAL: 'general notification',
                 FOOD_COLLECTED: 'food collected',
