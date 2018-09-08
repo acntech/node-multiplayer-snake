@@ -204,6 +204,11 @@ export default class DomHelper {
         document.getElementById('firstPlaceName').innerHTML = name;
     }
 
+    static setScoreAndNameAtIndex(index, name, score) {
+        document.getElementById(`score${index}`).innerHTML = score;
+        document.getElementById(`name${index}`).innerHTML = name;
+    }
+
     static setSecondPlaceScoreAndName(name, score) {
         document.getElementById('secondPlaceScore').innerHTML = score;
         document.getElementById('secondPlaceName').innerHTML = name;

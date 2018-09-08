@@ -177,8 +177,7 @@ class GameController {
      *******************************/
 
     // eslint-disable-next-line class-methods-use-this
-    _canvasClicked() {
-    }
+    _canvasClicked() {}
 
     _keyDown(playerId, keyCode) {
         GameControlsService.handleKeyDown(this.playerContainer.getPlayer(playerId), keyCode);
