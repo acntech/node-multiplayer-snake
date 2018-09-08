@@ -37,7 +37,7 @@ class FoodService {
 
             const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
 
-            DbService.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
+            DbService.updateScore(thisPlayer.name, thisPlayer.score, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
 
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);

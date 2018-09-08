@@ -51,9 +51,10 @@ class DbService {
         });
     }
 
-    updateScore(playerName, score) {
+    updateScore(playerName, score, highScore) {
         this.db.ref(`snake-scores/${playerName}`).set({
             score,
+            highScore,
         });
     }
 }

@@ -181,12 +181,23 @@ export default class GameView {
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
-            console.log('sadasdasdsdsadas')
             DomHelper.hideInvalidPlayerNameLabel();
             DomHelper.hideTakenPlayerNameLabel();
         } else {
             DomHelper.showInvalidPlayerNameLabel();
         }
+    }
+
+    _showPlayerScore(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
+            console.log(snapshot.val());
+
+            snapshot.forEach((childSnapshot) => {
+            });
+        });
     }
 
     _register() {
@@ -216,6 +227,7 @@ export default class GameView {
         DomHelper.getPlayerNameInputElement().style.display = 'none';
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
+        this._showPlayerScore(playerName);
         this.joinGameCallback();
         this.isChangingName = false;
         DomHelper.hideInvalidPlayerNameLabel();
