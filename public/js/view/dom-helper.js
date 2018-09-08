@@ -192,6 +192,14 @@ export default class DomHelper {
         document.getElementById('numPlayers').innerHTML = text;
     }
 
+    static setPlayerScore(text) {
+        document.getElementById('playerScore').innerHTML = text;
+    }
+
+    static setPlayerHighScore(text) {
+        document.getElementById('playerHighScore').innerHTML = text;
+    }
+
     static setFirstPlaceScoreAndName(name, score) {
         document.getElementById('firstPlaceScore').innerHTML = score;
         document.getElementById('firstPlaceName').innerHTML = name;

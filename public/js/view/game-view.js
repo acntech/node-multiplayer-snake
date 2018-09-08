@@ -193,10 +193,10 @@ export default class GameView {
         const db = firebase.database();
 
         db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
-            console.log(snapshot.val());
-
-            snapshot.forEach((childSnapshot) => {
-            });
+            const res = snapshot.val();
+            console.log(res);
+            DomHelper.setPlayerScore(res.score);
+            DomHelper.setPlayerHighScore(res.highScore);
         });
     }
 
