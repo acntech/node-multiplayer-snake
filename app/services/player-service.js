@@ -164,6 +164,11 @@ class PlayerService {
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
                     const victimSegments = victim.getSegments();
+                    
+                    if (!victimSegments) {
+                        continue;
+                    }
+
                     this.updateScore(victim);
                     this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
