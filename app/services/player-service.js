@@ -152,8 +152,8 @@ class PlayerService {
                         victimSegments.length,
                     );
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
+                    this.updateScore(killer);
                 }
-                this.updateScore(player);
                 this.updateScore(victim);
                 this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
@@ -164,6 +164,7 @@ class PlayerService {
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
                     const victimSegments = victim.getSegments();
+                    this.updateScore(victim);
                     this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
@@ -222,6 +223,7 @@ class PlayerService {
         this.playerStatBoard.resetScore(player.id);
         this.playerStatBoard.addDeath(player.id);
         this.playerContainer.removePlayerIdToRespawn(player.id);
+        this.updateScore(player);
     }
 
     respawnPlayers() {
