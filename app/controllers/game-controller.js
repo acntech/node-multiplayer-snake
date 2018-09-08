@@ -153,7 +153,7 @@ class GameController {
         this.playerService.handlePlayerCollisions();
         this.playerService.respawnPlayers();
 
-        this.foodService.consumeAndRespawnFood(this.playerContainer);
+        this.foodService.consumeAndRespawnFood(this.playerContainer, this.increaseSpeed);
 
         const gameState = {
             players: this.playerContainer,
@@ -167,6 +167,10 @@ class GameController {
         this.notificationService.broadcastGameState(gameState);
 
         setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
+    }
+
+    increaseSpeed(player) {
+        this.adminService.changeSpeed(player.id, ServerConfig.INCREMENT_CHANGE.INCREASE);
     }
 
     /*******************************
