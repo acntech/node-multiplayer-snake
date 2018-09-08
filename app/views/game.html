@@ -5,7 +5,8 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
 </head>
 
 <body class="game">
@@ -20,20 +21,51 @@
 
         <div class="body-content">
 
-            <div id="players">
+            <div id="players" class="scroll-left">
 
-                <span class="medal">🥇</span>
-                <span id="firstPlaceScore"></span>
-                <span id="firstPlaceName"></span>
-                <span class="medal">🥈</span>
-                <span id="secondPlaceScore"></span>
-                <span id="secondPlaceName"></span>
-                <span class="medal">🥉</span>
-                <span id="thirdPlaceScore"></span>
-                <span id="thirdPlaceName"></span>
-                <span id="numPlayers"></span>
+                <div class="text">
+                    <span class="medal">🥇</span>
+                    <span>1. </span>
+                    <span id="name0"></span>:
+                    <span id="score0"></span>
+
+                    <span class="medal">🥈</span>
+                    <span>2. </span>
+                    <span id="name1"></span>:
+                    <span id="score1"></span>
+
+                    <span class="medal">🥉</span>
+                    <span>3. </span>
+                    <span id="name2"></span>:
+                    <span id="score2"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>4. </span>
+                    <span id="name3"></span>:
+                    <span id="score3"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>5. </span><span id="name4"></span>: <span id="score4"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>6. </span><span id="name5"></span>: <span id="score5"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>7. </span><span id="name6"></span>: <span id="score6"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>8. </span><span id="name7"></span>: <span id="score7"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>9. </span><span id="name8"></span>: <span id="score8"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>10. </span><span id="name9"></span>: <span id="score9"></span>
+
+                </div>
 
             </div>
+            <span id="numPlayers"></span>
 
             <div id="kill-messages"></div>
             <div class="main-container">
