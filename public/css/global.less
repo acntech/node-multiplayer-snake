@@ -33,6 +33,19 @@ body {
     }
 }
 
+.active-game {
+    #playerScores {
+        display: block;
+    }
+    #playerSettings {
+        display: grid;
+    }
+}
+
+#playerSettings {
+    display: none;
+}
+
 button {
     touch-action: manipulation;
     background: @button-background-color;
@@ -131,7 +144,7 @@ fieldset {
     grid-row-gap: 20px;
   }
   .grid-item-button {
-    background-color: #9900ff;
+    background-color: @button-background-color;
   }
   .grid-item {
     background-color: none;
@@ -139,17 +152,39 @@ fieldset {
     font-size: 20px;
     line-height: 50px;
     text-align: center;
+    color: @background-color;
   }
 
 
 @media all and (orientation: portrait){
     .grid-container{
-        top: 50%;
+        top: 25%;
     }
+
+#playerScores {
+    display: none;
+    margin-top: 100px;
+    width: 100%;
+    text-align: center;
+}
+
 }
 
 @media all and (orientation: landscape){
     .grid-container{
         top: 20%;
     }
+    .player-view .register.top {
+        justify-content: flex-start;
+        padding-left: 20px;
+    }
+
+#playerScores {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    text-align: center;
+}
+
 }

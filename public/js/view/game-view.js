@@ -177,7 +177,7 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
-            DomHelper.showControlButtons();
+          //  DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
@@ -193,10 +193,10 @@ export default class GameView {
         const db = firebase.database();
 
         db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
-            console.log(snapshot.val());
-
-            snapshot.forEach((childSnapshot) => {
-            });
+            const res = snapshot.val();
+            console.log(res);
+            DomHelper.setPlayerScore(res.score);
+            DomHelper.setPlayerHighScore(res.highScore);
         });
     }
 
@@ -225,6 +225,7 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
+        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
         this._showPlayerScore(playerName);

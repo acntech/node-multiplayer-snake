@@ -20,7 +20,6 @@ class NotificationService {
 
     broadcastPlayerCount(count) {
         console.log(ServerConfig.IO.OUTGOING.PLAYER_COUNT);
-
         this.sockets.emit(ServerConfig.IO.OUTGOING.PLAYER_COUNT, count);
     }
 
@@ -40,7 +39,6 @@ class NotificationService {
     }
 
     broadcastNotification(message, fontColor) {
-        console.log(message);
         this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.GENERAL, message, fontColor);
     }
 
