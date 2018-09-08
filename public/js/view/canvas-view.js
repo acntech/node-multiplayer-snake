@@ -105,6 +105,9 @@ export default class CanvasView {
             case 'blue':
                 food = '⭐️';
                 break;
+            case 'purple':
+                food = '🍑';
+                break;
             default:
                 food = '';
         }
