@@ -8,17 +8,16 @@
     margin: 0 auto;
 }
 .main-container {
-    height: @game-content-height;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
 }
+
 .medal {
     font-size: 2rem;
 }
-.right-content {
-    background-color: @background-color;
-    float: left;
-    height: @game-content-height;
-    width: 600px;
-}
+
 .navigation {
     &:extend(.non-selectable);
     background-color: rgba(1, 1, 1, 0.8);
@@ -89,9 +88,6 @@
 .time-label {
     color: @border-color;
 }
-#changePlayerNameButton {
-   // width: 244px;
-}
 
 .player-view {
     height: 100vh;
@@ -129,7 +125,6 @@
     visibility: hidden;
 }
 
-
 #full-screen-button {
     background: url(../assets/fullscreen-icon.png) no-repeat;
     background-color: @button-background-color;
@@ -144,9 +139,7 @@
         background-color: @button-background-hover-color;
     }
 }
-#game-board {
-    text-align: center;
-}
+
 #invalid-player-name-label, #taken-player-name-label {
     color: red;
     display: none;
@@ -173,8 +166,9 @@
 }
 
 #numPlayers {
-    float: right;
-    display: inline-block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 #notifications {
