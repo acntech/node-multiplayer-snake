@@ -33,6 +33,19 @@ body {
     }
 }
 
+.active-game {
+    #playerScores {
+        display: block;
+    }
+    #playerSettings {
+        display: grid;
+    }
+}
+
+#playerSettings {
+    display: none;
+}
+
 button {
     touch-action: manipulation;
     background: @button-background-color;
@@ -149,6 +162,7 @@ fieldset {
     }
 
 #playerScores {
+    display: none;
     margin-top: 100px;
     width: 100%;
     text-align: center;
@@ -166,6 +180,7 @@ fieldset {
     }
 
 #playerScores {
+    display: none;
     position: absolute;
     right: 20px;
     top: 0;

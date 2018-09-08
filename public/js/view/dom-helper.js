@@ -144,16 +144,15 @@ export default class DomHelper {
     }
 
     static hideControlButtons() {
-        this.getControlButtons().style.display = 'none';
     }
 
     static showControlButtons() {
-        this.getControlButtons().style.display = 'grid';
         this.getPlayerNameElement().style.display = 'block';
         document.getElementById('playerView').style.display = 'block';
     }
 
     static movePlayerNameToTop() {
+        document.getElementById('playerView').classList.add('active-game');
         document.getElementById('register').classList.add('top');
         document.getElementById('selectName').style.display = 'none';
         document.getElementById('playerNameLabel').style.display = 'block';
