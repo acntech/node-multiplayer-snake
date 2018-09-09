@@ -55,7 +55,7 @@ export default class GameView {
             victims.push(`<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `);
         }
         const victimMessage = victims.join(' and ');
-        this.setKillMessageWithTimer(`${victimMessage} have killed each other`);
+        this.setKillMessageWithTimer(`${victimMessage} have killed each other!`);
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
@@ -63,7 +63,7 @@ export default class GameView {
     }
 
     showSuicideMessage(victimName, victimColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide`);
+        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide. Uh-oh.`);
     }
 
     showNotification(notification, playerColor) {
