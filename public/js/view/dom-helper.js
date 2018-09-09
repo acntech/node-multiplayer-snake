@@ -144,16 +144,15 @@ export default class DomHelper {
     }
 
     static hideControlButtons() {
-        this.getControlButtons().style.display = 'none';
     }
 
     static showControlButtons() {
-        this.getControlButtons().style.display = 'grid';
         this.getPlayerNameElement().style.display = 'block';
         document.getElementById('playerView').style.display = 'block';
     }
 
     static movePlayerNameToTop() {
+        document.getElementById('playerView').classList.add('active-game');
         document.getElementById('register').classList.add('top');
         document.getElementById('selectName').style.display = 'none';
         document.getElementById('playerNameLabel').style.display = 'block';
@@ -192,9 +191,22 @@ export default class DomHelper {
         document.getElementById('numPlayers').innerHTML = text;
     }
 
+    static setPlayerScore(text) {
+        document.getElementById('playerScore').innerHTML = text;
+    }
+
+    static setPlayerHighScore(text) {
+        document.getElementById('playerHighScore').innerHTML = text;
+    }
+
     static setFirstPlaceScoreAndName(name, score) {
         document.getElementById('firstPlaceScore').innerHTML = score;
         document.getElementById('firstPlaceName').innerHTML = name;
+    }
+
+    static setScoreAndNameAtIndex(index, name, score) {
+        document.getElementById(`score${index}`).innerHTML = score;
+        document.getElementById(`name${index}`).innerHTML = name;
     }
 
     static setSecondPlaceScoreAndName(name, score) {

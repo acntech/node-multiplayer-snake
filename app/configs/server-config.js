@@ -38,6 +38,13 @@ const ServerConfig = {
             GROWTH: 1,
             SPAWN_RATE: 0.05,
         },
+        INCREASE_SPEED: {
+            TYPE: 'INCREASE_SPEED',
+            COLOR: 'purple',
+            POINTS: 1,
+            GROWTH: 1,
+            SPAWN_RATE: 0.02,
+        },
     },
     IO: {
         DEFAULT_CONNECTION: 'connection',

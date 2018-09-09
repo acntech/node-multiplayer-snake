@@ -177,16 +177,27 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
-            DomHelper.showControlButtons();
+          //  DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
-            console.log('sadasdasdsdsadas')
             DomHelper.hideInvalidPlayerNameLabel();
             DomHelper.hideTakenPlayerNameLabel();
         } else {
             DomHelper.showInvalidPlayerNameLabel();
         }
+    }
+
+    _showPlayerScore(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
+            const res = snapshot.val();
+            console.log(res);
+            DomHelper.setPlayerScore(res.score);
+            DomHelper.setPlayerHighScore(res.highScore);
+        });
     }
 
     _register() {
@@ -214,8 +225,10 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
+        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
+        this._showPlayerScore(playerName);
         this.joinGameCallback();
         this.isChangingName = false;
         DomHelper.hideInvalidPlayerNameLabel();

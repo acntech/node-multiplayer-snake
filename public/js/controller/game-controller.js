@@ -41,7 +41,7 @@ export default class GameController {
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
                 const food = this.food[foodId];
-                this.canvasView.drawSquare(food.coordinate, food.color);
+                this.canvasView.drawFood(food.coordinate, food.color);
             }
         }
 
@@ -59,7 +59,7 @@ export default class GameController {
                 if (player.base64Image) {
                     this.canvasView.drawImages(player.segments, player.base64Image);
                 } else {
-                    this.canvasView.drawSquares(player.segments, player.color);
+                    this.canvasView.drawSnakeSquares(player.segments, player.color);
                 }
             }
         }
@@ -162,7 +162,6 @@ export default class GameController {
      *******************************/
 
     _createBoard(board) {
-        console.log('ggjhjgh');
         this.canvasView = CanvasFactory.createCanvasView(
             board.SQUARE_SIZE_IN_PIXELS,
             board.HORIZONTAL_SQUARES,

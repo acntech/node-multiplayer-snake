@@ -11,6 +11,8 @@ const CoordinateService = require('../services/coordinate-service');
 const PlayerSpawnService = require('../services/player-spawn-service');
 const ValidationService = require('../services/validation-service');
 
+const DbService = require('../services/db-service');
+
 /**
  * Player-related changes
  */
@@ -39,7 +41,6 @@ class PlayerService {
     addPlayer(socket, previousName, previousImage) {
         const playerName = this.nameService.getPlayerName();
         const newPlayer = this.createPlayer(socket.id, playerName);
-        console.log('new player')
         socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, playerName, newPlayer.color);
         socket.emit(ServerConfig.IO.OUTGOING.BOARD_INFO, Board);
         this.notificationService.broadcastNotification(`${playerName} has joined!`, newPlayer.color);
@@ -117,6 +118,9 @@ class PlayerService {
         if (!player) {
             return;
         }
+
+        this.updateScore(player);
+
         this.notificationService.broadcastNotification(`${player.name} has left.`, player.color);
         this.colorService.returnColor(player.color);
         this.nameService.returnPlayerName(player.name);
@@ -147,16 +151,23 @@ class PlayerService {
                         victimSegments.length,
                     );
                     this.notificationService.notifyPlayerMadeAKill(killReport.killerId);
+                    this.updateScore(killer);
                 }
                 this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                 victim.clearAllSegments();
                 this.playerContainer.addPlayerIdToRespawn(victim.id);
                 this.notificationService.notifyPlayerDied(victim.id);
+                this.updateScore(victim);
             } else {
                 const victimSummaries = [];
                 for (const victimId of killReport.getVictimIds()) {
                     const victim = this.playerContainer.getPlayer(victimId);
                     const victimSegments = victim.getSegments();
+
+                    if (!victimSegments) {
+                        continue;
+                    }
+
                     this.boardOccupancyService.removePlayerOccupancy(victim.id, victimSegments);
                     victim.clearAllSegments();
                     this.playerContainer.addPlayerIdToRespawn(victim.id);
@@ -165,6 +176,7 @@ class PlayerService {
                         color: victim.color,
                     });
                     this.notificationService.notifyPlayerDied(victim.id);
+                    this.updateScore(victim);
                 }
                 if (victimSummaries.length > 0) {
                     this.notificationService.broadcastKillEachOther(victimSummaries);
@@ -215,12 +227,18 @@ class PlayerService {
         this.playerStatBoard.resetScore(player.id);
         this.playerStatBoard.addDeath(player.id);
         this.playerContainer.removePlayerIdToRespawn(player.id);
+        this.updateScore(player);
     }
 
     respawnPlayers() {
         for (const playerId of this.playerContainer.getPlayerIdsToRespawn()) {
             this.respawnPlayer(playerId);
         }
+    }
+
+    updateScore(player) {
+        const playerStat = this.playerStatBoard.statBoard.get(player.id);
+        DbService.updateScore(playerStat.name, playerStat.score, playerStat.highScore);
     }
 }
 
