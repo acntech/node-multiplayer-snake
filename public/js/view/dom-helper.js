@@ -1,7 +1,44 @@
 /**
  * DOM manipulation helper
  */
+var exampleSnake = [{
+        x: 1,
+        y: 2
+    }, {
+        x: 2,
+        y: 2
+    }, {
+        x: 3,
+        y: 2
+    }, {
+        x: 4,
+        y: 2
+    }, {
+        x: 5,
+        y: 2
+    }, {
+        x: 6,
+        y: 2
+    }, {
+        x: 7,
+        y: 2
+    },
+    {
+        x: 8,
+        y: 2
+    },
+    {
+        x: 9,
+        y: 2
+    },
+    {
+        x: 10,
+        y: 2
+    },
+];
+
 export default class DomHelper {
+
     static blurActiveElement() {
         document.activeElement.blur();
     }
@@ -166,7 +203,33 @@ export default class DomHelper {
 
     static setPlayerNameElementColor(color) {
         this.getPlayerNameElement().style.color = color;
-        document.getElementById('snakeColor').style.color = color;
+        this.drawSnakeSquares(exampleSnake, color);
+    }
+
+    static drawSnakeSquares(coordinates, color) {
+        for (const coordinate of coordinates) {
+            this.drawSnakeSquare(coordinate, color);
+        }
+    }
+
+    static drawSnakeSquare(coordinate, color) {
+        const context = document.getElementById('playerViewCanvas').getContext('2d');
+        const squareSizeInPixels = 18;
+        const x = coordinate.x * squareSizeInPixels;
+        const y = coordinate.y * squareSizeInPixels;
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(x - (squareSizeInPixels / 2), y - (squareSizeInPixels / 2.5));
+        context.lineTo(x + (squareSizeInPixels * 0.25), y - (squareSizeInPixels / 2.5));
+        context.lineTo(x + (squareSizeInPixels * 0.25), y);
+        context.lineTo(x + (squareSizeInPixels / 2), y);
+        context.lineTo(x + (squareSizeInPixels / 2), y + (squareSizeInPixels / 2.5));
+        context.lineTo(x - (squareSizeInPixels * 0.25), y + (squareSizeInPixels / 2.5));
+        context.lineTo(x - (squareSizeInPixels * 0.25), y);
+        context.lineTo(x - (squareSizeInPixels / 2), y);
+        context.lineTo(x - (squareSizeInPixels / 2), y - (squareSizeInPixels / 2.5));
+        context.closePath();
+        context.fill();
     }
 
     static setPlayerNameInputElementColor(color) {
