@@ -1,7 +1,27 @@
 @content-color: #242B00;
-label#register {
-    top: 0.75em;
+.active-game {
+    justify-content: space-evenly;
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+}
+
+.visible-in-game {
+    position: relative;
+    text-align: center;
     width: 100%;
+}
+
+label#register {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    min-height: 10%;
+}
+
+.player-view .register.top {
+    position: relative !important;
+    top: 0;
 }
 
 #changePlayerNameButton {
@@ -25,7 +45,6 @@ div#player-name {
 
 #visibleWhenPlaying {
     display: none;
-    min-height: 90%;
 }
 
 #quitGame {
@@ -34,8 +53,11 @@ div#player-name {
     text-transform: uppercase;
     border-bottom: 0.2em solid @content-color;
     width: auto;
-    display: inline-block;
-    clear: both;
+    display: flex;
+    flex-grow: 1;
+    min-height: 5%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .player-info-wrapper {
@@ -65,15 +87,19 @@ div#player-name {
     grid-template-areas: "a a b b d d" "a a b b d d" "a a c c d d" "a a c c d d";
 }
 
-div.grid-item-button {
+button.grid-item-button {
     border: 0.2em solid @content-color;
     background: transparent;
     color: @content-color;
+    &:active {
+        background: @content-color;
+        color: white;
+    }
 }
 
 #playerViewCanvas {
-    height: 3em;
-    width:100%;
+    width: 100%;
+    transform: scale(1);
 }
 
 .control-button {
@@ -83,27 +109,17 @@ div.grid-item-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    
     & p {
         margin: 0;
         padding: 0;
     }
 }
 
-div#btnRight,
-div#btnLeft {
+#btnRight span,
+#btnLeft span {
     writing-mode: tb-rl;
     text-orientation: upright;
     letter-spacing: 0.25em;
-}
-
-div#btnUp,
-div#btnDown {}
-
-.visible-in-game {
-    position: relative;
-    padding-top: 5em;
-    text-align: center;
 }
 
 span#playerNameLabel {
