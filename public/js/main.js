@@ -10,8 +10,7 @@ const db = firebase.database();
 
 let topScores = [];
 
-db.ref('snake-scores').orderByChild('score').limitToLast(10).on('value', (snapshot) => {
-    console.log(snapshot.child);
+db.ref('snake-scores').orderByChild('highScore').limitToLast(10).on('value', (snapshot) => {
     topScores = [];
 
     snapshot.forEach((childSnapshot) => {
@@ -21,6 +20,6 @@ db.ref('snake-scores').orderByChild('score').limitToLast(10).on('value', (snapsh
     });
     topScores.reverse();
     topScores.forEach((score, index) => {
-        DomHelper.setScoreAndNameAtIndex(index, topScores[index].name, topScores[index].score);
+        DomHelper.setScoreAndNameAtIndex(index, topScores[index].name, topScores[index].highScore);
     });
 });

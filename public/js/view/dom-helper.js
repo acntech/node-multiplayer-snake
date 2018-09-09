@@ -216,6 +216,10 @@ export default class DomHelper {
         this.drawSnakeSquares(exampleSnake, color);
     }
 
+    static setPlayerRank(rank, total) {
+        document.getElementById('playerRank').innerHTML = `${rank}/${total}`;
+    }
+
     static drawSnakeSquares(coordinates, color) {
         for (const coordinate of coordinates) {
             this.drawSnakeSquare(coordinate, color);
