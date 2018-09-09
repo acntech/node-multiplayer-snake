@@ -187,18 +187,19 @@ class PlayerService {
 
     movePlayers() {
         for (const player of this.playerContainer.getPlayers()) {
-            if (!this.playerContainer.isSpectating(player.id)) {
-                this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
-                CoordinateService.movePlayer(player);
-                if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
+            if (this.playerContainer.isSpectating(player.id)) {
+                continue;
+            }
+            this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
+            CoordinateService.movePlayer(player);
+            if (this.boardOccupancyService.isOutOfBounds(player.getHeadCoordinate()) ||
                     this.boardOccupancyService.isWall(player.getHeadCoordinate())) {
-                    player.clearAllSegments();
-                    this.playerContainer.addPlayerIdToRespawn(player.id);
-                    this.notificationService.broadcastRanIntoWall(player.name, player.color);
-                    this.notificationService.notifyPlayerDied(player.id);
-                } else {
-                    this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
-                }
+                player.clearAllSegments();
+                this.playerContainer.addPlayerIdToRespawn(player.id);
+                this.notificationService.broadcastRanIntoWall(player.name, player.color);
+                this.notificationService.notifyPlayerDied(player.id);
+            } else {
+                this.boardOccupancyService.addPlayerOccupancy(player.id, player.getSegments());
             }
         }
     }
