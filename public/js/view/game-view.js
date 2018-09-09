@@ -31,6 +31,12 @@ export default class GameView {
         // Show everything when ready
         DomHelper.showAllContent();
         DomHelper.hideControlButtons();
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        if (storedName) {
+            DomHelper.hideEnterPlayerNameLabel();
+            DomHelper.showWelcomeBackLabel();
+            DomHelper.setPlayerNameInputElementReadOnly(true);
+        }
     }
 
     setKillMessageWithTimer(message) {
@@ -203,12 +209,14 @@ export default class GameView {
 
     _register() {
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
-        const playerName = DomHelper.getPlayerNameInputElement().value;
 
-        if (storedName === playerName) {
-            this._createPlayer(playerName);
+        if (storedName) {
+            this._createPlayer(storedName);
             return;
         }
+
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+
 
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
@@ -226,7 +234,6 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
-        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
         this._showPlayerScore(playerName);
