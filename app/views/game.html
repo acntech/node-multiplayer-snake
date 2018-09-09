@@ -5,59 +5,118 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
 </head>
 
-<body>
+<body class="game">
     <a id="top"></a>
     <div id="cover">
         <label class="nav-label" style="display:none !important;">
             <input id="player-name" ></input>
             <label id="invalid-player-name-label"></label>
-            <button style="visibility:hidden;" id="changePlayerNameButton">TEST</button>
+        <button style="visibility:hidden;" id="changePlayerNameButton">TEST</button>
         </label>
 
-        
+
         <div class="body-content">
-                <div id="players">
-                    
-                    <div id="numPlayers"></div>
+
+            <div id="players" class="scroll-left">
+
+                <div class="text">
+                    <span class="medal">🥇</span>
+                    <span>1. </span>
+                    <span id="name0"></span>:
+                    <span id="score0"></span>
+
+                    <span class="medal">🥈</span>
+                    <span>2. </span>
+                    <span id="name1"></span>:
+                    <span id="score1"></span>
+
+                    <span class="medal">🥉</span>
+                    <span>3. </span>
+                    <span id="name2"></span>:
+                    <span id="score2"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>4. </span>
+                    <span id="name3"></span>:
+                    <span id="score3"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>5. </span><span id="name4"></span>: <span id="score4"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>6. </span><span id="name5"></span>: <span id="score5"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>7. </span><span id="name6"></span>: <span id="score6"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>8. </span><span id="name7"></span>: <span id="score7"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>9. </span><span id="name8"></span>: <span id="score8"></span>
+
+                    <span class="medal">🎖️</span>
+                    <span>10. </span><span id="name9"></span>: <span id="score9"></span>
 
                 </div>
-                <div id="kill-messages"></div>
-            <div class="main-container">
-                <div class="left-content">
-                    <div id="game-board"></div>
-                </div>
-                
+
             </div>
-            <div class="right-content">
-                    <div id="player-stats">
-                    </div>
+            <span id="numPlayers"></span>
+
+            <div id="kill-messages"></div>
+            <div class="main-container">
+                <div id="game-board" style="padding: 20px 0 0 40px"></div>
+                <div id="player-stats" style="display:none"></div>
+                <div style="text-align:center">
+                    <img src="../assets/qr.png"/ style="height: 200px">
+                    <p style="font-size: 20px" >Join the game at acn.zone</p>
                 </div>
+            </div>
+
         </div>
     </div>
 
-    <div style="width: 400px;visibility:hidden;" id="playerSettings" class="settings-menu">
+    <div style="width: 400px;display:none;" id="playerSettings">
         <!-- TODO: Fix a better layout, remove hard coded styles -->
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnUp">UP</button>
+        <div >
+            <button id="btnUp">UP</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnLeft">LEFT</button>
+        <div >
+            <button id="btnLeft">LEFT</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnRight">RIGHT</button>
+        <div>
+            <button id="btnRight">RIGHT</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
-        <div style="width: 30%; display: inline-block;">
-            <button style="height: 70px; width: 70px;" id="btnDown">DOWN</button>
+        <div >
+            <button id="btnDown">DOWN</button>
         </div>
-        <div style="width: 30%; display: inline-block;"></div>
     </div>
 
+
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "<API_KEY>",
+            authDomain: 'jz-2018.firebaseapp.com',
+            databaseURL: 'https://jz-2018.firebaseio.com',
+            projectId: 'jz-2018',
+            storageBucket: 'jz-2018.appspot.com',
+            messagingSenderId: "<SENDER_ID>",
+        };
+        var firebaseApp = firebase.initializeApp(config);
+    </script>
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/main.js" type="module"></script>

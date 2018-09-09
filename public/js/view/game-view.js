@@ -44,10 +44,9 @@ export default class GameView {
         );
     }
 
-    showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {
-        this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed ` +
-            `<span style='color: ${victimColor}'>${victimName}</span>` +
-            ` and grew by <span style='color: ${killerColor}'>${victimLength}</span>`);
+    showKillMessage(killerName, victimName, killerColor, victimColor) {
+        this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed
+        <span style='color: ${victimColor}'>${victimName}!</span> Good job, <span style='color: ${killerColor}'>${killerName}!</span>`);
     }
 
     showKilledEachOtherMessage(victimSummaries) {
@@ -59,7 +58,7 @@ export default class GameView {
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall`);
+        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall. Watch your step, <span style='color: ${playerColor}'>${playerName}!</span> `);
     }
 
     showSuicideMessage(victimName, victimColor) {
@@ -96,8 +95,7 @@ export default class GameView {
     }
 
     showNumberOfPlayers(players) {
-        let content = `<span class="players">Number of players: ${players}</span>`;
-
+        const content = `<span><i class="fas fa-users fa-2x"></i>${players}</span>`;
         DomHelper.setNumberOfPlayers(content);
     }
 
@@ -179,14 +177,27 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
-            DomHelper.showControlButtons();
+          //  DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
+            DomHelper.hideTakenPlayerNameLabel();
         } else {
             DomHelper.showInvalidPlayerNameLabel();
         }
+    }
+
+    _showPlayerScore(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
+            const res = snapshot.val();
+            console.log(res);
+            DomHelper.setPlayerScore(res.score);
+            DomHelper.setPlayerHighScore(res.highScore);
+        });
     }
 
     _register() {
@@ -200,11 +211,10 @@ export default class GameView {
 
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
-                console.log(data);
                 if (data.available) {
                     this._createPlayer(playerName);
                 } else {
-                    DomHelper.showInvalidPlayerNameLabel();
+                    DomHelper.showTakenPlayerNameLabel();
                 }
             });
         } else {
@@ -215,11 +225,14 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
+        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
+        this._showPlayerScore(playerName);
         this.joinGameCallback();
         this.isChangingName = false;
         DomHelper.hideInvalidPlayerNameLabel();
+        DomHelper.hideTakenPlayerNameLabel();
     }
 
     _initEventHandling() {

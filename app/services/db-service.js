@@ -32,12 +32,18 @@ class DbService {
         });
     }
 
+    referenceToTopPlayers(limit) {
+        return this.db.ref('snake-scores')
+        .orderByChild('score')
+        .limitToLast(limit);
+        // Call as:
+        // on.('child_added', (data) => { data.key, data.val().score })
+    }
+
     referenceToScore(playerName) {
         return this.db.ref(`snake-scores/${playerName}/score`);
         // reference.on('value', (snapshot) => { handle change in $snapshot.val() real time });
     }
-
-    // TODO: get player with highest score
 
     storePhoneNumber(playerName, phoneNumber) {
         this.db.ref(`snake-scores/${playerName}`).update({
@@ -45,9 +51,26 @@ class DbService {
         });
     }
 
-    updateScore(playerName, score) {
+    updateScore(playerName, score, highScore) {
+        this.getPlayer(playerName).then((player) => {
+            if (!player.highScore) {
+                this.updateScoreInDb(playerName, score, highScore);
+            } else if (score >= player.highScore) {
+                this.updateScoreInDb(playerName, score, score);
+            } else {
+                this.updateScoreInDb(playerName, score, player.highScore);
+            }
+        }, (error) => {
+            if (error) {
+                this.updateScoreInDb(playerName, score, highScore);
+            }
+        })
+    }
+
+    updateScoreInDb(playerName, score, highScore) {
         this.db.ref(`snake-scores/${playerName}`).set({
             score,
+            highScore,
         });
     }
 }

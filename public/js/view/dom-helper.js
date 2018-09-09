@@ -139,18 +139,21 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'none';
     }
 
+    static hideTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'none';
+    }
+
     static hideControlButtons() {
-        this.getControlButtons().style.display = 'none';
     }
 
     static showControlButtons() {
-        this.getControlButtons().style.display = 'grid';
         this.getPlayerNameElement().style.display = 'block';
         document.getElementById('playerView').style.display = 'block';
         document.getElementById('visibleWhenPlaying').style.display = 'block';
     }
 
     static movePlayerNameToTop() {
+        document.getElementById('playerView').classList.add('active-game');
         document.getElementById('register').classList.add('top');
         document.getElementById('selectName').style.display = 'none';
         document.getElementById('playerNameLabel').style.display = 'block';
@@ -190,6 +193,34 @@ export default class DomHelper {
         document.getElementById('numPlayers').innerHTML = text;
     }
 
+    static setPlayerScore(text) {
+        document.getElementById('playerScore').innerHTML = text;
+    }
+
+    static setPlayerHighScore(text) {
+        document.getElementById('playerHighScore').innerHTML = text;
+    }
+
+    static setFirstPlaceScoreAndName(name, score) {
+        document.getElementById('firstPlaceScore').innerHTML = score;
+        document.getElementById('firstPlaceName').innerHTML = name;
+    }
+
+    static setScoreAndNameAtIndex(index, name, score) {
+        document.getElementById(`score${index}`).innerHTML = score;
+        document.getElementById(`name${index}`).innerHTML = name;
+    }
+
+    static setSecondPlaceScoreAndName(name, score) {
+        document.getElementById('secondPlaceScore').innerHTML = score;
+        document.getElementById('secondPlaceName').innerHTML = name;
+    }
+
+    static setThirdPlaceScoreAndName(name, score) {
+        document.getElementById('thirdPlaceScore').innerHTML = score;
+        document.getElementById('thirdPlaceName').innerHTML = name;
+    }
+
     static setPlayOrWatchButtonText(text) {
         this.getPlayOrWatchButton().textContent = text;
     }
@@ -200,6 +231,10 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static showTakenPlayerNameLabel() {
+        document.getElementById('taken-player-name-label').style.display = 'inline';
     }
 
     static toggleFullScreenMode() {
