@@ -36,10 +36,6 @@ class FoodService {
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
 
-            if (food.type === ServerConfig.FOOD.INCREASE_SPEED.TYPE) {
-                this.utilityService.changeSpeed(playerWhoConsumedFood.id, ServerConfig.INCREMENT_CHANGE.INCREASE);
-            }
-
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
                 this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());

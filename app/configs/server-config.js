@@ -2,9 +2,9 @@
 
 const ServerConfig = {
     MIN_FPS: 8,
-    STARTING_FPS: 8,
+    STARTING_FPS: 10,
     MAX_FPS: 60,
-    PLAYER_STARTING_LENGTH: 10,
+    PLAYER_STARTING_LENGTH: 2,
     SPAWN_TURN_LEEWAY: 10,
     DEFAULT_STARTING_BOTS: 0,
     MAX_BOTS: 20,
@@ -22,7 +22,7 @@ const ServerConfig = {
             COLOR: 'green',
             POINTS: 5,
             GROWTH: 5,
-            SPAWN_RATE: 0.1,
+            SPAWN_RATE: 0.4,
         },
         GOLDEN: {
             TYPE: 'GOLDEN',
@@ -41,8 +41,8 @@ const ServerConfig = {
         INCREASE_SPEED: {
             TYPE: 'INCREASE_SPEED',
             COLOR: 'purple',
-            POINTS: 1,
-            GROWTH: 1,
+            POINTS: 17,
+            GROWTH: 17,
             SPAWN_RATE: 0.02,
         },
     },

@@ -95,7 +95,6 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showPlayerStats(gameData.playerStats);
     }
 
 

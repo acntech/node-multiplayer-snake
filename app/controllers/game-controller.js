@@ -122,7 +122,6 @@ class GameController {
             console.log('Game Paused');
             this.boardOccupancyService.initializeBoard();
             this.adminService.resetGame();
-            this.utilityService._resetSpeed();
             this.nameService.reinitialize();
             this.imageService.resetBackgroundImage();
             this.foodService.reinitialize();
@@ -134,7 +133,7 @@ class GameController {
                 food: this.foodService.getFood(),
                 playerStats: this.playerStatBoard,
                 walls: this.boardOccupancyService.getWallCoordinates(),
-                speed: this.utilityService.getGameSpeed(),
+                speed: this.adminService.getGameSpeed(),
                 numberOfBots: this.adminService.getBotIds().length,
                 startLength: this.adminService.getPlayerStartLength(),
             };
@@ -163,13 +162,13 @@ class GameController {
             food: this.foodService.getFood(),
             playerStats: this.playerStatBoard,
             walls: this.boardOccupancyService.getWallCoordinates(),
-            speed: this.utilityService.getGameSpeed(),
+            speed: this.adminService.getGameSpeed(),
             numberOfBots: this.adminService.getBotIds().length,
             startLength: this.adminService.getPlayerStartLength(),
         };
         this.notificationService.broadcastGameState(gameState);
 
-        setTimeout(this.runGameCycle.bind(this), 1000 / this.utilityService.getGameSpeed());
+        setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
     }
 
     /*******************************
