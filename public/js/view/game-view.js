@@ -124,6 +124,11 @@ export default class GameView {
         this._register();
     }
 
+    _handleQuitButtonClick() {
+        this.spectateGameCallback();
+        DomHelper.hideControlButtons();
+    }
+
     _handleKeyDown(e) {
         // Prevent keyboard scrolling default behavior
         if ((e.keyCode === UP_ARROW_KEYCODE || e.keyCode === DOWN_ARROW_KEYCODE) ||
@@ -264,13 +269,16 @@ export default class GameView {
 
     _initEventHandling() {
         // Player controls
-        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
-        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
+        if (this.playerMode) {
+            DomHelper.getQuitButton().addEventListener('click', this._handleQuitButtonClick.bind(this));
+            DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+            DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+            DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+            DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+            DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        }
 
-        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
     }
 
     emitUpClicked() {

@@ -68,6 +68,10 @@ export default class DomHelper {
         return document.getElementById('changePlayerNameButton');
     }
 
+    static getQuitButton() {
+        return document.getElementById('quitGame');
+    }
+
     static getControlButtons() {
         return document.getElementById('playerSettings');
     }
@@ -191,7 +195,15 @@ export default class DomHelper {
         }
     }
 
-    static hideControlButtons() {}
+    static hideControlButtons() {
+        document.getElementById('visibleWhenPlaying').style.display = 'none';
+        document.getElementById('playerView').classList.remove('active-game');
+        document.getElementById('playerView').style.display = 'flex';
+        document.getElementById('register').classList.remove('top');
+        this.hideEnterPlayerNameLabel();
+        document.getElementById('playerNameLabel').style.display = 'none';
+        this.getChangeNameButton().style.display = 'block';
+    }
 
     static showControlButtons() {
         this.getPlayerNameElement().style.display = 'block';
