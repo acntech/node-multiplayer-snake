@@ -17,6 +17,7 @@ export default class GameController {
             this.keyDownCallback.bind(this),
             this.playerNameUpdatedCallback.bind(this),
             this.spectateGameCallback.bind(this),
+            false, //not player mode
         );
         this.players = [];
         this.food = {};
