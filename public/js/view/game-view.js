@@ -31,6 +31,12 @@ export default class GameView {
         // Show everything when ready
         DomHelper.showAllContent();
         DomHelper.hideControlButtons();
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        if (storedName) {
+            DomHelper.hideEnterPlayerNameLabel();
+            DomHelper.showWelcomeBackLabel();
+            DomHelper.setPlayerNameInputElementReadOnly(true);
+        }
     }
 
     setKillMessageWithTimer(message) {
@@ -50,11 +56,12 @@ export default class GameView {
     }
 
     showKilledEachOtherMessage(victimSummaries) {
-        let victims = '';
+        const victims = [];
         for (const victimSummary of victimSummaries) {
-            victims += `<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `;
+            victims.push(`<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `);
         }
-        this.setKillMessageWithTimer(`${victims} have killed each other`);
+        const victimMessage = victims.join(' and ');
+        this.setKillMessageWithTimer(`${victimMessage} have killed each other!`);
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
@@ -62,7 +69,7 @@ export default class GameView {
     }
 
     showSuicideMessage(victimName, victimColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide`);
+        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide. Uh-oh.`);
     }
 
     showNotification(notification, playerColor) {
@@ -202,12 +209,14 @@ export default class GameView {
 
     _register() {
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
-        const playerName = DomHelper.getPlayerNameInputElement().value;
 
-        if (storedName === playerName) {
-            this._createPlayer(playerName);
+        if (storedName) {
+            this._createPlayer(storedName);
             return;
         }
+
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+
 
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
@@ -225,7 +234,6 @@ export default class GameView {
     _createPlayer(playerName) {
         this.playerNameUpdatedCallback(playerName);
         DomHelper.getPlayerNameInputElement().style.display = 'none';
-        console.log('hehekjhekjh)')
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
         this._showPlayerScore(playerName);
