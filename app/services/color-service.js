@@ -12,11 +12,15 @@ class ColorService {
 
     getColor() {
         let newColor;
-        do {
-            newColor = this._getRandomColor();
-        } while (this.usedColors.has(newColor));
-        // TODO check if too similar to any used colors
-        this.usedColors.add(newColor);
+        if (this.usedColors.size === ServerConfig.SNAKES.COLORS.length) {
+            newColor = '#383838';
+        } else {
+            do {
+                newColor = this._getRandomColor();
+            } while (this.usedColors.has(newColor));
+            // TODO check if too similar to any used colors
+            this.usedColors.add(newColor);
+        }
         return newColor;
     }
 
