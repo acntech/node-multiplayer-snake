@@ -56,11 +56,12 @@ export default class GameView {
     }
 
     showKilledEachOtherMessage(victimSummaries) {
-        let victims = '';
+        const victims = [];
         for (const victimSummary of victimSummaries) {
-            victims += `<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `;
+            victims.push(`<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `);
         }
-        this.setKillMessageWithTimer(`${victims} have killed each other`);
+        const victimMessage = victims.join(' and ');
+        this.setKillMessageWithTimer(`${victimMessage} have killed each other!`);
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
@@ -68,7 +69,7 @@ export default class GameView {
     }
 
     showSuicideMessage(victimName, victimColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide`);
+        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide. Uh-oh.`);
     }
 
     showNotification(notification, playerColor) {
