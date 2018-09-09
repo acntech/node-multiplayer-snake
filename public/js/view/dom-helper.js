@@ -143,8 +143,18 @@ export default class DomHelper {
         document.getElementById('taken-player-name-label').style.display = 'none';
     }
 
-    static hideControlButtons() {
+    static hideEnterPlayerNameLabel() {
+        if (document.getElementById('selectName')) {
+            document.getElementById('selectName').style.display = 'none';
+        }
     }
+    static showWelcomeBackLabel() {
+        if (document.getElementById('welcomeBack')) {
+            document.getElementById('welcomeBack').style.display = 'block';
+        }
+    }
+
+    static hideControlButtons() {}
 
     static showControlButtons() {
         this.getPlayerNameElement().style.display = 'block';
@@ -171,8 +181,10 @@ export default class DomHelper {
         this.getPlayerNameInputElement().style.color = color;
     }
 
-    static setPlayerNameElementReadOnly(readOnly) {
-        this.getPlayerNameElement().readOnly = readOnly;
+    static setPlayerNameInputElementReadOnly(readOnly) {
+        if (this.getPlayerNameInputElement()) {
+            this.getPlayerNameInputElement().readOnly = readOnly;
+        }
     }
 
     static setPlayerNameElementValue(value) {
