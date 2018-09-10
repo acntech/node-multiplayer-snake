@@ -14,6 +14,10 @@ class VideoController {
         this.notificationService.broadcastStartVideo();
     }
 
+    startGame() {
+        this.notificationService.broadcastStartGame();
+    }
+
     listen(io) {
         this.notificationService.setSockets(io.sockets);
     }

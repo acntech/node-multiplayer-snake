@@ -32,6 +32,7 @@
     "es6-promise": "^4.2.4",
     "express": "^4.16.3",
     "firebase": "^5.4.1",
+    "http-auth": "^3.2.3",
     "isomorphic-fetch": "^2.2.1",
     "less-middleware": "^3.0.0",
     "npm": "^6.4.0",

@@ -65,6 +65,7 @@ const ServerConfig = {
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
             START_VIDEO: 'start videos',
+            START_GAME: 'start game',
             NOTIFICATION: {
                 GENERAL: 'general notification',
                 FOOD_COLLECTED: 'food collected',

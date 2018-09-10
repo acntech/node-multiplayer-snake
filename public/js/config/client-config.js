@@ -16,6 +16,7 @@ export default {
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
             START_VIDEOS: 'start videos',
+            START_GAME: 'start game',
             VIDEO_ENDED: 'video ended',
             NOTIFICATION: {
                 GENERAL: 'general notification',

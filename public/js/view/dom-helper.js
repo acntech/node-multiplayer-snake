@@ -200,7 +200,7 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
     }
 
-    static getVideo() {
+    static getVideoPlayer() {
         return document.getElementById('video');
     }
 
