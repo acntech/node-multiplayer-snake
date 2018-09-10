@@ -15,7 +15,7 @@ export default class GameView {
     constructor(
         backgroundImageUploadCallback, imageUploadCallback,
         joinGameCallback, keyDownCallback, playerNameUpdatedCallback,
-        spectateGameCallback,
+        spectateGameCallback, playerMode,
     ) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
@@ -24,13 +24,13 @@ export default class GameView {
         this.keyDownCallback = keyDownCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
+        this.playerMode = playerMode;
         this._initEventHandling();
     }
 
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.hideControlButtons();
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
         if (storedName) {
             DomHelper.hideEnterPlayerNameLabel();
@@ -123,6 +123,11 @@ export default class GameView {
         this._register();
     }
 
+    _handleQuitButtonClick() {
+        this.spectateGameCallback();
+        DomHelper.hideControlButtons();
+    }
+
     _handleKeyDown(e) {
         // Prevent keyboard scrolling default behavior
         if ((e.keyCode === UP_ARROW_KEYCODE || e.keyCode === DOWN_ARROW_KEYCODE) ||
@@ -184,7 +189,6 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
-          //  DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
@@ -204,6 +208,24 @@ export default class GameView {
             console.log(res);
             DomHelper.setPlayerScore(res.score);
             DomHelper.setPlayerHighScore(res.highScore);
+        });
+    }
+
+    _showPlayerRank(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref('snake-scores').orderByChild('highScore').on('value', (snapshot) => {
+            const topScores = [];
+            snapshot.forEach((childSnapshot) => {
+                const result = childSnapshot.val();
+                result.name = childSnapshot.key;
+                topScores.push(result);
+            });
+            topScores.reverse();
+
+            const place = topScores.findIndex(player => player.name === playerName) + 1;
+            DomHelper.setPlayerRank(place, topScores.length);
         });
     }
 
@@ -237,6 +259,7 @@ export default class GameView {
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
         this._showPlayerScore(playerName);
+        this._showPlayerRank(playerName);
         this.joinGameCallback();
         this.isChangingName = false;
         DomHelper.hideInvalidPlayerNameLabel();
@@ -245,13 +268,16 @@ export default class GameView {
 
     _initEventHandling() {
         // Player controls
-        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
-        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
+        if (this.playerMode) {
+            DomHelper.getQuitButton().addEventListener('click', this._handleQuitButtonClick.bind(this));
+            DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+            DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+            DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+            DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+            DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        }
 
-        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
     }
 
     emitUpClicked() {

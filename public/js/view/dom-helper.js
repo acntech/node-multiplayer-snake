@@ -68,6 +68,10 @@ export default class DomHelper {
         return document.getElementById('changePlayerNameButton');
     }
 
+    static getQuitButton() {
+        return document.getElementById('quitGame');
+    }
+
     static getControlButtons() {
         return document.getElementById('playerSettings');
     }
@@ -191,7 +195,15 @@ export default class DomHelper {
         }
     }
 
-    static hideControlButtons() {}
+    static hideControlButtons() {
+        document.getElementById('visibleWhenPlaying').style.display = 'none';
+        document.getElementById('playerView').classList.remove('active-game');
+        document.getElementById('playerView').style.display = 'flex';
+        document.getElementById('register').classList.remove('top');
+        this.hideEnterPlayerNameLabel();
+        document.getElementById('playerNameLabel').style.display = 'none';
+        this.getChangeNameButton().style.display = 'block';
+    }
 
     static showControlButtons() {
         this.getPlayerNameElement().style.display = 'block';
@@ -214,6 +226,10 @@ export default class DomHelper {
     static setPlayerNameElementColor(color) {
         this.getPlayerNameElement().style.color = color;
         this.drawSnakeSquares(exampleSnake, color);
+    }
+
+    static setPlayerRank(rank, total) {
+        document.getElementById('playerRank').innerHTML = `${rank}/${total}`;
     }
 
     static drawSnakeSquares(coordinates, color) {
@@ -306,6 +322,10 @@ export default class DomHelper {
 
     static showInvalidPlayerNameLabel() {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
+    }
+
+    static getVideoPlayer() {
+        return document.getElementById('video');
     }
 
     static showTakenPlayerNameLabel() {

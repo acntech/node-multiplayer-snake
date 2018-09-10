@@ -32,31 +32,31 @@
         <div class="player-info-wrapper">
             <canvas id="playerViewCanvas">
             </canvas>
-              
+
             <label id="scoreLabel">Score:</label>
             <p class="score-result" aria-labelledby="scoreLabel" id="playerScore">0</p>
 
             <label id="highScoreLabel">Highscore:</label>
             <p class="score-result" aria-labelledby="highScoreLabel" id="playerHighScore">0</p>
-            
+
             <label id="rankLabel">Current Position:</label>
             <p class="score-result" aria-labelledby="rankLabel" id="playerRank">0</p>
         </div>
-        
-        <button id="quitGame" onClick="quitGame()">Quit?</button>
+
+        <button id="quitGame">Quit?</button>
 
         <div id="playerSettings" class="grid-container" style="display: grid;">
             <div id="btnLeft" class="grid-item grid-item-button control-button" style="grid-area:a">
-                <p>Left</p>
+                <p class="noselect">Left</p>
             </div>
             <div id="btnUp" class="grid-item grid-item-button control-button" style="grid-area:b">
-                <p>Up</p>
+                <p class="noselect">Up</p>
             </div>
             <div id="btnDown" class="grid-item grid-item-button control-button" style="grid-area:c">
-                <p>Down</p>
+                <p class="noselect">Down</p>
             </div>
             <div id="btnRight" class="grid-item grid-item-button control-button" style="grid-area:d">
-                <p>Right</p>
+                <p class="noselect">Right</p>
             </div>
         </div>
     </div>

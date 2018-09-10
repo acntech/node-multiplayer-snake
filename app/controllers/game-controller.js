@@ -45,7 +45,6 @@ class GameController {
         );
         this.playerService.init(this.adminService.getPlayerStartLength.bind(this.adminService));
     }
-
     // Listen for Socket IO events
     listen(io) {
         this.notificationService.setSockets(io.sockets);
@@ -79,40 +78,6 @@ class GameController {
                 ServerConfig.IO.INCOMING.DISCONNECT,
                 self.playerService.disconnectPlayer.bind(self.playerService, socket.id),
             );
-            // Image Service
-            socket.on(
-                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_BACKGROUND_IMAGE,
-                self.imageService.clearBackgroundImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.BACKGROUND_IMAGE_UPLOAD,
-                self.imageService.updateBackgroundImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_IMAGE,
-                self.imageService.clearPlayerImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.IMAGE_UPLOAD,
-                self.imageService.updatePlayerImage.bind(self.imageService, socket.id),
-            );
-            // Admin Service
-            socket.on(
-                ServerConfig.IO.INCOMING.BOT_CHANGE,
-                self.adminService.changeBots.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.FOOD_CHANGE,
-                self.adminService.changeFood.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.SPEED_CHANGE,
-                self.adminService.changeSpeed.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.START_LENGTH_CHANGE,
-                self.adminService.changeStartLength.bind(self.adminService, socket.id),
-            );
         });
     }
 
@@ -122,34 +87,14 @@ class GameController {
             console.log('Game Paused');
             this.boardOccupancyService.initializeBoard();
             this.adminService.resetGame();
-            this.utilityService._resetSpeed();
             this.nameService.reinitialize();
             this.imageService.resetBackgroundImage();
             this.foodService.reinitialize();
             this.playerContainer.reinitialize();
             this.playerStatBoard.reinitialize();
 
-            const gameState = {
-                players: this.playerContainer,
-                food: this.foodService.getFood(),
-                playerStats: this.playerStatBoard,
-                walls: this.boardOccupancyService.getWallCoordinates(),
-                speed: this.utilityService.getGameSpeed(),
-                numberOfBots: this.adminService.getBotIds().length,
-                startLength: this.adminService.getPlayerStartLength(),
-            };
-            this.notificationService.broadcastGameState(gameState);
+            this.broadcastGameState();
             return;
-        }
-
-        // Change bots' directions
-        // eslint-disable-next-line no-restricted-syntax
-        for (const botId of this.adminService.getBotIds()) {
-            const bot = this.playerContainer.getPlayer(botId);
-            if (Math.random() <= ServerConfig.BOT_CHANGE_DIRECTION_PERCENT) {
-                this.botDirectionService.changeToRandomDirection(bot);
-            }
-            this.botDirectionService.changeDirectionIfInDanger(bot);
         }
 
         this.playerService.movePlayers();
@@ -158,18 +103,22 @@ class GameController {
 
         this.foodService.consumeAndRespawnFood(this.playerContainer);
 
+        this.broadcastGameState();
+
+        setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
+    }
+
+    broadcastGameState() {
         const gameState = {
             players: this.playerContainer,
             food: this.foodService.getFood(),
             playerStats: this.playerStatBoard,
             walls: this.boardOccupancyService.getWallCoordinates(),
-            speed: this.utilityService.getGameSpeed(),
+            speed: this.adminService.getGameSpeed(),
             numberOfBots: this.adminService.getBotIds().length,
             startLength: this.adminService.getPlayerStartLength(),
         };
         this.notificationService.broadcastGameState(gameState);
-
-        setTimeout(this.runGameCycle.bind(this), 1000 / this.utilityService.getGameSpeed());
     }
 
     /*******************************

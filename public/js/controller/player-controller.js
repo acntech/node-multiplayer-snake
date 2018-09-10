@@ -15,6 +15,7 @@ export default class GameController {
             this.keyDownCallback.bind(this),
             this.playerNameUpdatedCallback.bind(this),
             this.spectateGameCallback.bind(this),
+            true, // player mode,
         );
         this.players = [];
         this.food = {};
@@ -95,7 +96,6 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showPlayerStats(gameData.playerStats);
     }
 
 

@@ -94,19 +94,19 @@ export default class CanvasView {
 
         switch (color) {
             case 'red':
-                food = '🍏';
+                food = '🍓';
                 break;
             case 'yellow':
-                food = '🍔';
-                break;
-            case 'green':
-                food = '🍇';
-                break;
-            case 'blue':
                 food = '⭐️';
                 break;
+            case 'green':
+                food = '🍧';
+                break;
+            case 'blue':
+                food = '😵';
+                break;
             case 'purple':
-                food = '🍑';
+                food = '🍔';
                 break;
             default:
                 food = '';

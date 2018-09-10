@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>acn.zone - video</title>
+    <style>
+        body {
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay id="video" width="100%" height="100%">
+        <source src="assets/video1.mp4">
+        <source src="assets/video2.mp4">
+        <source src="assets/video3.mp4">
+        <source src="assets/video4.mp4">
+    </video>
+
+    <!-- socket.io client is exposed by the server.  This sets a global variable io -->
+     <script src="/socket.io/socket.io.js"></script>
+     <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+     </script>
+     <script src="js/videos.js" type="module"></script>
+</body>
+</html>

@@ -17,6 +17,7 @@ export default class GameController {
             this.keyDownCallback.bind(this),
             this.playerNameUpdatedCallback.bind(this),
             this.spectateGameCallback.bind(this),
+            false, //not player mode
         );
         this.players = [];
         this.food = {};
@@ -189,9 +190,12 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showPlayerStats(gameData.playerStats);
     }
 
+    startVideos() {
+        this.playingVideos = true;
+        window.location.href = 'videos';
+    }
 
     _initializeSocketIoHandlers() {
         this.socket.on(ClientConfig.IO.INCOMING.PLAYER_COUNT, this.gameView.showNumberOfPlayers.bind(this));
@@ -199,7 +203,6 @@ export default class GameController {
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.FOOD_COLLECTED, this._handleFoodCollected.bind(this));
-        //this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this.gameView.showKillMessage.bind(this.gameView));
         this.socket.on(
             ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,
@@ -210,5 +213,9 @@ export default class GameController {
             this.gameView.showRanIntoWallMessage.bind(this.gameView),
         );
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
+        this.socket.on(
+            ClientConfig.IO.INCOMING.START_VIDEOS,
+            this.startVideos,
+        );
     }
 }
