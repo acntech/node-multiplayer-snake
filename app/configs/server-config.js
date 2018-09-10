@@ -72,6 +72,8 @@ const ServerConfig = {
             NEW_PLAYER_INFO: 'new player info',
             NEW_BACKGROUND_IMAGE: 'new background image',
             BOARD_INFO: 'board info',
+            START_VIDEO: 'start videos',
+            START_GAME: 'start game',
             PLAYER_COUNT: 'player count',
             NOTIFICATION: {
                 GENERAL: 'general notification',

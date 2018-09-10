@@ -324,6 +324,10 @@ export default class DomHelper {
         document.getElementById('invalid-player-name-label').style.display = 'inline';
     }
 
+    static getVideoPlayer() {
+        return document.getElementById('video');
+    }
+
     static showTakenPlayerNameLabel() {
         document.getElementById('taken-player-name-label').style.display = 'inline';
     }

@@ -50,6 +50,14 @@ class NotificationService {
         this.sockets.emit(ServerConfig.IO.OUTGOING.NOTIFICATION.SUICIDE, victimName, victimColor);
     }
 
+    broadcastStartVideo() {
+        this.sockets.emit(ServerConfig.IO.OUTGOING.START_VIDEO);
+    }
+
+    broadcastStartGame() {
+        this.sockets.emit(ServerConfig.IO.OUTGOING.START_GAME);
+    }
+
     notifyPlayerDied(playerId) {
         const playerSocket = this.sockets.connected[playerId];
         if (playerSocket) {

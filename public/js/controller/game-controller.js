@@ -192,6 +192,10 @@ export default class GameController {
         this.walls = gameData.walls;
     }
 
+    startVideos() {
+        this.playingVideos = true;
+        window.location.href = 'videos';
+    }
 
     _initializeSocketIoHandlers() {
         this.socket.on(ClientConfig.IO.INCOMING.PLAYER_COUNT, this.gameView.showNumberOfPlayers.bind(this));
@@ -209,5 +213,9 @@ export default class GameController {
             this.gameView.showRanIntoWallMessage.bind(this.gameView),
         );
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.SUICIDE, this.gameView.showSuicideMessage.bind(this.gameView));
+        this.socket.on(
+            ClientConfig.IO.INCOMING.START_VIDEOS,
+            this.startVideos,
+        );
     }
 }
