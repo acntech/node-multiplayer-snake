@@ -223,10 +223,6 @@ export default class DomHelper {
         document.getElementById('kill-messages').innerHTML = text;
     }
 
-    static setInfoMessagesDivText(text) {
-        document.getElementById('info-messages').innerHTML = text;
-    }
-
     static setPlayerNameElementColor(color) {
         this.getPlayerNameElement().style.color = color;
         this.drawSnakeSquares(exampleSnake, color);
@@ -331,7 +327,7 @@ export default class DomHelper {
     static getVideoPlayer() {
         return document.getElementById('video');
     }
-    
+
     static showTakenPlayerNameLabel() {
         document.getElementById('taken-player-name-label').style.display = 'inline';
     }

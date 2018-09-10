@@ -52,12 +52,12 @@ const videoController = new VideoController();
 videoController.listen(io);
 app.post('/videos', authMiddleware, (req, res) => {
     videoController.startVideos();
-    res.redirect('/videoadmin');
+    res.redirect('/admin');
 });
 
 app.post('/game', authMiddleware, (req, res) => {
     videoController.startGame();
-    res.redirect('/videoadmin');
+    res.redirect('/admin');
 });
 
 // Create the main controller
