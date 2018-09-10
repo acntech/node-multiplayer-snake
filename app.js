@@ -44,7 +44,7 @@ app.get('/videos', (req, res) => {
 });
 
 app.get('/admin', authMiddleware, (req, res) => {
-    res.sendFile('admin.html', { root: path.join(__dirname, 'app/views') });
+    res.sendFile('videoadmin.html', { root: path.join(__dirname, 'app/views') });
 });
 
 
@@ -52,12 +52,12 @@ const videoController = new VideoController();
 videoController.listen(io);
 app.post('/videos', authMiddleware, (req, res) => {
     videoController.startVideos();
-    res.redirect('/admin');
+    res.redirect('/videoadmin');
 });
 
 app.post('/game', authMiddleware, (req, res) => {
     videoController.startGame();
-    res.redirect('/admin');
+    res.redirect('/videoadmin');
 });
 
 // Create the main controller
