@@ -31,7 +31,6 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.hideControlButtons();
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
         if (storedName) {
             DomHelper.hideEnterPlayerNameLabel();
@@ -122,6 +121,11 @@ export default class GameView {
 
     _handleChangeNameButtonClick() {
         this._register();
+    }
+
+    _handleQuitButtonClick() {
+        this.spectateGameCallback();
+        DomHelper.hideControlButtons();
     }
 
     _handleKeyDown(e) {
@@ -264,13 +268,16 @@ export default class GameView {
 
     _initEventHandling() {
         // Player controls
-        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
-        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
+        if (this.playerMode) {
+            DomHelper.getQuitButton().addEventListener('click', this._handleQuitButtonClick.bind(this));
+            DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+            DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+            DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+            DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+            DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        }
 
-        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
     }
 
     emitUpClicked() {
