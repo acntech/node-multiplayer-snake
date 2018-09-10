@@ -1,4 +1,5 @@
 @content-color: #242B00;
+
 .active-game {
     justify-content: space-evenly;
     display: flex !important;
@@ -17,6 +18,7 @@ label#register {
     display: flex;
     flex-grow: 1;
     min-height: 10%;
+    height:auto;
 }
 
 .player-view .register.top {
@@ -43,6 +45,11 @@ div#player-name {
     font-weight: normal;
 }
 
+input#player-name-input{
+    margin-top:1em;
+    margin-bottom:1em;
+}
+
 #visibleWhenPlaying {
     display: none;
 }
@@ -56,34 +63,39 @@ div#player-name {
     display: flex;
     flex-grow: 1;
     min-height: 5%;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 0;
 }
 
 .player-info-wrapper {
     display: flex;
-    min-height: 45%;
+    min-height: 40%;
+    height:auto;
     flex-grow: 1;
     flex-direction: column;
     & label {
-        font-size: 1em;
+        font-size: 75%;
         text-transform: uppercase;
         display: block;
         clear: both;
     }
     & .score-result {
-        font-size: 2em;
+        font-size: 200%;
         margin-top: 0.2em;
+        margin-bottom: 0.5em;
     }
 }
 
 #playerSettings {
     display: flex;
-    min-height: 30%;
+    min-height: 35%;
+    height:auto;
     flex-grow: 1;
     flex-direction: column;
     grid-gap: 0.1em;
-    height: 15em;
+    /*height: 15em;*/
     grid-template-areas: "a a b b d d" "a a b b d d" "a a c c d d" "a a c c d d";
 }
 
@@ -100,9 +112,6 @@ button.grid-item-button {
 #playerViewCanvas {
     width: 100%;
     transform: scale(1);
-    /*margin-bottom: -80px;
-    margin-top: -35px;
-    padding-left: 25%;*/
 }
 
 .control-button {
