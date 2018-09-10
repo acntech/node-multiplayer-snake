@@ -91,7 +91,7 @@ class FoodService {
 
     generateSingleFood() {
         const randomUnoccupiedCoordinate = this.boardOccupancyService.getRandomUnoccupiedCoordinate();
-        
+
         if (!randomUnoccupiedCoordinate) {
             this.notificationService.broadcastNotification('Could not add more food.  No room left.', 'white');
             return;
