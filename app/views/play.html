@@ -23,14 +23,14 @@
         <input id="player-name-input" maxlength="10"/>
         <div id="player-name" style="display:none"></div>
         <label id="invalid-player-name-label">Too long nickname (10 chars max)</label>
-    <label id="taken-player-name-label">Nickname taken. Choose another one</label>
-    <button id="changePlayerNameButton">PLAY</button>
-
+        <label id="taken-player-name-label">Nickname taken. Choose another one</label>
+        <button id="changePlayerNameButton">PLAY</button>
     </label>
 
     <div class="visible-in-game" id="visibleWhenPlaying">
+        <button id="quitGame" onClick="quitGame()">Quit?</button>
         <div class="player-info-wrapper">
-            <canvas id="playerViewCanvas">
+            <canvas id="playerViewCanvas" height="32px">
             </canvas>
 
             <label id="scoreLabel">Score:</label>
@@ -43,21 +43,19 @@
             <p class="score-result" aria-labelledby="rankLabel" id="playerRank">0</p>
         </div>
 
-        <button id="quitGame">Quit?</button>
-
         <div id="playerSettings" class="grid-container" style="display: grid;">
-            <div id="btnLeft" class="grid-item grid-item-button control-button" style="grid-area:a">
-                <p class="noselect">Left</p>
-            </div>
-            <div id="btnUp" class="grid-item grid-item-button control-button" style="grid-area:b">
-                <p class="noselect">Up</p>
-            </div>
-            <div id="btnDown" class="grid-item grid-item-button control-button" style="grid-area:c">
-                <p class="noselect">Down</p>
-            </div>
-            <div id="btnRight" class="grid-item grid-item-button control-button" style="grid-area:d">
-                <p class="noselect">Right</p>
-            </div>
+            <button id="btnLeft" class="grid-item grid-item-button control-button" style="grid-area:a">
+                <span class="noselect">Left</span>
+            </button>
+            <button id="btnUp" class="grid-item grid-item-button control-button" style="grid-area:b">
+                <span class="noselect">Up</span>
+            </button>
+            <button id="btnDown" class="grid-item grid-item-button control-button" style="grid-area:c">
+                <span class="noselect">Down</span>
+            </button>
+            <button id="btnRight" class="grid-item grid-item-button control-button" style="grid-area:d">
+                <span class="noselect">Right</span>
+            </button>
         </div>
     </div>
 
