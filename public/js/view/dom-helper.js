@@ -194,6 +194,7 @@ export default class DomHelper {
         this.getPlayerNameElement().style.display = 'block';
         document.getElementById('playerView').style.display = 'block';
         document.getElementById('visibleWhenPlaying').style.display = 'block';
+        document.activeElement.blur();
     }
 
     static movePlayerNameToTop() {
