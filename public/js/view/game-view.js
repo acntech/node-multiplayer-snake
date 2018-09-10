@@ -31,7 +31,6 @@ export default class GameView {
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.hideControlButtons();
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
         if (storedName) {
             DomHelper.hideEnterPlayerNameLabel();
