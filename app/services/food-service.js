@@ -9,11 +9,12 @@ const DbService = require('./db-service');
  * + Updated high scores for players when eating food
  */
 class FoodService {
-    constructor(playerStatBoard, boardOccupancyService, nameService, notificationService) {
+    constructor(playerStatBoard, boardOccupancyService, nameService, notificationService, utilityService) {
         this.playerStatBoard = playerStatBoard;
         this.boardOccupancyService = boardOccupancyService;
         this.nameService = nameService;
         this.notificationService = notificationService;
+        this.utilityService = utilityService;
         this.reinitialize();
     }
 
@@ -34,10 +35,6 @@ class FoodService {
             playerWhoConsumedFood.grow(ServerConfig.FOOD[food.type].GROWTH);
             const points = ServerConfig.FOOD[food.type].POINTS;
             this.playerStatBoard.increaseScore(playerWhoConsumedFood.id, points);
-
-            const thisPlayer = this.playerStatBoard.statBoard.get(playerWhoConsumedFood.id);
-
-            DbService.updateScore(thisPlayer.name, thisPlayer.highScore); // TODO: How to calculate score (facor in deaths/kills etc.?)
 
             if (food.type === ServerConfig.FOOD.SWAP.TYPE && playerContainer.getNumberOfActivePlayers() > 1) {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
@@ -66,6 +63,7 @@ class FoodService {
                     otherPlayer.id,
                     'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true,
                 );
+                this.updateScore(otherPlayer);
             } else {
                 this.notificationService.notifyPlayerFoodCollected(
                     playerWhoConsumedFood.id,
@@ -73,6 +71,7 @@ class FoodService {
                 );
             }
 
+            this.updateScore(playerWhoConsumedFood);// TODO: How to calculate score (facor in deaths/kills etc.?)
             this.removeFood(foodConsumed.foodId);
             foodToRespawn += 1;
         }
@@ -92,21 +91,26 @@ class FoodService {
 
     generateSingleFood() {
         const randomUnoccupiedCoordinate = this.boardOccupancyService.getRandomUnoccupiedCoordinate();
+        
         if (!randomUnoccupiedCoordinate) {
             this.notificationService.broadcastNotification('Could not add more food.  No room left.', 'white');
             return;
         }
         const foodId = this.nameService.getFoodId();
         let food;
-        if (Math.random() < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
+        const spawnRate = Math.random();
+        if (spawnRate < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.GOLDEN.TYPE, ServerConfig.FOOD.GOLDEN.COLOR);
-        } else if (Math.random() < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
+        } else if (spawnRate < ServerConfig.FOOD.INCREASE_SPEED.SPAWN_RATE) {
+            food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.INCREASE_SPEED.TYPE, ServerConfig.FOOD.INCREASE_SPEED.COLOR);
+        } else if (spawnRate < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SWAP.TYPE, ServerConfig.FOOD.SWAP.COLOR);
-        } else if (Math.random() < ServerConfig.FOOD.SUPER.SPAWN_RATE) {
+        } else if (spawnRate < ServerConfig.FOOD.SUPER.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SUPER.TYPE, ServerConfig.FOOD.SUPER.COLOR);
         } else {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.NORMAL.TYPE, ServerConfig.FOOD.NORMAL.COLOR);
         }
+
         this.food[foodId] = food;
         this.boardOccupancyService.addFoodOccupancy(food.id, food.coordinate);
     }
@@ -128,6 +132,11 @@ class FoodService {
         this.nameService.returnFoodId(foodId);
         this.boardOccupancyService.removeFoodOccupancy(foodId, foodToRemove.coordinate);
         delete this.food[foodId];
+    }
+
+    updateScore(player) {
+        const thisPlayer = this.playerStatBoard.statBoard.get(player.id);
+        DbService.updateScore(thisPlayer.name, thisPlayer.score, thisPlayer.highScore);
     }
 }
 

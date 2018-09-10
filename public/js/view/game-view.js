@@ -15,7 +15,7 @@ export default class GameView {
     constructor(
         backgroundImageUploadCallback, imageUploadCallback,
         joinGameCallback, keyDownCallback, playerNameUpdatedCallback,
-        spectateGameCallback,
+        spectateGameCallback, playerMode,
     ) {
         this.isChangingName = false;
         this.backgroundImageUploadCallback = backgroundImageUploadCallback;
@@ -24,13 +24,19 @@ export default class GameView {
         this.keyDownCallback = keyDownCallback;
         this.playerNameUpdatedCallback = playerNameUpdatedCallback;
         this.spectateGameCallback = spectateGameCallback;
+        this.playerMode = playerMode;
         this._initEventHandling();
     }
 
     ready() {
         // Show everything when ready
         DomHelper.showAllContent();
-        DomHelper.hideControlButtons();
+        const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        if (storedName) {
+            DomHelper.hideEnterPlayerNameLabel();
+            DomHelper.showWelcomeBackLabel();
+            DomHelper.setPlayerNameInputElementReadOnly(true);
+        }
     }
 
     setKillMessageWithTimer(message) {
@@ -44,26 +50,26 @@ export default class GameView {
         );
     }
 
-    showKillMessage(killerName, victimName, killerColor, victimColor, victimLength) {
-        this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed ` +
-            `<span style='color: ${victimColor}'>${victimName}</span>` +
-            ` and grew by <span style='color: ${killerColor}'>${victimLength}</span>`);
+    showKillMessage(killerName, victimName, killerColor, victimColor) {
+        this.setKillMessageWithTimer(`<span style='color: ${killerColor}'>${killerName}</span> killed
+        <span style='color: ${victimColor}'>${victimName}!</span> Good job, <span style='color: ${killerColor}'>${killerName}!</span>`);
     }
 
     showKilledEachOtherMessage(victimSummaries) {
-        let victims = '';
+        const victims = [];
         for (const victimSummary of victimSummaries) {
-            victims += `<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `;
+            victims.push(`<span style='color: ${victimSummary.color}'>${victimSummary.name}</span> `);
         }
-        this.setKillMessageWithTimer(`${victims} have killed each other`);
+        const victimMessage = victims.join(' and ');
+        this.setKillMessageWithTimer(`${victimMessage} have killed each other!`);
     }
 
     showRanIntoWallMessage(playerName, playerColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall`);
+        this.setKillMessageWithTimer(`<span style='color: ${playerColor}'>${playerName}</span> ran into a wall. Watch your step, <span style='color: ${playerColor}'>${playerName}!</span> `);
     }
 
     showSuicideMessage(victimName, victimColor) {
-        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide`);
+        this.setKillMessageWithTimer(`<span style='color: ${victimColor}'>${victimName}</span> committed suicide. Uh-oh.`);
     }
 
     showNotification(notification, playerColor) {
@@ -95,6 +101,11 @@ export default class GameView {
         DomHelper.setPlayerStatsDivText(formattedScores);
     }
 
+    showNumberOfPlayers(players) {
+        const content = `<span><i class="fas fa-users fa-2x"></i>${players}</span>`;
+        DomHelper.setNumberOfPlayers(content);
+    }
+
     updatePlayerName(playerName, playerColor) {
         DomHelper.setPlayerNameElementValue(playerName);
         DomHelper.setPlayerNameInputElementValue(playerName);
@@ -110,6 +121,11 @@ export default class GameView {
 
     _handleChangeNameButtonClick() {
         this._register();
+    }
+
+    _handleQuitButtonClick() {
+        this.spectateGameCallback();
+        DomHelper.hideControlButtons();
     }
 
     _handleKeyDown(e) {
@@ -173,32 +189,63 @@ export default class GameView {
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             this.playerNameUpdatedCallback(playerName);
             DomHelper.getPlayerNameInputElement().style.display = 'none';
-            DomHelper.showControlButtons();
             DomHelper.movePlayerNameToTop();
             this.joinGameCallback();
             this.isChangingName = false;
             DomHelper.hideInvalidPlayerNameLabel();
+            DomHelper.hideTakenPlayerNameLabel();
         } else {
             DomHelper.showInvalidPlayerNameLabel();
         }
     }
 
+    _showPlayerScore(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
+            const res = snapshot.val();
+            console.log(res);
+            DomHelper.setPlayerScore(res.score);
+            DomHelper.setPlayerHighScore(res.highScore);
+        });
+    }
+
+    _showPlayerRank(playerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        db.ref('snake-scores').orderByChild('highScore').on('value', (snapshot) => {
+            const topScores = [];
+            snapshot.forEach((childSnapshot) => {
+                const result = childSnapshot.val();
+                result.name = childSnapshot.key;
+                topScores.push(result);
+            });
+            topScores.reverse();
+
+            const place = topScores.findIndex(player => player.name === playerName) + 1;
+            DomHelper.setPlayerRank(place, topScores.length);
+        });
+    }
+
     _register() {
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
-        const playerName = DomHelper.getPlayerNameInputElement().value;
 
-        if (storedName === playerName) {
-            this._createPlayer(playerName);
+        if (storedName) {
+            this._createPlayer(storedName);
             return;
         }
 
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+
+
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
-                console.log(data);
                 if (data.available) {
                     this._createPlayer(playerName);
                 } else {
-                    DomHelper.showInvalidPlayerNameLabel();
+                    DomHelper.showTakenPlayerNameLabel();
                 }
             });
         } else {
@@ -211,20 +258,26 @@ export default class GameView {
         DomHelper.getPlayerNameInputElement().style.display = 'none';
         DomHelper.showControlButtons();
         DomHelper.movePlayerNameToTop();
+        this._showPlayerScore(playerName);
+        this._showPlayerRank(playerName);
         this.joinGameCallback();
         this.isChangingName = false;
         DomHelper.hideInvalidPlayerNameLabel();
+        DomHelper.hideTakenPlayerNameLabel();
     }
 
     _initEventHandling() {
         // Player controls
-        DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
-        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
+        if (this.playerMode) {
+            DomHelper.getQuitButton().addEventListener('click', this._handleQuitButtonClick.bind(this));
+            DomHelper.getChangeNameButton().addEventListener('click', this._handleChangeNameButtonClick.bind(this));
+            DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
+            DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
+            DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
+            DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        }
 
-        DomHelper.getUpButton().addEventListener('touchend', this.emitUpClicked.bind(this));
-        DomHelper.getDownButton().addEventListener('touchend', this.emitDownClicked.bind(this));
-        DomHelper.getLeftButton().addEventListener('touchend', this.emitLeftClicked.bind(this));
-        DomHelper.getRightButton().addEventListener('touchend', this.emitRightClicked.bind(this));
+        window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
     }
 
     emitUpClicked() {

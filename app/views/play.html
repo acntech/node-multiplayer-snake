@@ -5,8 +5,11 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/settings.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/play-mobile.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" user-scalable="no">
     <!--320-->
 </head>
 
@@ -14,13 +17,49 @@
     <a id="top"></a>
 
     <label class="register" id="register">
-        <span id="selectName">Select username:</span>
-        <span id="playerNameLabel" style="display:none !important;">Welcome,</span>
-        <input id="player-name-input" maxlength="20"/>
+        <span id="selectName">Enter nickname:</span>
+        <span id="welcomeBack" style="display:none">Welcome back,</span>
+        <span id="playerNameLabel" style="display:none !important;"><i class="fas fa-user"></i> </span>
+        <input id="player-name-input" maxlength="10"/>
         <div id="player-name" style="display:none"></div>
-        <label id="invalid-player-name-label">Please enter a valid name (20 characters max)</label>
+        <label id="invalid-player-name-label">Too long nickname (10 chars max)</label>
+    <label id="taken-player-name-label">Nickname taken. Choose another one</label>
     <button id="changePlayerNameButton">PLAY</button>
+
     </label>
+
+    <div class="visible-in-game" id="visibleWhenPlaying">
+        <div class="player-info-wrapper">
+            <canvas id="playerViewCanvas">
+            </canvas>
+
+            <label id="scoreLabel">Score:</label>
+            <p class="score-result" aria-labelledby="scoreLabel" id="playerScore">0</p>
+
+            <label id="highScoreLabel">Highscore:</label>
+            <p class="score-result" aria-labelledby="highScoreLabel" id="playerHighScore">0</p>
+
+            <label id="rankLabel">Current Position:</label>
+            <p class="score-result" aria-labelledby="rankLabel" id="playerRank">0</p>
+        </div>
+
+        <button id="quitGame">Quit?</button>
+
+        <div id="playerSettings" class="grid-container" style="display: grid;">
+            <div id="btnLeft" class="grid-item grid-item-button control-button" style="grid-area:a">
+                <p>Left</p>
+            </div>
+            <div id="btnUp" class="grid-item grid-item-button control-button" style="grid-area:b">
+                <p>Up</p>
+            </div>
+            <div id="btnDown" class="grid-item grid-item-button control-button" style="grid-area:c">
+                <p>Down</p>
+            </div>
+            <div id="btnRight" class="grid-item grid-item-button control-button" style="grid-area:d">
+                <p>Right</p>
+            </div>
+        </div>
+    </div>
 
     <div id="cover" style="display:none !important;">
         <div class="navigation">
@@ -48,25 +87,26 @@
         </div>
     </div>
 
-    <div id="playerSettings" class="grid-container" style="display: grid;">
-        <div class="grid-item"></div>
-        <div id="btnUp" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-up fa-3x"></i>
-        </div>
-        <div class="grid-item"></div>
-        <div id="btnLeft" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-left fa-3x"></i>
-        </div>
-        <div class="grid-item"></div>
-        <div id="btnRight" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-right fa-3x"></i>
-        </div>
-        <div class="grid-item"></div>
-        <div id="btnDown" class="grid-item grid-item-button">
-            <i class="fas fa-chevron-down fa-3x"></i>
-        </div>
-        <div class="grid-item"></div>
-    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "<API_KEY>",
+            authDomain: 'jz-2018.firebaseapp.com',
+            databaseURL: 'https://jz-2018.firebaseio.com',
+            projectId: 'jz-2018',
+            storageBucket: 'jz-2018.appspot.com',
+            messagingSenderId: "<SENDER_ID>",
+        };
+        var firebaseApp = firebase.initializeApp(config);
+    </script>
 
     <!-- socket.io client is exposed by the server.  This sets a global variable io -->
     <script src="/socket.io/socket.io.js"></script>

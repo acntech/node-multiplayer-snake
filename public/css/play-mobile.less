@@ -1,0 +1,112 @@
+@content-color: #242B00;
+label#register {
+    top: 0.75em;
+    width: 100%;
+}
+
+#changePlayerNameButton {
+    color: white;
+}
+
+div#player-name {
+    border-top: 0.2em solid @content-color;
+    border-bottom: 0.2em solid @content-color;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    clear: both;
+    width: 100%;
+    display: block;
+    margin-left: 0.75em;
+    margin-right: 0.75em;
+    text-align: center;
+    color: @content-color  !important;
+    font-weight: normal;
+}
+
+#visibleWhenPlaying {
+    display: none;
+    min-height: 90%;
+}
+
+#quitGame {
+    color: inherit;
+    background-color: transparent;
+    text-transform: uppercase;
+    border-bottom: 0.2em solid @content-color;
+    width: auto;
+    display: inline-block;
+    clear: both;
+}
+
+.player-info-wrapper {
+    display: flex;
+    min-height: 45%;
+    flex-grow: 1;
+    flex-direction: column;
+    & label {
+        font-size: 1em;
+        text-transform: uppercase;
+        display: block;
+        clear: both;
+    }
+    & .score-result {
+        font-size: 2em;
+        margin-top: 0.2em;
+    }
+}
+
+#playerSettings {
+    display: flex;
+    min-height: 30%;
+    flex-grow: 1;
+    flex-direction: column;
+    grid-gap: 0.1em;
+    height: 15em;
+    grid-template-areas: "a a b b d d" "a a b b d d" "a a c c d d" "a a c c d d";
+}
+
+div.grid-item-button {
+    border: 0.2em solid @content-color;
+    background: transparent;
+    color: @content-color;
+}
+
+#playerViewCanvas {
+    margin-bottom: -80px;
+    margin-top: -35px;
+    padding-left: 25%;
+}
+
+.control-button {
+    text-transform: uppercase;
+    font-weight: 200;
+    font-size: 125%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & p {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+div#btnRight,
+div#btnLeft {
+    writing-mode: tb-rl;
+    text-orientation: upright;
+    letter-spacing: 0.25em;
+}
+
+div#btnUp,
+div#btnDown {}
+
+.visible-in-game {
+    position: relative;
+    padding-top: 5em;
+    text-align: center;
+}
+
+span#playerNameLabel {
+    display: none !important;
+}

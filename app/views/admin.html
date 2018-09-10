@@ -1,20 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>acn.zone - admin</title>
-</head>
-<body>
-    <div class="container" align="center"> 
-        <form action="/videos" method="POST">
-            <button class="btn btn-lg btn-primary mt-4" type="submit">Start videos</button>
-        </form>
-        <form action="/game" method="POST">
-            <button class="btn btn-secondary btn-lg mt-4" type="submit">Start game</button>
-        </form>
-    </div>
-</body>
+<html>
+    <head>
+        <title>Snake</title>
+        <link rel="stylesheet" type="text/css" href="css/global.css">
+        <link rel="stylesheet" type="text/css" href="css/game.css">
+        <link rel="stylesheet" type="text/css" href="css/settings.css">
+    </head>
+    <body>
+        <div id="cover">
+        
+            <div class="body-content">
+                <div id="adminControls" class="settings-menu">
+                    <fieldset>
+                        <legend>Admin Controls</legend>
+                        <div class="options-controls" class="settings-menu">
+                            <label class="options-label">Speed: </label>
+                            <label id="currentSpeed" class="options-value"></label>
+                            <button id="decreaseSpeedButton" class="minus-button" title="-1"/>
+                            <button id="increaseSpeedButton" class="plus-button" title="+1"/>
+                            <button id="resetSpeedButton" class="reset-button" title="Reset to Default"/>
+                        </div>
+                        <div class="options-controls" class="settings-menu">
+                            <label class="options-label">Food: </label>
+                            <label id="currentFoodAmount" class="options-value"></label>
+                            <button id="decreaseFoodButton" class="minus-button" title="-1"/>
+                            <button id="increaseFoodButton" class="plus-button" title="+1"/>
+                            <button id="resetFoodButton" class="reset-button" title="Reset to Default"/>
+                        </div>
+                        <div class="options-controls">
+                            <label class="options-label">Bots: </label>
+                            <label id="currentNumberOfBots" class="options-value"></label>
+                            <button id="decreaseBotsButton" class="minus-button" title="-1"/>
+                            <button id="increaseBotsButton" class="plus-button" title="+1"/>
+                            <button id="resetBotsButton" class="reset-button" title="Reset to Default"/>
+                        </div>
+                        <div class="options-controls">
+                            <label class="options-label">Start Length: </label>
+                            <label id="currentStartLength" class="options-value"></label>
+                            <button id="decreaseStartLengthButton" class="minus-button" title="-1"/>
+                            <button id="increaseStartLengthButton" class="plus-button" title="+1"/>
+                            <button id="resetStartLengthButton" class="reset-button" title="Reset to Default"/>
+                        </div>
+                    </fieldset>
+                </div> 
+            </div>            
+        </div>
+        <!-- socket.io client is exposed by the server.  This sets a global variable io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/main.js" type="module"></script>
+    </body>
 </html>

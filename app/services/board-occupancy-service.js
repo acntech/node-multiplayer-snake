@@ -312,6 +312,9 @@ class BoardOccupancyService {
 
 
     _removeOccupancy(id, coordinate, type) {
+        if (!coordinate) {
+            return;
+        }
         const coordinateAttribute = this.board[coordinate.x][coordinate.y];
         if (type === FOOD_TYPE) {
             coordinateAttribute.setFoodId(false);

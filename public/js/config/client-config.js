@@ -2,13 +2,13 @@
  * Client Settings constants
  */
 export default {
-    FPS: 60,
+    FPS: 10,
     TURNS_TO_FLASH_AFTER_SPAWN: 10,
     TURNS_TO_SHOW_FOOD_TEXT: 20,
     TIME_TO_SHOW_KILL_MESSAGE_IN_MS: 3000,
     CANVAS_TEXT_STYLE: 'bold 24px PressStart2P',
     SPAWN_FLASH_COLOR: 'white',
-    WALL_COLOR: 'gray',
+    WALL_COLOR: '#242B00',
     IO: {
         INCOMING: {
             NEW_STATE: 'game update',
@@ -18,6 +18,7 @@ export default {
             START_VIDEOS: 'start videos',
             START_GAME: 'start game',
             VIDEO_ENDED: 'video ended',
+            PLAYER_COUNT: 'player count',
             NOTIFICATION: {
                 GENERAL: 'general notification',
                 FOOD_COLLECTED: 'food collected',

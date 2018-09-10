@@ -11,6 +11,7 @@ const ImageService = require('../services/image-service');
 const NameService = require('../services/name-service');
 const NotificationService = require('../services/notification-service');
 const PlayerService = require('../services/player-service');
+const UtilityService = require('../services/utility-service');
 
 // const Coordinate = require('../models/coordinate');
 const PlayerContainer = require('../models/player-container');
@@ -27,9 +28,11 @@ class GameController {
         this.boardOccupancyService = new BoardOccupancyService();
         this.notificationService = new NotificationService();
         this.botDirectionService = new BotDirectionService(this.boardOccupancyService);
+        this.utilityService = new UtilityService(this.playerContainer, this.notificationService);
         this.foodService = new FoodService(
             this.playerStatBoard, this.boardOccupancyService,
             this.nameService, this.notificationService,
+            this.utilityService,
         );
         this.imageService = new ImageService(this.playerContainer, this.playerStatBoard, this.notificationService);
         this.playerService = new PlayerService(
@@ -75,40 +78,6 @@ class GameController {
                 ServerConfig.IO.INCOMING.DISCONNECT,
                 self.playerService.disconnectPlayer.bind(self.playerService, socket.id),
             );
-            // Image Service
-            socket.on(
-                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_BACKGROUND_IMAGE,
-                self.imageService.clearBackgroundImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.BACKGROUND_IMAGE_UPLOAD,
-                self.imageService.updateBackgroundImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.CLEAR_UPLOADED_IMAGE,
-                self.imageService.clearPlayerImage.bind(self.imageService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.IMAGE_UPLOAD,
-                self.imageService.updatePlayerImage.bind(self.imageService, socket.id),
-            );
-            // Admin Service
-            socket.on(
-                ServerConfig.IO.INCOMING.BOT_CHANGE,
-                self.adminService.changeBots.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.FOOD_CHANGE,
-                self.adminService.changeFood.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.SPEED_CHANGE,
-                self.adminService.changeSpeed.bind(self.adminService, socket.id),
-            );
-            socket.on(
-                ServerConfig.IO.INCOMING.START_LENGTH_CHANGE,
-                self.adminService.changeStartLength.bind(self.adminService, socket.id),
-            );
         });
     }
 
@@ -123,17 +92,9 @@ class GameController {
             this.foodService.reinitialize();
             this.playerContainer.reinitialize();
             this.playerStatBoard.reinitialize();
-            return;
-        }
 
-        // Change bots' directions
-        // eslint-disable-next-line no-restricted-syntax
-        for (const botId of this.adminService.getBotIds()) {
-            const bot = this.playerContainer.getPlayer(botId);
-            if (Math.random() <= ServerConfig.BOT_CHANGE_DIRECTION_PERCENT) {
-                this.botDirectionService.changeToRandomDirection(bot);
-            }
-            this.botDirectionService.changeDirectionIfInDanger(bot);
+            this.broadcastGameState();
+            return;
         }
 
         this.playerService.movePlayers();
@@ -142,6 +103,12 @@ class GameController {
 
         this.foodService.consumeAndRespawnFood(this.playerContainer);
 
+        this.broadcastGameState();
+
+        setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
+    }
+
+    broadcastGameState() {
         const gameState = {
             players: this.playerContainer,
             food: this.foodService.getFood(),
@@ -152,8 +119,6 @@ class GameController {
             startLength: this.adminService.getPlayerStartLength(),
         };
         this.notificationService.broadcastGameState(gameState);
-
-        setTimeout(this.runGameCycle.bind(this), 1000 / this.adminService.getGameSpeed());
     }
 
     /*******************************
@@ -161,8 +126,7 @@ class GameController {
      *******************************/
 
     // eslint-disable-next-line class-methods-use-this
-    _canvasClicked() {
-    }
+    _canvasClicked() {}
 
     _keyDown(playerId, keyCode) {
         GameControlsService.handleKeyDown(this.playerContainer.getPlayer(playerId), keyCode);

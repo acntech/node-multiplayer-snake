@@ -1,5 +1,5 @@
 @import "global.less";
-@border-color: #808080;
+@border-color: #242B00;
 @game-content-height: 500px;
 @information-box-height: 250px;
 
@@ -8,17 +8,16 @@
     margin: 0 auto;
 }
 .main-container {
-    height: @game-content-height;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
 }
-.left-content {
-    float: left;
+
+.medal {
+    font-size: 2rem;
 }
-.right-content {
-    background-color: @background-color;
-    float: left;
-    height: @game-content-height;
-    width: 600px;
-}
+
 .navigation {
     &:extend(.non-selectable);
     background-color: rgba(1, 1, 1, 0.8);
@@ -89,9 +88,6 @@
 .time-label {
     color: @border-color;
 }
-#changePlayerNameButton {
-   // width: 244px;
-}
 
 .player-view {
     height: 100vh;
@@ -129,7 +125,6 @@
     visibility: hidden;
 }
 
-
 #full-screen-button {
     background: url(../assets/fullscreen-icon.png) no-repeat;
     background-color: @button-background-color;
@@ -144,19 +139,38 @@
         background-color: @button-background-hover-color;
     }
 }
-#game-board {
-    cursor: pointer;
-}
-#invalid-player-name-label {
+
+#invalid-player-name-label, #taken-player-name-label {
     color: red;
     display: none;
+    width: 80%;
 }
 #kill-messages {
     height: 35px;
     padding-top: 15px;
+    margin-bottom: 20px;
     font-size: 20px;
     text-align: center;
+    border-color: @border-color;
+    border-style: solid;
+    border-width: 0 0 7px 0;
 }
+
+#players {
+    height: 35px;
+    padding: 15px 10px 20px 10px;
+    font-size: 20px;
+    border-color: @border-color;
+    border-style: solid;
+    border-width: 0 0 7px 0;
+}
+
+#numPlayers {
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
 #notifications {
     border-color: @border-color;
     border-style: solid;

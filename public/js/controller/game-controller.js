@@ -17,6 +17,7 @@ export default class GameController {
             this.keyDownCallback.bind(this),
             this.playerNameUpdatedCallback.bind(this),
             this.spectateGameCallback.bind(this),
+            false, //not player mode
         );
         this.players = [];
         this.food = {};
@@ -29,8 +30,8 @@ export default class GameController {
         this._initializeSocketIoHandlers();
         console.log('connect!');
         const Board = {
-            SQUARE_SIZE_IN_PIXELS: 12.5,
-            HORIZONTAL_SQUARES: 50,
+            SQUARE_SIZE_IN_PIXELS: 18,
+            HORIZONTAL_SQUARES: 60,
             VERTICAL_SQUARES: 40,
         };
         this._createBoard(Board);
@@ -41,7 +42,7 @@ export default class GameController {
         for (const foodId of Object.keys(this.food)) {
             if ({}.hasOwnProperty.call(this.food, foodId)) {
                 const food = this.food[foodId];
-                this.canvasView.drawSquare(food.coordinate, food.color);
+                this.canvasView.drawFood(food.coordinate, food.color);
             }
         }
 
@@ -59,7 +60,7 @@ export default class GameController {
                 if (player.base64Image) {
                     this.canvasView.drawImages(player.segments, player.base64Image);
                 } else {
-                    this.canvasView.drawSquares(player.segments, player.color);
+                    this.canvasView.drawSnakeSquares(player.segments, player.color);
                 }
             }
         }
@@ -189,7 +190,6 @@ export default class GameController {
         this.players = gameData.players;
         this.food = gameData.food;
         this.walls = gameData.walls;
-        this.gameView.showPlayerStats(gameData.playerStats);
     }
 
     startVideos() {
@@ -198,12 +198,11 @@ export default class GameController {
     }
 
     _initializeSocketIoHandlers() {
-        //  this.socket.on(ClientConfig.IO.INCOMING.NEW_PLAYER_INFO, this.gameView.updatePlayerName);
+        this.socket.on(ClientConfig.IO.INCOMING.PLAYER_COUNT, this.gameView.showNumberOfPlayers.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.BOARD_INFO, this._createBoard.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_STATE, this._handleNewGameData.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NEW_BACKGROUND_IMAGE, this._handleBackgroundImage.bind(this));
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.FOOD_COLLECTED, this._handleFoodCollected.bind(this));
-        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.GENERAL, this.gameView.showNotification);
         this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.KILL, this.gameView.showKillMessage.bind(this.gameView));
         this.socket.on(
             ClientConfig.IO.INCOMING.NOTIFICATION.KILLED_EACH_OTHER,

@@ -18,7 +18,7 @@ export default class CanvasView {
     }
 
     clear() {
-        this.context.fillStyle = 'black';
+        this.context.fillStyle = '#A1C00A';
         this.context.globalAlpha = 1;
         this.context.fillRect(0, 0, this.width, this.height);
 
@@ -26,19 +26,6 @@ export default class CanvasView {
             this.context.drawImage(this.backgroundImage, 0, 0);
         }
 
-        if (this.showGridLines) {
-            this.context.strokeStyle = '#2a2a2a';
-            this.context.lineWidth = 0.5;
-            for (let i = this.squareSizeInPixels / 2; i < this.width || i < this.height; i += this.squareSizeInPixels) {
-                // draw horizontal lines
-                this.context.moveTo(i, 0);
-                this.context.lineTo(i, this.height);
-                // draw vertical lines
-                this.context.moveTo(0, i);
-                this.context.lineTo(this.width, i);
-            }
-            this.context.stroke();
-        }
     }
 
     drawImages(coordinates, base64Image) {
@@ -64,6 +51,30 @@ export default class CanvasView {
         }
     }
 
+    drawSnakeSquares(coordinates, color) {
+        for (const coordinate of coordinates) {
+            this.drawSnakeSquare(coordinate, color);
+        }
+    }
+
+    drawSnakeSquare(coordinate, color) {
+        const x = coordinate.x * this.squareSizeInPixels;
+        const y = coordinate.y * this.squareSizeInPixels;
+        this.context.fillStyle = color;
+        this.context.beginPath();
+        this.context.moveTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x + (this.squareSizeInPixels * 0.25), y - (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x + (this.squareSizeInPixels * 0.25), y);
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y);
+        this.context.lineTo(x + (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x - (this.squareSizeInPixels * 0.25), y + (this.squareSizeInPixels / 2.5));
+        this.context.lineTo(x - (this.squareSizeInPixels * 0.25), y);
+        this.context.lineTo(x - (this.squareSizeInPixels / 2), y);
+        this.context.lineTo(x - (this.squareSizeInPixels / 2), y - (this.squareSizeInPixels / 2.5));
+        this.context.closePath();
+        this.context.fill();
+    }
+
     drawSquare(coordinate, color) {
         const x = coordinate.x * this.squareSizeInPixels;
         const y = coordinate.y * this.squareSizeInPixels;
@@ -75,6 +86,36 @@ export default class CanvasView {
         this.context.lineTo(x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2));
         this.context.closePath();
         this.context.fill();
+    }
+
+    drawFood(coordinate, color) {
+        let food;
+        let fruit = ['🍇', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓'];
+
+        switch (color) {
+            case 'red':
+                food = '🍓';
+                break;
+            case 'yellow':
+                food = '⭐️';
+                break;
+            case 'green':
+                food = '🍧';
+                break;
+            case 'blue':
+                food = '😵';
+                break;
+            case 'purple':
+                food = '🍔';
+                break;
+            default:
+                food = '';
+        }
+
+        const x = coordinate.x * this.squareSizeInPixels;
+        const y = coordinate.y * this.squareSizeInPixels;
+        this.context.font = '20px x';
+        this.context.fillText(food, x - (this.squareSizeInPixels / 2), y + (this.squareSizeInPixels / 2.5));
     }
 
     drawSquareAround(coordinate, color) {

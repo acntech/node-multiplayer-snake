@@ -1,8 +1,8 @@
 'use strict';
 
 const Board = {
-    SQUARE_SIZE_IN_PIXELS: 12.5,
-    HORIZONTAL_SQUARES: 50,
+    SQUARE_SIZE_IN_PIXELS: 18,
+    HORIZONTAL_SQUARES: 60,
     VERTICAL_SQUARES: 40,
 };
 
