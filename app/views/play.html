@@ -28,6 +28,7 @@
     </label>
 
     <div class="visible-in-game" id="visibleWhenPlaying">
+        <button id="quitGame" onClick="quitGame()">Quit?</button>
         <div class="player-info-wrapper">
             <canvas id="playerViewCanvas" height="32px">
             </canvas>
@@ -41,8 +42,6 @@
             <label id="rankLabel">Current Position:</label>
             <p class="score-result" aria-labelledby="rankLabel" id="playerRank">0</p>
         </div>
-        
-        <button id="quitGame" onClick="quitGame()">Quit?</button>
 
         <div id="playerSettings" class="grid-container" style="display: grid;">
             <button id="btnLeft" class="grid-item grid-item-button control-button" style="grid-area:a">
