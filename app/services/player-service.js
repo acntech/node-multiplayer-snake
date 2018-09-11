@@ -120,8 +120,6 @@ class PlayerService {
         }
 
         this.updateScore(player);
-        this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
-
         this.notificationService.broadcastNotification(`${player.name} has left.`, player.color);
         this.colorService.returnColor(player.color);
         this.nameService.returnPlayerName(player.name);
@@ -130,6 +128,7 @@ class PlayerService {
             this.boardOccupancyService.removePlayerOccupancy(player.id, player.getSegments());
         }
         this.playerContainer.removePlayer(player.id);
+        this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
     }
 
     handlePlayerCollisions() {
