@@ -126,6 +126,9 @@ export default class GameView {
     _handleQuitButtonClick() {
         this.spectateGameCallback();
         DomHelper.hideControlButtons();
+        DomHelper.setPlayerNameInputElementReadOnly(false);
+        DomHelper.getPlayerNameInputElement().style.display = 'block';
+        DomHelper.getPlayerNameElement().style.display = 'none';
     }
 
     _handleKeyDown(e) {
@@ -229,17 +232,48 @@ export default class GameView {
         });
     }
 
+    _updatePlayerName(oldPlayerName, newPlayerName) {
+        /* global firebase */
+        const db = firebase.database();
+
+        if (newPlayerName && newPlayerName.trim().length > 0 && newPlayerName.length <= ClientConfig.MAX_NAME_LENGTH) {
+            fetch(`/users/${newPlayerName}`).then(res => res.json()).then((data) => {
+                if (data.available) {
+                    db.ref(`snake-scores/${oldPlayerName}`).once('value').then( snapshot => {
+                        let oldData = snapshot.val();
+                        db.ref(`snake-scores/${newPlayerName}`).set(oldData);
+                        // Clean up old user
+                        db.ref(`snake-scores`).child(`${oldPlayerName}`).remove();
+                        // Update and continue game
+                        this.updatePlayerName(newPlayerName);  
+                        this._saveNewPlayerName();
+                        this._createPlayer(newPlayerName);
+                    });
+                } else {
+                    DomHelper.showTakenPlayerNameLabel();
+                }
+            });
+        } else {
+            DomHelper.showInvalidPlayerNameLabel();
+        }
+    }
+
     _register() {
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+        let playerWantsToChangeName = (storedName !== playerName);
+
+        if (playerWantsToChangeName) {
+            this._updatePlayerName(storedName, playerName);
+            return;
+        }
 
         if (storedName) {
             this._createPlayer(storedName);
             return;
         }
 
-        const playerName = DomHelper.getPlayerNameInputElement().value;
-
-
+        // Haven't played before, check name and proceed
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
                 if (data.available) {
