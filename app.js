@@ -47,7 +47,6 @@ app.get('/admin', authMiddleware, (req, res) => {
     res.sendFile('videoadmin.html', { root: path.join(__dirname, 'app/views') });
 });
 
-
 const videoController = new VideoController();
 videoController.listen(io);
 app.post('/videos', authMiddleware, (req, res) => {
@@ -64,6 +63,9 @@ app.post('/game', authMiddleware, (req, res) => {
 const gameController = new GameController();
 gameController.listen(io);
 
+app.get('/settings', (req, res) => {
+    res.sendFile('settings.html', { root: path.join(__dirname, 'app/views') });
+});
 
 app.get('/users/:playerName', (req, res) => {
     DbService.getPlayer(req.params.playerName)

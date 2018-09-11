@@ -6,9 +6,6 @@
         <link rel="stylesheet" type="text/css" href="css/settings.css">
     </head>
     <body>
-        <div id="cover">
-        
-            <div class="body-content">
                 <div id="adminControls" class="settings-menu">
                     <fieldset>
                         <legend>Admin Controls</legend>
@@ -33,19 +30,10 @@
                             <button id="increaseBotsButton" class="plus-button" title="+1"/>
                             <button id="resetBotsButton" class="reset-button" title="Reset to Default"/>
                         </div>
-                        <div class="options-controls">
-                            <label class="options-label">Start Length: </label>
-                            <label id="currentStartLength" class="options-value"></label>
-                            <button id="decreaseStartLengthButton" class="minus-button" title="-1"/>
-                            <button id="increaseStartLengthButton" class="plus-button" title="+1"/>
-                            <button id="resetStartLengthButton" class="reset-button" title="Reset to Default"/>
-                        </div>
                     </fieldset>
                 </div> 
-            </div>            
-        </div>
         <!-- socket.io client is exposed by the server.  This sets a global variable io -->
         <script src="/socket.io/socket.io.js"></script>
-        <script src="js/main.js" type="module"></script>
+        <script src="js/settings.js" type="module"></script>
     </body>
 </html>
