@@ -60,7 +60,6 @@ class PlayerService {
 
         // Start game if the first player has joined
         if (this.playerContainer.getNumberOfPlayers() === 1) {
-            console.log('Game Started');
             this.runGameCycle();
         }
     }
@@ -88,7 +87,6 @@ class PlayerService {
         const oldPlayerName = player.name;
         const newPlayerNameCleaned = ValidationService.cleanString(newPlayerName);
         if (!ValidationService.isValidPlayerName(newPlayerNameCleaned)) {
-            console.log(`${player.name} tried changing to an invalid name`);
             return;
         }
         if (oldPlayerName === newPlayerNameCleaned) {
@@ -113,7 +111,6 @@ class PlayerService {
     }
 
     disconnectPlayer(playerId) {
-        console.log("Player left...");
         const player = this.playerContainer.getPlayer(playerId);
         if (!player) {
             return;

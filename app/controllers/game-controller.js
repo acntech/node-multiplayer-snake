@@ -45,6 +45,7 @@ class GameController {
         );
         this.playerService.init(this.adminService.getPlayerStartLength.bind(this.adminService));
     }
+
     // Listen for Socket IO events
     listen(io) {
         this.notificationService.setSockets(io.sockets);
@@ -78,13 +79,30 @@ class GameController {
                 ServerConfig.IO.INCOMING.DISCONNECT,
                 self.playerService.disconnectPlayer.bind(self.playerService, socket.id),
             );
+
+            // Admin Service
+            socket.on(
+                ServerConfig.IO.INCOMING.BOT_CHANGE,
+                self.adminService.changeBots.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.FOOD_CHANGE,
+                self.adminService.changeFood.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.SPEED_CHANGE,
+                self.adminService.changeSpeed.bind(self.adminService, socket.id),
+            );
+            socket.on(
+                ServerConfig.IO.INCOMING.START_LENGTH_CHANGE,
+                self.adminService.changeStartLength.bind(self.adminService, socket.id),
+            );
         });
     }
 
     runGameCycle() {
         // Pause and reset the game if there aren't any players
         if (this.playerContainer.getNumberOfPlayers() - this.adminService.getBotIds().length === 0) {
-            console.log('Game Paused');
             this.boardOccupancyService.initializeBoard();
             this.adminService.resetGame();
             this.nameService.reinitialize();
@@ -95,6 +113,15 @@ class GameController {
 
             this.broadcastGameState();
             return;
+        }
+
+         // Change bots' directions
+         for (const botId of this.adminService.getBotIds()) {
+            const bot = this.playerContainer.getPlayer(botId);
+            if (Math.random() <= ServerConfig.BOT_CHANGE_DIRECTION_PERCENT) {
+                this.botDirectionService.changeToRandomDirection(bot);
+            }
+            this.botDirectionService.changeDirectionIfInDanger(bot);
         }
 
         this.playerService.movePlayers();

@@ -28,7 +28,6 @@ export default class GameController {
     connect(io) {
         this.socket = io();
         this._initializeSocketIoHandlers();
-        console.log('connect!');
         const Board = {
             SQUARE_SIZE_IN_PIXELS: 18,
             HORIZONTAL_SQUARES: 60,
