@@ -238,34 +238,26 @@ export default class GameView {
         if (newPlayerName && newPlayerName.trim().length > 0 && newPlayerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${newPlayerName}`).then(res => res.json()).then((data) => {
                 if (data.available) {
-                    console.log('safe to change name');
                     db.ref(`snake-scores/${oldPlayerName}`).once('value').then( snapshot => {
                         let oldData = snapshot.val();
- 
                         db.ref(`snake-scores/${newPlayerName}`).set(oldData);
-
                         // Clean up old user
                         db.ref(`snake-scores`).child(`${oldPlayerName}`).remove();
-                        
                         // Update and continue game
                         this.updatePlayerName(newPlayerName);  
                         this._saveNewPlayerName();
                         this._createPlayer(newPlayerName);
                     });
                 } else {
-                    console.log('Username '+ newPlayerName + ' already taken')
                     DomHelper.showTakenPlayerNameLabel();
                 }
             });
         } else {
-            console.log('does not meet reqs')
             DomHelper.showInvalidPlayerNameLabel();
         }
     }
 
     _register() {
-        console.log('register called')
-        
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
         const playerName = DomHelper.getPlayerNameInputElement().value;
         let playerWantsToChangeName = (storedName !== playerName);
