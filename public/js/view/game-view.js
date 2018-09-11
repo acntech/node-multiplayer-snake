@@ -229,15 +229,45 @@ export default class GameView {
         });
     }
 
+    _updatePlayerName(oldPlayerName, newPlayerName) {
+        if (newPlayerName && newPlayerName.trim().length > 0 && newPlayerName.length <= ClientConfig.MAX_NAME_LENGTH) {
+            fetch(`/users/${newPlayerName}`).then(res => res.json()).then((data) => {
+                if (data.available) {
+                    // TODO LH: This means it's safe to change name
+                    // Set new key for oldPlayerName to newPlayerName
+                        // Need to reference DB from here
+                    db.ref(`snake-scores/${oldPlayerName}`).once('value').then( snapshot => {
+                        var oldData = snapshot.val();
+                        // Create new user with old data
+                        db.ref(`snake-scores/${newPlayerName}`).set(oldData);
+                        // Clean up old user
+                        db.ref(`snake-scores/${oldPlayerName}`).delete();
+                    })
+                } else {
+                    DomHelper.showTakenPlayerNameLabel();
+                }
+            });
+        } else {
+            DomHelper.showInvalidPlayerNameLabel();
+        }
+    }
+
     _register() {
+        console.log('register called')
+        
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
+        const playerName = DomHelper.getPlayerNameInputElement().value;
+        let playerWantsToChangeName = (storedName !== playerName);
 
         if (storedName) {
+            if (playerDoesNotWantToChangeName){
+                this._updatePlayerName(storedName, playerName);
+                // Re-store name in LocalStorage?
+                return;
+            }
             this._createPlayer(storedName);
             return;
         }
-
-        const playerName = DomHelper.getPlayerNameInputElement().value;
 
 
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
