@@ -31,7 +31,7 @@ class AdminService {
 
     changeFood(playerId, foodOption) {
         const player = this.playerContainer.getPlayer(playerId);
-        let notification = player.name;
+        let notification = player ? player.name : 'Admin';
         if (foodOption === ServerConfig.INCREMENT_CHANGE.INCREASE) {
             this.foodService.generateSingleFood();
             notification += ' has added some food.';
@@ -46,12 +46,12 @@ class AdminService {
             this._resetFood();
             notification += ' has reset the food.';
         }
-        this.notificationService.broadcastNotification(notification, player.color);
+        this.notificationService.broadcastNotification(notification, 'maroon');
     }
 
     changeSpeed(playerId, speedOption) {
         const player = this.playerContainer.getPlayer(playerId);
-        let notification = player.name;
+        let notification = player ? player.name : 'Admin';
         if (speedOption === ServerConfig.INCREMENT_CHANGE.INCREASE) {
             if (this.currentFPS < ServerConfig.MAX_FPS) {
                 notification += ' has raised the game speed.';
@@ -70,7 +70,7 @@ class AdminService {
             this._resetSpeed();
             notification += ' has reset the game speed.';
         }
-        this.notificationService.broadcastNotification(notification, player.color);
+        this.notificationService.broadcastNotification(notification, 'maroon');
     }
 
     changeStartLength(playerId, lengthOption) {
@@ -115,8 +115,8 @@ class AdminService {
     _addBot(playerRequestingAddition) {
         if (this.botIds.length >= ServerConfig.MAX_BOTS) {
             this.notificationService.broadcastNotification(
-                `${playerRequestingAddition.name} tried to add a bot past the limit.`,
-                playerRequestingAddition.color,
+                'Admin tried to add a bot past the limit.',
+                'maroon',
             );
             return;
         }
@@ -131,8 +131,8 @@ class AdminService {
             this.playerService.disconnectPlayer(this.botIds.pop());
         } else {
             this.notificationService.broadcastNotification(
-                `${playerRequestingRemoval.name} tried to remove a bot that doesn't exist.`,
-                playerRequestingRemoval.color,
+                'Admin tried to remove a bot that doesn\'t exist.',
+                'maroon',
             );
         }
     }

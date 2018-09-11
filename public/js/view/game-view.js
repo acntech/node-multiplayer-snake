@@ -208,7 +208,6 @@ export default class GameView {
 
         db.ref(`snake-scores/${playerName}`).on('value', (snapshot) => {
             const res = snapshot.val();
-            console.log(res);
             DomHelper.setPlayerScore(res.score);
             DomHelper.setPlayerHighScore(res.highScore);
         });
