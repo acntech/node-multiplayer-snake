@@ -241,27 +241,16 @@ export default class GameView {
                     console.log('safe to change name');
                     db.ref(`snake-scores/${oldPlayerName}`).once('value').then( snapshot => {
                         let oldData = snapshot.val();
-                        //console.log('old data', oldPlayerName, oldData);
-                        // Create new user with old data
+ 
                         db.ref(`snake-scores/${newPlayerName}`).set(oldData);
-                        //db.ref(`snake-scores/${newPlayerName}`).once('value').then( snap => {
-                        //    console.log('new data', newPlayerName, snap.val());
-                        //    console.log('updated db')
-                        //})
 
                         // Clean up old user
-                        //db.ref(`snake-scores/${oldPlayerName}`).delete();
-
-                        // Boilerplate:
-                        this.playerNameUpdatedCallback(newPlayerName);
-                        DomHelper.getPlayerNameInputElement().style.display = 'none';
-                        DomHelper.movePlayerNameToTop();
-                        this.joinGameCallback();
-                        this.isChangingName = false;
-                        DomHelper.hideInvalidPlayerNameLabel();
-                        DomHelper.hideTakenPlayerNameLabel();
-                        console.log('fired events and updated localstorage')
-                        console.log('Name changed successfully, continuing...')
+                        db.ref(`snake-scores`).child(`${oldPlayerName}`).remove();
+                        
+                        // Update and continue game
+                        this.updatePlayerName(newPlayerName);  
+                        this._saveNewPlayerName();
+                        this._createPlayer(newPlayerName);
                     });
                 } else {
                     console.log('Username '+ newPlayerName + ' already taken')
@@ -282,18 +271,16 @@ export default class GameView {
         let playerWantsToChangeName = (storedName !== playerName);
 
         if (playerWantsToChangeName) {
-            this._updatePlayerName(storedName, playerName)
-            console.log('*** RETURNING ***')
+            this._updatePlayerName(storedName, playerName);
             return;
         }
 
         if (storedName) {
-            console.log('creating player in stored name')
             this._createPlayer(storedName);
             return;
         }
 
-        console.log('getting past storedName check')
+        // Haven't played before, check name and proceed
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${playerName}`).then(res => res.json()).then((data) => {
                 if (data.available) {
