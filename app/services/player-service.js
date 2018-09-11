@@ -81,9 +81,7 @@ class PlayerService {
         this.playerContainer.addPlayer(player);
         this.playerStatBoard.addPlayer(player.id, playerName, playerColor);
 
-        socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, playerName, playerColor);
         socket.emit(ServerConfig.IO.OUTGOING.BOARD_INFO, Board);
-        this.notificationService.broadcastNotification(`${playerName} has joined!`, playerColor);
         this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
 
         // Start game if the first player has joined
