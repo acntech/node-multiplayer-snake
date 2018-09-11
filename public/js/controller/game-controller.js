@@ -4,6 +4,7 @@ import ClientConfig from '../config/client-config.js';
 import TextToDraw from '../model/text-to-draw.js';
 import CanvasFactory from '../view/canvas-factory.js';
 import GameView from '../view/game-view.js';
+import AudioController from './audio-controller.js';
 
 /**
  * Controls all game logic
@@ -19,6 +20,7 @@ export default class GameController {
             this.spectateGameCallback.bind(this),
             false, //not player mode
         );
+        this.audioController = new AudioController();
         this.players = [];
         this.food = {};
         this.textsToDraw = [];
@@ -182,8 +184,13 @@ export default class GameController {
         }
     }
 
-    _handleFoodCollected(text, coordinate, color) {
+    _handleFoodCollected(text, coordinate, color, isSwap) {
         this.textsToDraw.unshift(new TextToDraw(text, coordinate, color));
+        if (isSwap) {
+            this.audioController.playSwapSound();
+        } else {
+            this.audioController.playFoodCollectedSound();
+        }
     }
 
     _handleNewGameData(gameData) {
@@ -217,5 +224,9 @@ export default class GameController {
             ClientConfig.IO.INCOMING.START_VIDEOS,
             this.startVideos,
         );
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.YOU_DIED,
+            this.audioController.playDeathSound.bind(this.audioController));
+        this.socket.on(ClientConfig.IO.INCOMING.NOTIFICATION.YOU_MADE_A_KILL,
+            this.audioController.playKillSound.bind(this.audioController));
     }
 }
