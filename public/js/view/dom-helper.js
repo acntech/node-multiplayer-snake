@@ -236,6 +236,10 @@ export default class DomHelper {
         }
     }
 
+    static getVolumeSlider() {
+        return document.getElementById('volumeSlider');
+    }
+
     static drawSnakeSquare(coordinate, color) {
         const context = document.getElementById('playerViewCanvas').getContext('2d');
         const squareSizeInPixels = 18;
