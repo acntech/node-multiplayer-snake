@@ -19,7 +19,6 @@ class NotificationService {
     }
 
     broadcastPlayerCount(count) {
-        console.log(ServerConfig.IO.OUTGOING.PLAYER_COUNT);
         this.sockets.emit(ServerConfig.IO.OUTGOING.PLAYER_COUNT, count);
     }
 

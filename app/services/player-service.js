@@ -120,6 +120,7 @@ class PlayerService {
         }
 
         this.updateScore(player);
+        this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
 
         this.notificationService.broadcastNotification(`${player.name} has left.`, player.color);
         this.colorService.returnColor(player.color);
