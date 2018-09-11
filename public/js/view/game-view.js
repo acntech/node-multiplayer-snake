@@ -233,8 +233,6 @@ export default class GameView {
         /* global firebase */
         const db = firebase.database();
 
-        console.log('Trying to update player name...')
-
         if (newPlayerName && newPlayerName.trim().length > 0 && newPlayerName.length <= ClientConfig.MAX_NAME_LENGTH) {
             fetch(`/users/${newPlayerName}`).then(res => res.json()).then((data) => {
                 if (data.available) {
