@@ -27,10 +27,23 @@ label#register {
 }
 
 #changePlayerNameButton {
-    color: white;
+    color: @content-color;
+    background:transparent;
+    border:0.2em solid @content-color;
+    border-radius: 0;
+
+    &:active {
+        background:@content-color;
+        color:white;
+    }
 }
 
-div#player-name {
+div#player-name{
+    margin-top:1em;
+    margin-bottom:1em;
+}
+
+.active-game div#player-name {
     border-top: 0.2em solid @content-color;
     border-bottom: 0.2em solid @content-color;
     padding-top: 0.25em;
@@ -119,6 +132,7 @@ button.grid-item-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 0;
 }
 
 #btnRight span,
