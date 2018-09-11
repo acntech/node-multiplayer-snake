@@ -27,10 +27,23 @@ label#register {
 }
 
 #changePlayerNameButton {
-    color: white;
+    color: @content-color;
+    background:transparent;
+    border:0.2em solid @content-color;
+    border-radius: 0;
+
+    &:active {
+        background:@content-color;
+        color:white;
+    }
 }
 
-div#player-name {
+div#player-name{
+    margin-top:1em;
+    margin-bottom:1em;
+}
+
+.active-game div#player-name {
     border-top: 0.2em solid @content-color;
     border-bottom: 0.2em solid @content-color;
     padding-top: 0.25em;
@@ -69,18 +82,18 @@ input#player-name-input{
 
 .player-info-wrapper {
     display: flex;
-    min-height: 40%;
+    min-height: 35%;
     height:auto;
     flex-grow: 1;
     flex-direction: column;
     & label {
-        font-size: 75%;
+        font-size: 50%;
         text-transform: uppercase;
         display: block;
         clear: both;
     }
     & .score-result {
-        font-size: 200%;
+        font-size: 175%;
         margin-top: 0.2em;
         margin-bottom: 0.5em;
     }
@@ -88,7 +101,7 @@ input#player-name-input{
 
 #playerSettings {
     display: flex;
-    min-height: 35%;
+    min-height: 40%;
     height:auto;
     flex-grow: 1;
     flex-direction: column;
@@ -119,6 +132,7 @@ button.grid-item-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 0;
 }
 
 #btnRight span,
@@ -130,4 +144,13 @@ button.grid-item-button {
 
 span#playerNameLabel {
     display: none !important;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
