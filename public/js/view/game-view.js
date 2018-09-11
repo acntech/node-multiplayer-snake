@@ -126,6 +126,9 @@ export default class GameView {
     _handleQuitButtonClick() {
         this.spectateGameCallback();
         DomHelper.hideControlButtons();
+        DomHelper.setPlayerNameInputElementReadOnly(false);
+        DomHelper.getPlayerNameInputElement().style.display = 'block';
+        DomHelper.getPlayerNameElement().style.display = 'none';
     }
 
     _handleKeyDown(e) {

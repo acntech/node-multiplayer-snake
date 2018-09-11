@@ -261,12 +261,9 @@ export default class DomHelper {
     }
 
     static setPlayerNameInputElementReadOnly(readOnly) {
-        // Commenting this out for ability to enter new name:
-        /* 
-        if (this.getPlayerNameInputElement()) {
+        /*if (this.getPlayerNameInputElement()) {
             this.getPlayerNameInputElement().readOnly = readOnly;
-        }
-        */
+        }*/
     }
 
     static setPlayerNameElementValue(value) {
