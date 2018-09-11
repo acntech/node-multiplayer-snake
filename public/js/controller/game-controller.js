@@ -32,7 +32,7 @@ export default class GameController {
         const Board = {
             SQUARE_SIZE_IN_PIXELS: 18,
             HORIZONTAL_SQUARES: 60,
-            VERTICAL_SQUARES: 40,
+            VERTICAL_SQUARES: 70,
         };
         this._createBoard(Board);
     }
