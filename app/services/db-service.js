@@ -68,7 +68,7 @@ class DbService {
     }
 
     updateScoreInDb(playerName, score, highScore) {
-        if (playerName && playerName.contains("Bot")) {
+        if (playerName && playerName.startsWith("Bot ")) {
             return;
         }
         this.db.ref(`snake-scores/${playerName}`).set({
