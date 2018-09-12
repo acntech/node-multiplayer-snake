@@ -39,14 +39,18 @@ class GameControlsService {
         if (!newDirection) {
             return;
         }
-        const validNextDirections = this.getValidNextMove(player.directionBeforeMove);
-        // eslint-disable-next-line no-restricted-syntax
-        for (const validNextDirection of validNextDirections) {
-            if (newDirection === validNextDirection) {
-                player.changeDirection(newDirection);
-                break;
+        if (player) {
+            const validNextDirections = this.getValidNextMove(player.directionBeforeMove);
+            // eslint-disable-next-line no-restricted-syntax
+            for (const validNextDirection of validNextDirections) {
+                if (newDirection === validNextDirection) {
+                    player.changeDirection(newDirection);
+                    break;
+                }
             }
+
         }
+
     }
 }
 
