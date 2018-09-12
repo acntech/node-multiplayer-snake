@@ -72,6 +72,26 @@ class PlayerService {
         return player;
     }
 
+    createBot(socket, id) {
+        const player = new Player(id, id, this.colorService.getColor());
+        const playerName = player.name;
+        const playerColor = player.color;
+
+        this.playerSpawnService.setupNewSpawn(player, this.getPlayerStartLength(), ServerConfig.SPAWN_TURN_LEEWAY);
+        this.playerContainer.addPlayer(player);
+        this.playerStatBoard.addPlayer(player.id, playerName, playerColor);
+
+        socket.emit(ServerConfig.IO.OUTGOING.BOARD_INFO, Board);
+        this.notificationService.broadcastPlayerCount(this.playerContainer.getNumberOfPlayers());
+
+        // Start game if the first player has joined
+        if (this.playerContainer.getNumberOfPlayers() === 1) {
+            this.runGameCycle();
+        }
+
+        return player;
+    }
+
     changeColor(socket) {
         const player = this.playerContainer.getPlayer(socket.id);
         const newColor = this.colorService.getColor();
