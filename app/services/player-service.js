@@ -104,29 +104,31 @@ class PlayerService {
 
     changePlayerName(socket, newPlayerName) {
         const player = this.playerContainer.getPlayer(socket.id);
-        const oldPlayerName = player.name;
-        const newPlayerNameCleaned = ValidationService.cleanString(newPlayerName);
-        if (!ValidationService.isValidPlayerName(newPlayerNameCleaned)) {
-            return;
-        }
-        if (oldPlayerName === newPlayerNameCleaned) {
-            return;
-        }
-        if (this.nameService.doesPlayerNameExist(newPlayerNameCleaned)) {
-            socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, oldPlayerName, player.color);
-            this.notificationService.broadcastNotification(
-                `${player.name} couldn't claim the name ${newPlayerNameCleaned}`,
-                player.color,
-            );
-        } else {
-            this.notificationService.broadcastNotification(
-                `${oldPlayerName} is now known as ${newPlayerNameCleaned}`,
-                player.color,
-            );
-            player.name = newPlayerNameCleaned;
-            this.nameService.usePlayerName(newPlayerNameCleaned);
-            this.playerStatBoard.changePlayerName(player.id, newPlayerNameCleaned);
-            socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, newPlayerNameCleaned, player.color);
+        if (player) {
+            const oldPlayerName = player.name;
+            const newPlayerNameCleaned = ValidationService.cleanString(newPlayerName);
+            if (!ValidationService.isValidPlayerName(newPlayerNameCleaned)) {
+                return;
+            }
+            if (oldPlayerName === newPlayerNameCleaned) {
+                return;
+            }
+            if (this.nameService.doesPlayerNameExist(newPlayerNameCleaned)) {
+                socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, oldPlayerName, player.color);
+                this.notificationService.broadcastNotification(
+                    `${player.name} couldn't claim the name ${newPlayerNameCleaned}`,
+                    player.color,
+                );
+            } else {
+                this.notificationService.broadcastNotification(
+                    `${oldPlayerName} is now known as ${newPlayerNameCleaned}`,
+                    player.color,
+                );
+                player.name = newPlayerNameCleaned;
+                this.nameService.usePlayerName(newPlayerNameCleaned);
+                this.playerStatBoard.changePlayerName(player.id, newPlayerNameCleaned);
+                socket.emit(ServerConfig.IO.OUTGOING.NEW_PLAYER_INFO, newPlayerNameCleaned, player.color);
+            }
         }
     }
 
