@@ -43,6 +43,10 @@ app.get('/videos', (req, res) => {
     res.sendFile('video.html', { root: path.join(__dirname, 'app/views') });
 });
 
+app.get('/draw', (req, res) => {
+    res.sendFile('draw.html', { root: path.join(__dirname, 'app/views') });
+});
+
 app.get('/admin', authMiddleware, (req, res) => {
     res.sendFile('videoadmin.html', { root: path.join(__dirname, 'app/views') });
 });
