@@ -40,6 +40,10 @@ class PlayerStatBoard {
         // DB integration?
     }
 
+    setScore(playerId, amount) {
+        this.statBoard.get(playerId).setScore(amount);
+    }
+
     resetScore(playerId) {
         this.statBoard.get(playerId).resetScore();
     }

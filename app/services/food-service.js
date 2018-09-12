@@ -40,13 +40,26 @@ class FoodService {
                 const otherPlayer = playerContainer.getAnActivePlayer(playerWhoConsumedFood.id);
                 this.boardOccupancyService.removePlayerOccupancy(otherPlayer.id, otherPlayer.getSegments());
                 this.boardOccupancyService.removePlayerOccupancy(playerWhoConsumedFood.id, playerWhoConsumedFood.getSegments());
+
+                const playerWhoConsumedFoodDirection = playerWhoConsumedFood.direction;
+                const playerWhoConsumedFoodDirectionBeforeMove = playerWhoConsumedFood.directionBeforeMove;
+                const playerWhoConsumedFoodSegments = playerWhoConsumedFood.getSegments();
+                const playerWhoConsumedFoodGrowAmount = playerWhoConsumedFood.growAmount;
+
                 const otherPlayerDirection = otherPlayer.direction;
                 const otherPlayerDirectionBeforeMove = otherPlayer.directionBeforeMove;
                 const otherPlayerSegments = otherPlayer.getSegments();
                 const otherPlayerGrowAmount = otherPlayer.growAmount;
+
+                let otherPlayerIncreaseScore = true;
+
+                if (otherPlayerSegments.length > playerWhoConsumedFoodSegments.length) {
+                    otherPlayerIncreaseScore = false;
+                }
+
                 otherPlayer.swapBodies(
-                    playerWhoConsumedFood.getSegments(), playerWhoConsumedFood.direction,
-                    playerWhoConsumedFood.directionBeforeMove, playerWhoConsumedFood.growAmount,
+                    playerWhoConsumedFoodSegments, playerWhoConsumedFoodDirection,
+                    playerWhoConsumedFoodDirectionBeforeMove, playerWhoConsumedFoodGrowAmount,
                 );
                 playerWhoConsumedFood.swapBodies(
                     otherPlayerSegments, otherPlayerDirection,
@@ -63,6 +76,15 @@ class FoodService {
                     otherPlayer.id,
                     'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true,
                 );
+
+                if (otherPlayerIncreaseScore) {
+                    this.playerStatBoard.setScore(otherPlayer.id, playerWhoConsumedFoodSegments.length);
+                    this.playerStatBoard.setScore(playerWhoConsumedFood.id, otherPlayerSegments.length);
+                } else {
+                    this.playerStatBoard.setScore(otherPlayer.id, playerWhoConsumedFoodSegments.length);
+                    this.playerStatBoard.setScore(playerWhoConsumedFood.id, otherPlayerSegments.length);
+                }
+
                 this.updateScore(otherPlayer);
             } else {
                 this.notificationService.notifyPlayerFoodCollected(
@@ -99,12 +121,12 @@ class FoodService {
         const foodId = this.nameService.getFoodId();
         let food;
         const spawnRate = Math.random();
-        if (spawnRate < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
+        if (spawnRate < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
+            food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SWAP.TYPE, ServerConfig.FOOD.SWAP.COLOR);
+        } else if (spawnRate < ServerConfig.FOOD.GOLDEN.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.GOLDEN.TYPE, ServerConfig.FOOD.GOLDEN.COLOR);
         } else if (spawnRate < ServerConfig.FOOD.INCREASE_SPEED.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.INCREASE_SPEED.TYPE, ServerConfig.FOOD.INCREASE_SPEED.COLOR);
-        } else if (spawnRate < ServerConfig.FOOD.SWAP.SPAWN_RATE) {
-            food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SWAP.TYPE, ServerConfig.FOOD.SWAP.COLOR);
         } else if (spawnRate < ServerConfig.FOOD.SUPER.SPAWN_RATE) {
             food = new Food(foodId, randomUnoccupiedCoordinate, ServerConfig.FOOD.SUPER.TYPE, ServerConfig.FOOD.SUPER.COLOR);
         } else {

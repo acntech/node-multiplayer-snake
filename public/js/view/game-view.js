@@ -124,8 +124,7 @@ export default class GameView {
     }
 
     _handleQuitButtonClick() {
-        this.spectateGameCallback();
-        DomHelper.hideControlButtons();
+        location.reload();
     }
 
     _handleKeyDown(e) {
