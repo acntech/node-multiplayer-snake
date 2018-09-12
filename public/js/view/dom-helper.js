@@ -265,9 +265,9 @@ export default class DomHelper {
     }
 
     static setPlayerNameInputElementReadOnly(readOnly) {
-        /*if (this.getPlayerNameInputElement()) {
+        if (this.getPlayerNameInputElement()) {
             this.getPlayerNameInputElement().readOnly = readOnly;
-        }*/
+        }
     }
 
     static setPlayerNameElementValue(value) {
