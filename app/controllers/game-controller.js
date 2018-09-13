@@ -83,7 +83,7 @@ class GameController {
             // Admin Service
             socket.on(
                 ServerConfig.IO.INCOMING.BOT_CHANGE,
-                self.adminService.changeBots.bind(self.adminService, socket.id),
+                self.adminService.changeBots.bind(self.adminService, socket),
             );
             socket.on(
                 ServerConfig.IO.INCOMING.FOOD_CHANGE,
@@ -102,7 +102,7 @@ class GameController {
 
     runGameCycle() {
         // Pause and reset the game if there aren't any players
-        if (this.playerContainer.getNumberOfPlayers() - this.adminService.getBotIds().length === 0) {
+        if (this.playerContainer.getNumberOfPlayers() === 0) {
             this.boardOccupancyService.initializeBoard();
             this.adminService.resetGame();
             this.nameService.reinitialize();

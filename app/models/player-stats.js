@@ -37,6 +37,17 @@ class PlayerStats {
         }
     }
 
+    setScore(scoreAmount) {
+        let newScore = scoreAmount;
+        if (!newScore) {
+            newScore = 1;
+        }
+        this.score = newScore;
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+        }
+    }
+
     resetScore() {
         this.score = 0;
     }

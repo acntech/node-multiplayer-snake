@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>Snake</title>
+    <link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/game.css">
+    <link rel="stylesheet" type="text/css" href="css/settings.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+</head>
+
+<body class="game">
+    <div>
+        <div style="display: flex; justify-content: center;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;">
+            <span id="medal" class="medal" style="display:none; font-size: 200px;">🏅</span>
+            <img id="loader" style="display:none" src="../assets/loader.svg">
+            <p id="winner" style="font-size: 30px"></p>
+            <button id="drawButton"style="height: 100px; width: 200px; color: white; font-size: 22px;" onclick="draw()">DRAW</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "<API_KEY>",
+            authDomain: 'jz-2018.firebaseapp.com',
+            databaseURL: 'https://jz-2018.firebaseio.com',
+            projectId: 'jz-2018',
+            storageBucket: 'jz-2018.appspot.com',
+            messagingSenderId: "<SENDER_ID>",
+        };
+        var firebaseApp = firebase.initializeApp(config);
+
+        /* global firebase */
+        const db = firebase.database();
+
+        var players = [];
+        console.log('hello');
+
+        db.ref('snake-scores').on('value', (snapshot) => {
+
+
+            snapshot.forEach((childSnapshot) => {
+                const result = childSnapshot.val();
+                result.name = childSnapshot.key;
+                players.push(result);
+            });
+        });
+
+        let draw = function () {
+            document.getElementById("loader").style.display = 'block';
+            document.getElementById("winner").innerHTML = '';
+            document.getElementById("drawButton").style.display = 'none';
+            document.getElementById("medal").style.display = 'none';
+            var rand = players[Math.floor(Math.random() * players.length)];
+            console.log(rand);
+            setTimeout(function () {
+                document.getElementById("winner").innerHTML = rand.name;
+                document.getElementById("medal").style.display = 'flex';
+                document.getElementById("loader").style.display = 'none';
+                document.getElementById("drawButton").style.display = 'block';
+            }, 3000);
+
+        }
+    </script>
+    <!-- socket.io client is exposed by the server.  This sets a global variable io -->
+    <script src="js/draw.js" type="module"></script>
+
+</body>
+
+</html>

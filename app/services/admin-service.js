@@ -18,14 +18,13 @@ class AdminService {
         this.botIds = [];
     }
 
-    changeBots(playerId, botOption) {
-        const player = this.playerContainer.getPlayer(playerId);
+    changeBots(socket, botOption) {
         if (botOption === ServerConfig.INCREMENT_CHANGE.INCREASE) {
-            this._addBot(player);
+            this._addBot(socket);
         } else if (botOption === ServerConfig.INCREMENT_CHANGE.DECREASE) {
-            this._removeBot(player);
+            this._removeBot();
         } else if (botOption === ServerConfig.INCREMENT_CHANGE.RESET) {
-            this._resetBots(player);
+            this._resetBots();
         }
     }
 
@@ -112,7 +111,7 @@ class AdminService {
         this._resetPlayerStartLength();
     }
 
-    _addBot(playerRequestingAddition) {
+    _addBot(socket) {
         if (this.botIds.length >= ServerConfig.MAX_BOTS) {
             this.notificationService.broadcastNotification(
                 'Admin tried to add a bot past the limit.',
@@ -121,12 +120,12 @@ class AdminService {
             return;
         }
         const newBotId = this.nameService.getBotId();
-        const newBot = this.playerService.createPlayer(newBotId, newBotId);
+        const newBot = this.playerService.createBot(socket, newBotId);
         this.notificationService.broadcastNotification(`${newBot.name} has joined!`, newBot.color);
         this.botIds.push(newBot.id);
     }
 
-    _removeBot(playerRequestingRemoval) {
+    _removeBot() {
         if (this.botIds.length > 0) {
             this.playerService.disconnectPlayer(this.botIds.pop());
         } else {
@@ -137,9 +136,9 @@ class AdminService {
         }
     }
 
-    _resetBots(player) {
+    _resetBots() {
         while (this.botIds.length > ServerConfig.DEFAULT_STARTING_BOTS) {
-            this._removeBot(player);
+            this._removeBot();
         }
     }
 

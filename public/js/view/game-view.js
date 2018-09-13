@@ -124,11 +124,7 @@ export default class GameView {
     }
 
     _handleQuitButtonClick() {
-        this.spectateGameCallback();
-        DomHelper.hideControlButtons();
-        DomHelper.setPlayerNameInputElementReadOnly(false);
-        DomHelper.getPlayerNameInputElement().style.display = 'block';
-        DomHelper.getPlayerNameElement().style.display = 'none';
+        location.reload();
     }
 
     _handleKeyDown(e) {
@@ -259,18 +255,13 @@ export default class GameView {
 
     _register() {
         const storedName = localStorage.getItem(ClientConfig.LOCAL_STORAGE.PLAYER_NAME);
-        const playerName = DomHelper.getPlayerNameInputElement().value;
-        let playerWantsToChangeName = (storedName !== playerName);
-
-        if (playerWantsToChangeName) {
-            this._updatePlayerName(storedName, playerName);
-            return;
-        }
 
         if (storedName) {
             this._createPlayer(storedName);
             return;
         }
+
+        const playerName = DomHelper.getPlayerNameInputElement().value;
 
         // Haven't played before, check name and proceed
         if (playerName && playerName.trim().length > 0 && playerName.length <= ClientConfig.MAX_NAME_LENGTH) {
