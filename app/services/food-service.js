@@ -51,12 +51,6 @@ class FoodService {
                 const otherPlayerSegments = otherPlayer.getSegments();
                 const otherPlayerGrowAmount = otherPlayer.growAmount;
 
-                let otherPlayerIncreaseScore = true;
-
-                if (otherPlayerSegments.length > playerWhoConsumedFoodSegments.length) {
-                    otherPlayerIncreaseScore = false;
-                }
-
                 otherPlayer.swapBodies(
                     playerWhoConsumedFoodSegments, playerWhoConsumedFoodDirection,
                     playerWhoConsumedFoodDirectionBeforeMove, playerWhoConsumedFoodGrowAmount,
@@ -77,13 +71,8 @@ class FoodService {
                     'Swap!', playerWhoConsumedFood.getHeadCoordinate(), food.color, true,
                 );
 
-                if (otherPlayerIncreaseScore) {
-                    this.playerStatBoard.setScore(otherPlayer.id, playerWhoConsumedFoodSegments.length);
-                    this.playerStatBoard.setScore(playerWhoConsumedFood.id, otherPlayerSegments.length);
-                } else {
-                    this.playerStatBoard.setScore(otherPlayer.id, playerWhoConsumedFoodSegments.length);
-                    this.playerStatBoard.setScore(playerWhoConsumedFood.id, otherPlayerSegments.length);
-                }
+                this.playerStatBoard.setScore(otherPlayer.id, playerWhoConsumedFoodSegments.length);
+                this.playerStatBoard.setScore(playerWhoConsumedFood.id, otherPlayerSegments.length);
 
                 this.updateScore(otherPlayer);
             } else {
