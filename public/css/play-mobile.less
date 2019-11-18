@@ -3,7 +3,7 @@
 .active-game {
     justify-content: space-evenly;
     display: flex !important;
-    flex-direction: column;
+    //flex-direction: column;
     height: 100%;
 }
 
@@ -16,31 +16,31 @@
 label#register {
     width: 100%;
     display: flex;
-    flex-grow: 1;
-    min-height: 10%;
-    height:auto;
+    //flex-grow: 1;
+    //min-height: 10%;
+    height: auto;
 }
 
 .player-view .register.top {
-    position: relative !important;
+    //position: relative !important;
     top: 0;
 }
 
 #changePlayerNameButton {
     color: @content-color;
-    background:transparent;
-    border:0.2em solid @content-color;
+    background: transparent;
+    border: 0.2em solid @content-color;
     border-radius: 0;
 
     &:active {
-        background:@content-color;
-        color:white;
+        background: @content-color;
+        color: white;
     }
 }
 
-div#player-name{
-    margin-top:1em;
-    margin-bottom:1em;
+div#player-name {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .active-game div#player-name {
@@ -58,9 +58,9 @@ div#player-name{
     font-weight: normal;
 }
 
-input#player-name-input{
-    margin-top:1em;
-    margin-bottom:1em;
+input#player-name-input {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #visibleWhenPlaying {
@@ -76,22 +76,24 @@ input#player-name-input{
     height: auto;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom:2em;
+    margin-bottom: 2em;
     border-radius: 0;
 }
 
 .player-info-wrapper {
     display: flex;
-    min-height: 35%;
-    height:auto;
-    flex-grow: 1;
+    //min-height: 35%;
+    height: auto;
+    //flex-grow: 1;
     flex-direction: column;
+
     & label {
         font-size: 50%;
         text-transform: uppercase;
         display: block;
         clear: both;
     }
+
     & .score-result {
         font-size: 175%;
         margin-top: 0.2em;
@@ -100,20 +102,21 @@ input#player-name-input{
 }
 
 #playerSettings {
-    display: flex;
+    //display: flex;
     min-height: 40%;
-    height:auto;
-    flex-grow: 1;
+    //height: auto;
+    //flex-grow: 1;
     flex-direction: column;
     grid-gap: 0.1em;
     /*height: 15em;*/
-    grid-template-areas: "a a b b d d" "a a b b d d" "a a c c d d" "a a c c d d";
+    grid-template-areas: "a a b b d d""a a b b d d""a a c c d d""a a c c d d";
 }
 
 button.grid-item-button {
     border: 0.2em solid @content-color;
     background: transparent;
     color: @content-color;
+
     &:active {
         background: @content-color;
         color: white;
