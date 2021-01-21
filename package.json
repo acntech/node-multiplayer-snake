@@ -39,7 +39,7 @@
     "npm": "^6.13.4",
     "pg": "^7.4.3",
     "serve-favicon": "^2.5.0",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "validator": "^10.2.0"
   },
   "license": "MIT"
