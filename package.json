@@ -40,7 +40,7 @@
     "pg": "^7.4.3",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1",
-    "validator": "^10.2.0"
+    "validator": "^13.7.0"
   },
   "license": "MIT"
 }
